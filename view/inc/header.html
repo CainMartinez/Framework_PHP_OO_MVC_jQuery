@@ -1,0 +1,186 @@
+<div>
+  <header class="section novi-background page-header">
+    <!-- RD Navbar-->
+    <div class="rd-navbar-wrap">
+      <nav
+        class="rd-navbar rd-navbar-corporate"
+        data-layout="rd-navbar-fixed"
+        data-sm-layout="rd-navbar-fixed"
+        data-md-layout="rd-navbar-fixed"
+        data-md-device-layout="rd-navbar-fixed"
+        data-lg-layout="rd-navbar-static"
+        data-lg-device-layout="rd-navbar-static"
+        data-lg-stick-up="true"
+        data-lg-stick-up-offset="118px"
+        data-xl-layout="rd-navbar-static"
+        data-xl-device-layout="rd-navbar-static"
+        data-xl-stick-up="true"
+        data-xl-stick-up-offset="118px"
+        data-xxl-layout="rd-navbar-static"
+        data-xxl-device-layout="rd-navbar-static"
+        data-xxl-stick-up-offset="118px"
+        data-xxl-stick-up="true"
+      >
+        <div class="rd-navbar-aside-outer">
+          <div class="rd-navbar-aside">
+            <!-- RD Navbar Panel-->
+            <div class="rd-navbar-panel">
+              <!-- RD Navbar Toggle-->
+              <button
+                class="rd-navbar-toggle"
+                data-rd-navbar-toggle="#rd-navbar-nav-wrap-1"
+              >
+                <span></span>
+              </button>
+              <!-- RD Navbar Brand--><a
+                class="rd-navbar-brand button_homepage"
+                href="index.php?page=homepage"
+                ><img
+                  src="views/images/logo/logo-default-151x44.png"
+                  alt=""
+                  width="151"
+                  height="44"
+                  srcset="views/images/logo/logo-default-151x44.png 2x"
+              /></a>
+            </div>
+            <div class="rd-navbar-collapse">
+              <button
+                class="rd-navbar-collapse-toggle rd-navbar-fixed-element-1"
+                data-rd-navbar-toggle="#rd-navbar-collapse-content-1"
+              >
+                <span></span>
+              </button>
+              <div
+                class="rd-navbar-collapse-content"
+                id="rd-navbar-collapse-content-1"
+              >
+                <article class="unit align-items-center">
+                  <div class="unit-left">
+                    <h3><span id="title_company">Living</span><span id="title_company2">Mobility</span></h3>
+                  </div>
+                  
+                </article>
+                <article class="unit align-items-center">
+                  <div class="unit-left">
+                    <span
+                      class="icon novi-icon icon-md icon-modern mdi mdi-map-marker"
+                    ></span>
+                  </div>
+                  <div class="unit-body">
+                    <a class="link-default" href="tel:#"
+                      >2130 Fulton Street <br />
+                      San Diego, CA 94117-1080</a
+                    >
+                  </div>
+                </article>
+                <a class="button button-gray-bordered button-winona" href="#"
+                  >Request a call</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="rd-navbar-main-outer">
+          <div class="rd-navbar-main">
+            <div class="rd-navbar-nav-wrap" id="rd-navbar-nav-wrap-1">
+              <!-- RD Navbar Nav-->
+              <ul class="rd-navbar-nav">
+                <li class="rd-nav-item">
+                  <select class="form-select" id="search_city">
+                  <option disabled selected>Select City</option>
+                  </select>
+                </li>
+                <li class="rd-nav-item">
+                  <select class="form-select" id="search_type">
+                    <option disabled selected>Select Type</option>
+                  </select>
+                </li>
+                <li class="rd-nav-item">
+                  <div id="search_auto" class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
+                    <div class="input-group">
+                      <input type="text" id="autocom" autocomplete="off" class="form-control" placeholder="Search..." aria-label="Search...">
+                      <button class="btn btn-primary" type="button" value="search" id="search_button">Search</button>
+                      <ul id="search_results" class="list-group position-absolute bg-white zindex-sticky mt-5"></ul>
+                    </div>
+                    <!-- <button type="button" id="button_price" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#priceFilterModal">
+                      Price
+                      <i class="tick-icon" style="display: none;"></i></button>
+                    <div> -->
+                      <!-- <a href="index.php?page=register" id="register_button" type="button" class="btn btn-secondary">
+                        Register
+                      </a>
+                      <a href="index.php?page=login" id="login_button" type="button" class="btn btn-success">
+                        Login
+                      </a> -->
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="registerModalLabel">Register</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Register Under construction
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info">Apply</button>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="loginModalLabel">Login</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Login Under construction
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info">Apply</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade custom-modal" id="priceFilterModal" tabindex="-1" aria-labelledby="priceFilterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="priceFilterModalLabel">Filter by Price</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="priceFilterForm">
+            <div class="mb-3">
+              <label for="minPrice">Minimum Price</label>
+              <input type="number" class="form-control" id="minPrice">
+            </div>
+            <div class="mb-3">
+              <label for="maxPrice">Maximum Price</label>
+              <input type="number" class="form-control" id="maxPrice">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="filter_price_submit" class="btn btn-info">Filter</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
