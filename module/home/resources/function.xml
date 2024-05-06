@@ -21,8 +21,8 @@
         <uri>operation</uri>
     </function>
     <function>
-        <name>loadCity</name>
-        <uri>loadCity</uri>
+        <name>city</name>
+        <uri>city</uri>
     </function>
     <function>
         <name>loadExtras</name>

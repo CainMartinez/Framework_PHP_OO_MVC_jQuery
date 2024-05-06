@@ -19,5 +19,8 @@ error_reporting(E_ALL);
         function operation() {
             echo json_encode(common::load_model('home_model', 'get_operation'));
         }
+        function city() {
+            echo json_encode(common::load_model('home_model', 'get_city'));
+        }
     }
 ?>

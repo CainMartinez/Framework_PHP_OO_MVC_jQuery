@@ -29,6 +29,9 @@
         public function get_operation() {
             return $this -> bll -> get_operation_BLL();
         }
+        public function get_city() {
+            return $this -> bll -> get_city_BLL();
+        }
 
     }
 ?>

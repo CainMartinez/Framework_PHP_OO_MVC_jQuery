@@ -163,11 +163,11 @@ function operation() {
       console.log(e);
     });
 }
-function loadCity() {
+function city() {
   ajaxPromise(
     "GET",
     "JSON",
-    "?module=home&op=City"
+    "?module=home&op=city"
   )
     .then(function (data) {
       let html = "";
@@ -188,9 +188,8 @@ function loadCity() {
       }
       $("#propertyContainer").html(html);
     })
-    .catch(function () {
-      // window.location.href =
-      //   "index.php?module=ctrl_exceptions&page=503&type=503&lugar=City HOME";
+    .catch(function (e) {
+      console.error(e);
     });
 }
 function loadExtras() {
@@ -503,7 +502,7 @@ $(document).ready(function () {
   carousel_people();
   categories();
   operation();
-  loadCity();
+  city();
   type();
   loadExtras();
   loadRecomendation();

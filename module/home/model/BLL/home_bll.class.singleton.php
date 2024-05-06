@@ -31,6 +31,9 @@
 		public function get_operation_BLL() {
 			return $this -> dao -> select_operation($this -> db);
 		}
+		public function get_city_BLL() {
+			return $this -> dao -> select_city($this -> db);
+		}
 		
 	}
 ?>
