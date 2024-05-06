@@ -86,15 +86,13 @@ function categories() {
       });
     })
     .catch(function () {
-      // window.location.href =
-      //   "index.php?module=ctrl_exceptions&page=503&type=503&lugar=Categories HOME";
     });
 }
-function loadType() {
+function type() {
   ajaxPromise( 
     "GET",
     "JSON",
-    "?module=home&op=Carrousel_Type"
+    "?module=home&op=type"
   )
   .then(function (data) {
     let html = "";
@@ -507,7 +505,7 @@ $(document).ready(function () {
   categories();
   loadOperation();
   loadCity();
-  loadType();
+  type();
   loadExtras();
   loadRecomendation();
   clicks_home();

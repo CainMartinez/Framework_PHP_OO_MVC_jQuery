@@ -23,6 +23,9 @@
         public function get_categories() {
             return $this -> bll -> get_categories_BLL();
         }
+        public function get_type() {
+            return $this -> bll -> get_type_BLL();
+        }
 
     }
 ?>

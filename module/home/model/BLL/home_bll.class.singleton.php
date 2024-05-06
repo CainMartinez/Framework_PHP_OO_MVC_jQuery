@@ -25,6 +25,9 @@
 		public function get_categories_BLL() {
 			return $this -> dao -> select_categories($this -> db);
 		}
+		public function get_type_BLL() {
+			return $this -> dao -> select_type($this -> db);
+		}
 		
 	}
 ?>

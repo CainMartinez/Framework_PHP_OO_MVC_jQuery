@@ -13,8 +13,8 @@
         <uri>categories</uri>
     </function>
     <function>
-        <name>loadType</name>
-        <uri>loadType</uri>
+        <name>type</name>
+        <uri>type</uri>
     </function>
     <function>
         <name>loadOperation</name>
