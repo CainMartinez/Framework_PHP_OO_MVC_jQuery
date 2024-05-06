@@ -23,8 +23,8 @@ function load_menu() {
             $('#register_button').hide();
             $('#login_button').hide();
             // Agregar el nombre de usuario, la imagen y el botón de logout al menú
-            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=homepage&op=view") + '" class="rd-nav-link button_homepage">Home</a>').appendTo('.rd-navbar-nav');
-            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=shop&op=view") + '" class="rd-nav-link">Shop</a>').appendTo('.rd-navbar-nav');
+            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + "?module=homepage&op=view" + '" class="rd-nav-link button_homepage">Home</a>').appendTo('.rd-navbar-nav');
+            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + "?module=shop&op=view" + '" class="rd-nav-link">Shop</a>').appendTo('.rd-navbar-nav');
             $('<li></li>').attr({'id' : 'login_ok', 'class' : 'rd-nav-item'}).html(
                 '<img src="' + data.avatar + '" alt="User Avatar" class="img-thumbnail" style="width:50px; height:50px;">&nbsp;&nbsp;&nbsp;' + 
                 '<span class="username btn btn-info">' + data.username + '</span>&nbsp;&nbsp;&nbsp;' + 

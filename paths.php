@@ -1,5 +1,5 @@
 <?php
-    define('PROJECT', '/Ejercicios/Framework_PHP_OO_MVC/');
+    define('PROJECT', '/living_mobility/');
 
     //SITE_ROOT
     define('SITE_ROOT', $_SERVER['DOCUMENT_ROOT'] . PROJECT);

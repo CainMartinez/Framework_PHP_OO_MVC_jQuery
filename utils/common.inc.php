@@ -8,12 +8,14 @@
         }
         
         public static function load_view($topPage, $view) {
+            // echo 'hola';
             $topPage = VIEW_PATH_INC . $topPage;
             if ((file_exists($topPage)) && (file_exists($view))) {
                 require_once ($topPage);
                 // require_once ('C:/xampp/htdocs/Ejercicios/Framework_PHP_OO_MVC/view/inc/header.html');
                 require_once (VIEW_PATH_INC . 'header.html');
                 require_once ($view);
+                require_once (VIEW_PATH_INC . 'bottom_page.html');
                 require_once (VIEW_PATH_INC . 'footer.html');
             }else {
                 self::load_error();
@@ -36,25 +38,25 @@
             throw new Exception();
         }
 
-        public static function generate_token_secure($longitud){
-            if ($longitud < 4) {
-                $longitud = 4;
-            }
-            return bin2hex(openssl_random_pseudo_bytes(($longitud - ($longitud % 2)) / 2));
-        }
+        // public static function generate_token_secure($longitud){
+        //     if ($longitud < 4) {
+        //         $longitud = 4;
+        //     }
+        //     return bin2hex(openssl_random_pseudo_bytes(($longitud - ($longitud % 2)) / 2));
+        // }
 
-        function friendlyURL_php($url) {
-            $link = "";
-            if (URL_FRIENDLY) {
-                $url = explode("&", str_replace("?", "", $url));
-                foreach ($url as $key => $value) {
-                    $aux = explode("=", $value);
-                    $link .=  $aux[1]."/";
-                }
-            } else {
-                $link = "index.php?" . $url;
-            }
-            return SITE_PATH . $link;
-        }
+        // function friendlyURL_php($url) {
+        //     $link = "";
+        //     if (URL_FRIENDLY) {
+        //         $url = explode("&", str_replace("?", "", $url));
+        //         foreach ($url as $key => $value) {
+        //             $aux = explode("=", $value);
+        //             $link .=  $aux[1]."/";
+        //         }
+        //     } else {
+        //         $link = "index.php?" . $url;
+        //     }
+        //     return SITE_PATH . $link;
+        // }
     }
 ?>
