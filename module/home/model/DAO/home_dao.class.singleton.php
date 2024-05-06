@@ -1,5 +1,5 @@
 <?php
-    
+    include_once("model/db.class.singleton.php");
 	class home_dao {
 		static $_instance;
 
