@@ -20,14 +20,9 @@
             return $this -> bll -> get_carousel_people_BLL();
         }
 
-        // public function get_category() {
-        //     return $this -> bll -> get_category_BLL();
-        // }
-
-        // public function get_type() {
-        //     // return 'hola car type';
-        //     return $this -> bll -> get_type_BLL();
-        // }
+        public function get_categories() {
+            return $this -> bll -> get_categories_BLL();
+        }
 
     }
 ?>

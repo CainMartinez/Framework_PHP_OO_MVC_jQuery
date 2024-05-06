@@ -39,13 +39,14 @@ function carousel_people() {
       console.error(error);
     });
 }
-function loadCategories() {
+function categories() {
   ajaxPromise(
     "GET",
     "JSON",
-    "?module=home&op=Category"
+    "?module=home&op=categories"
   )
     .then(function (data) {
+      console.log(data);
       var rowContainer = $("<div></div>").attr(
         "class",
         "owl-carousel owl-theme"
@@ -503,14 +504,14 @@ function highlight_home() {
 }
 $(document).ready(function () {
   carousel_people();
-  // loadCategories();
-  // loadOperation();
-  // loadCity();
-  // loadType();
-  // loadExtras();
-  // loadRecomendation();
+  categories();
+  loadOperation();
+  loadCity();
+  loadType();
+  loadExtras();
+  loadRecomendation();
   clicks_home();
-  // loadMostVisited();
-  // loadLastVisited();
-  // highlight_home();
+  loadMostVisited();
+  loadLastVisited();
+  highlight_home();
 });

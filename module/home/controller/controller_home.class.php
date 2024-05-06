@@ -5,12 +5,13 @@ error_reporting(E_ALL);
 	class controller_home {
 		
 		function view(){
-            // echo 'hola view';
             common::load_view('top_page_home.html', VIEW_PATH_HOME . 'home.html');
         }
         function carrousel_people() {
             echo json_encode(common::load_model('home_model', 'get_carousel_people'));
         }
-
+        function categories() {
+            echo json_encode(common::load_model('home_model', 'get_categories'));
+        }
     }
 ?>

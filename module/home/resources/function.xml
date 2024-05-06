@@ -9,8 +9,8 @@
         <uri>carrousel_people</uri>
     </function>
     <function>
-        <name>loadCategories</name>
-        <uri>loadCategories</uri>
+        <name>categories</name>
+        <uri>categories</uri>
     </function>
     <function>
         <name>loadType</name>

@@ -22,12 +22,9 @@
 			return $this -> dao -> select_people($this -> db);
 		}
 
-		// public function get_category_BLL() {
-		// 	return $this -> dao -> select_data_category($this -> db);
-		// }
-
-		// public function get_type_BLL() {
-		// 	return $this -> dao -> select_data_type($this -> db);
-		// }
+		public function get_categories_BLL() {
+			return $this -> dao -> select_categories($this -> db);
+		}
+		
 	}
 ?>
