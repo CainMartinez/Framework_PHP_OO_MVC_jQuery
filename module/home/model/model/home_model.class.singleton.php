@@ -1,4 +1,5 @@
 <?php
+
     class home_model {
 
         private $bll;
@@ -15,9 +16,9 @@
             return self::$_instance;
         }
 
-        // public function get_carrusel() {
-        //     return $this -> bll -> get_carrusel_BLL();
-        // }
+        public function get_carousel_people() {
+            return $this -> bll -> get_carousel_people_BLL();
+        }
 
         // public function get_category() {
         //     return $this -> bll -> get_category_BLL();

@@ -16,9 +16,9 @@
 			return self::$_instance;
 		}
 
-		// public function get_carrusel_BLL() {
-		// 	return $this -> dao -> select_data_carrusel($this -> db);
-		// }
+		public function get_carousel_people_BLL() {
+			return $this -> dao -> select_people($this -> db);
+		}
 
 		// public function get_category_BLL() {
 		// 	return $this -> dao -> select_data_category($this -> db);

@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<function>
-    <name>view</name>
-    <uri>view</uri>
-</function>
+<functions>
+    <function>
+        <name>view</name>
+        <uri>view</uri>
+    </function>
+    <function>
+        <name>carrousel_people</name>
+        <uri>carrousel_people</uri>
+    </function>
+    <function>
+        <name>loadCategories</name>
+        <uri>loadCategories</uri>
+    </function>
+    <function>
+        <name>loadType</name>
+        <uri>loadType</uri>
+    </function>
+    <function>
+        <name>loadOperation</name>
+        <uri>loadOperation</uri>
+    </function>
+    <function>
+        <name>loadCity</name>
+        <uri>loadCity</uri>
+    </function>
+    <function>
+        <name>loadExtras</name>
+        <uri>loadExtras</uri>
+    </function>
+    <function>
+        <name>loadRecomendation</name>
+        <uri>loadRecomendation</uri>
+    </function>
+    <function>
+        <name>loadMostVisited</name>
+        <uri>loadMostVisited</uri>
+    </function>
+    <function>
+        <name>loadLastVisited</name>
+        <uri>loadLastVisited</uri>
+    </function>
+</functions>

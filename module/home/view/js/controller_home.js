@@ -2,7 +2,7 @@ function carousel_people() {
   ajaxPromise(
     "GET",
     "JSON",
-    "?module=home&op=Carrousel_People"
+    "?module=home&op=carrousel_people"
   )
     .then(function (data) {
       let html = "";
@@ -37,8 +37,6 @@ function carousel_people() {
     })
     .catch(function (error) {
       console.error(error);
-      // window.location.href =
-      //   "index.php?module=ctrl_exceptions&page=503&type=503&lugar=Carrousel Type HOME";
     });
 }
 function loadCategories() {
@@ -505,14 +503,14 @@ function highlight_home() {
 }
 $(document).ready(function () {
   carousel_people();
-  loadCategories();
-  loadOperation();
-  loadCity();
-  loadType();
-  loadExtras();
-  loadRecomendation();
+  // loadCategories();
+  // loadOperation();
+  // loadCity();
+  // loadType();
+  // loadExtras();
+  // loadRecomendation();
   clicks_home();
-  loadMostVisited();
-  loadLastVisited()
-  highlight_home();
+  // loadMostVisited();
+  // loadLastVisited();
+  // highlight_home();
 });

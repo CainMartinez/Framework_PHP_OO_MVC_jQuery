@@ -23,7 +23,7 @@ function load_menu() {
             $('#register_button').hide();
             $('#login_button').hide();
             // Agregar el nombre de usuario, la imagen y el botón de logout al menú
-            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + "?module=homepage&op=view" + '" class="rd-nav-link button_homepage">Home</a>').appendTo('.rd-navbar-nav');
+            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + "?module=home&op=view" + '" class="rd-nav-link button_homepage">Home</a>').appendTo('.rd-navbar-nav');
             $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + "?module=shop&op=view" + '" class="rd-nav-link">Shop</a>').appendTo('.rd-navbar-nav');
             $('<li></li>').attr({'id' : 'login_ok', 'class' : 'rd-nav-item'}).html(
                 '<img src="' + data.avatar + '" alt="User Avatar" class="img-thumbnail" style="width:50px; height:50px;">&nbsp;&nbsp;&nbsp;' + 
@@ -34,8 +34,8 @@ function load_menu() {
             console.error(e);
         });
     } else {
-        $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=homepage&op=view") + '" class="rd-nav-link button_homepage">Home</a>').appendTo('.rd-navbar-nav');
-        $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=shop&op=view") + '" class="rd-nav-link">Shop</a>').appendTo('.rd-navbar-nav');
+        $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + "?module=home&op=view" + '" class="rd-nav-link button_homepage">Home</a>').appendTo('.rd-navbar-nav');
+        $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + "?module=shop&op=view" + '" class="rd-nav-link">Shop</a>').appendTo('.rd-navbar-nav');
         $('<a></a>').attr({'id' : 'register_button', 'type' : 'button', 'class' : 'btn btn-secondary'}).html('Register').appendTo('#search_auto');
         $('<a></a>').attr({'id' : 'login_button', 'type' : 'button', 'class' : 'btn btn-success'}).html('Login').appendTo('#search_auto');
     }
@@ -167,9 +167,9 @@ function friendlyURL(url) {
 }
 $(document).ready(function() {
     load_menu();
-    click_logout();
-    setInterval(function() { control_activity() }, 60000); //1min = 60000ms
-    protecturl();
-    setInterval(function() { refresh_token() }, 600000);
-    setInterval(function() { refresh_cookie() }, 600000);
+    // click_logout();
+    // setInterval(function() { control_activity() }, 60000); //1min = 60000ms
+    // protecturl();
+    // setInterval(function() { refresh_token() }, 600000);
+    // setInterval(function() { refresh_cookie() }, 600000);
 });

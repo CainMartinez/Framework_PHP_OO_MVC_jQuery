@@ -1,4 +1,5 @@
 <?php
+    require_once "paths.php";
     class Conf {
         private $_userdb;
         private $_passdb;
