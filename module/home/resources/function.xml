@@ -17,8 +17,8 @@
         <uri>type</uri>
     </function>
     <function>
-        <name>loadOperation</name>
-        <uri>loadOperation</uri>
+        <name>operation</name>
+        <uri>operation</uri>
     </function>
     <function>
         <name>loadCity</name>

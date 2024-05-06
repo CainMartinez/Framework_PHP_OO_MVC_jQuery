@@ -26,6 +26,9 @@
         public function get_type() {
             return $this -> bll -> get_type_BLL();
         }
+        public function get_operation() {
+            return $this -> bll -> get_operation_BLL();
+        }
 
     }
 ?>

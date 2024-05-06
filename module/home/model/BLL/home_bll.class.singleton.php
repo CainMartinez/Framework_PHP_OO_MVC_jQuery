@@ -28,6 +28,9 @@
 		public function get_type_BLL() {
 			return $this -> dao -> select_type($this -> db);
 		}
+		public function get_operation_BLL() {
+			return $this -> dao -> select_operation($this -> db);
+		}
 		
 	}
 ?>

@@ -118,11 +118,11 @@ function type() {
     //   "index.php?module=ctrl_exceptions&page=503&type=503&lugar= Type HOME";
   });
 }
-function loadOperation() {
+function operation() {
   ajaxPromise(
     "GET",
     "JSON",
-    "?module=home&op=Operation"
+    "?module=home&op=operation"
   )
     .then(function (data) {
       var table = $("<table></table>");
@@ -159,9 +159,8 @@ function loadOperation() {
 
       $("#containerOperation").append(table);
     })
-    .catch(function () {
-      // window.location.href =
-      //   "index.php?module=ctrl_exceptions&page=503&type=503&lugar=Operation HOME";
+    .catch(function (e) {
+      console.log(e);
     });
 }
 function loadCity() {
@@ -503,7 +502,7 @@ function highlight_home() {
 $(document).ready(function () {
   carousel_people();
   categories();
-  loadOperation();
+  operation();
   loadCity();
   type();
   loadExtras();
