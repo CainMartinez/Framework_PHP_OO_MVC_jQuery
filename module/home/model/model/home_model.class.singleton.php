@@ -32,6 +32,12 @@
         public function get_city() {
             return $this -> bll -> get_city_BLL();
         }
+        public function get_extras() {
+            return $this -> bll -> get_extras_BLL();
+        }
+        public function get_recomendation() {
+            return $this -> bll -> get_recomendation_BLL();
+        }
 
     }
 ?>

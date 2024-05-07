@@ -22,5 +22,11 @@ error_reporting(E_ALL);
         function city() {
             echo json_encode(common::load_model('home_model', 'get_city'));
         }
+        function extras() {
+            echo json_encode(common::load_model('home_model', 'get_extras'));
+        }
+        function recomendation() {
+            echo json_encode(common::load_model('home_model', 'get_recomendation'));
+        }
     }
 ?>

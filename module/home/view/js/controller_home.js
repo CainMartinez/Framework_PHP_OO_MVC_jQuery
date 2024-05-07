@@ -192,11 +192,11 @@ function city() {
       console.error(e);
     });
 }
-function loadExtras() {
+function extras() {
   ajaxPromise(
     "GET",
     "JSON",
-    "?module=home&op=Extras"
+    "?module=home&op=extras"
   )
     .then(function (data) {
       let html = "";
@@ -220,15 +220,14 @@ function loadExtras() {
       $(".row-lg-50.row-35.row-xxl-70").html(html);
     })
     .catch(function () {
-      // window.location.href =
-      //   "index.php?module=ctrl_exceptions&page=503&type=503&lugar=Operation HOME";
+      console.error("Error");
     });
 }
-function loadRecomendation() {
+function recomendation() {
   ajaxPromise(
     "GET",
     "JSON",
-    "?module=home&op=Recomendation"
+    "?module=home&op=recomendation"
   )
     .then(function (data) {
       let html = "";
@@ -254,9 +253,8 @@ function loadRecomendation() {
       }
       $("#propertyRecomendation").html(html);
     })
-    .catch(function () {
-      // window.location.href =
-      //   "index.php?module=ctrl_exceptions&page=503&type=503&lugar=Recomendation HOME";
+    .catch(function (e) {
+      console.error(e);
     });
 }
 function loadMostVisited() {
@@ -504,10 +502,10 @@ $(document).ready(function () {
   operation();
   city();
   type();
-  loadExtras();
-  loadRecomendation();
+  extras();
+  recomendation();
   clicks_home();
-  loadMostVisited();
-  loadLastVisited();
+  // loadMostVisited();
+  // loadLastVisited();
   highlight_home();
 });

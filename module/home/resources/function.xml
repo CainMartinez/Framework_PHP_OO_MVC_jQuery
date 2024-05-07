@@ -25,12 +25,12 @@
         <uri>city</uri>
     </function>
     <function>
-        <name>loadExtras</name>
-        <uri>loadExtras</uri>
+        <name>extras</name>
+        <uri>extras</uri>
     </function>
     <function>
-        <name>loadRecomendation</name>
-        <uri>loadRecomendation</uri>
+        <name>recomendation</name>
+        <uri>recomendation</uri>
     </function>
     <function>
         <name>loadMostVisited</name>

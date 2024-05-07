@@ -34,6 +34,12 @@
 		public function get_city_BLL() {
 			return $this -> dao -> select_city($this -> db);
 		}
+		public function get_extras_BLL() {
+			return $this -> dao -> select_extras($this -> db);
+		}
+		public function get_recomendation_BLL() {
+			return $this -> dao -> select_recomendation($this -> db);
+		}
 		
 	}
 ?>
