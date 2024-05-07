@@ -2,13 +2,13 @@
 
     require 'autoload.php';
     
-    $path = $_SERVER['DOCUMENT_ROOT'] . '/living_mobility/';
-    include($path . "utils/common.inc.php");
+    // $path = $_SERVER['DOCUMENT_ROOT'] . '/living_mobility/';
+    // include($path . "utils/common.inc.php");
     // include($path . "utils/mail.inc.php");
     // include($path . "paths.php");
 
-    ob_start();
-    session_start();
+    // ob_start();
+    // session_start();
 
     class router {
         private $uriModule;
@@ -40,7 +40,8 @@
             try {
                 call_user_func(array($this -> loadModule(), $this -> loadFunction()));
             }catch(Exception $e) {
-                common::load_error();
+                echo $e -> getMessage();
+                // common::load_error();
             }
         }
         
@@ -54,7 +55,7 @@
                             require_once($path);
                             $controllerName = 'controller_' . (String) $row -> name;
                             $this -> nameModule = (String) $row -> name;
-                            return new $controllerName;
+                            return $controllerName::getInstance();
                         }
                     }
                 }

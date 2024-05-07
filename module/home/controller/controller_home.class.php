@@ -1,9 +1,16 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
+
+
 	class controller_home {
-		
+        static $_instance;
+
+        public static function getInstance() {
+            if (!(self::$_instance instanceof self)) {
+                self::$_instance = new self();
+            }
+            return self::$_instance;
+        }
 		function view(){
             common::load_view('top_page_home.html', VIEW_PATH_HOME . 'home.html');
         }
