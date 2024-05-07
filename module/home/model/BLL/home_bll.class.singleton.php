@@ -40,6 +40,12 @@
 		public function get_recomendation_BLL() {
 			return $this -> dao -> select_recomendation($this -> db);
 		}
+		public function get_mostVisited_BLL() {
+			return $this -> dao -> select_mostVisited($this -> db);
+		}
+		public function get_lastVisited_BLL() {
+			return $this -> dao -> select_lastVisited($this -> db);
+		}
 		
 	}
 ?>

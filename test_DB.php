@@ -13,7 +13,12 @@
 
         $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
 
-        $sql = "SELECT * FROM `large_people` ORDER BY id_large_people;";
+        $sql = "SELECT * FROM property p, images i
+        WHERE p.id_property = i.id_property
+        AND i.path_images LIKE '%-1%'
+        GROUP BY i.path_images
+        ORDER BY p.currently_date DESC
+        LIMIT 4";
         $stmt = $pdo->query($sql);
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

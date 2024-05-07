@@ -35,5 +35,11 @@
         function recomendation() {
             echo json_encode(common::load_model('home_model', 'get_recomendation'));
         }
+        function most_visited() {
+            echo json_encode(common::load_model('home_model', 'get_mostVisited'));
+        }
+        function last_visited() {
+            echo json_encode(common::load_model('home_model', 'get_lastVisited'));
+        }
     }
 ?>

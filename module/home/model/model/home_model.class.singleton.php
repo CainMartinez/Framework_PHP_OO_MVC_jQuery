@@ -38,6 +38,12 @@
         public function get_recomendation() {
             return $this -> bll -> get_recomendation_BLL();
         }
+        public function get_mostVisited() {
+            return $this -> bll -> get_mostVisited_BLL();
+        }
+        public function get_lastVisited() {
+            return $this -> bll -> get_lastVisited_BLL();
+        }
 
     }
 ?>

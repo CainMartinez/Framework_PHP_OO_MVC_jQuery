@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 30, 2024 at 06:54 PM
+-- Generation Time: May 07, 2024 at 08:32 PM
 -- Server version: 8.0.36-0ubuntu0.22.04.1
 -- PHP Version: 8.1.2-1ubuntu2.15
 
@@ -58,13 +58,13 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id_category`, `name_category`, `is_active`, `creation_date`, `update_date`, `image_category`) VALUES
-(1, 'New Building', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/category/New-Building.webp'),
-(2, 'Pool', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/category/Pool.webp'),
-(3, 'Beach', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/category/Beach.webp'),
-(4, 'Garden', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/category/Garden.webp'),
-(5, 'Garage', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/category/Garage.webp'),
-(6, 'Storage', 1, '2024-02-05 21:55:27', '2024-02-05 21:55:27', 'views/images/category/storage.webp'),
-(7, 'Terrace', 1, '2024-02-06 18:45:18', '2024-02-06 18:45:18', 'views/images/category/terrace.webp');
+(1, 'New Building', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/category/New-Building.webp'),
+(2, 'Pool', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/category/Pool.webp'),
+(3, 'Beach', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/category/Beach.webp'),
+(4, 'Garden', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/category/Garden.webp'),
+(5, 'Garage', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/category/Garage.webp'),
+(6, 'Storage', 1, '2024-02-05 21:55:27', '2024-02-05 21:55:27', 'view/images/category/storage.webp'),
+(7, 'Terrace', 1, '2024-02-06 18:45:18', '2024-02-06 18:45:18', 'view/images/category/terrace.webp');
 
 -- --------------------------------------------------------
 
@@ -86,11 +86,11 @@ CREATE TABLE `city` (
 --
 
 INSERT INTO `city` (`id_city`, `name_city`, `is_active`, `creation_date`, `update_date`, `image_city`) VALUES
-(1, 'Ontinyent', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/city/Ontinyent.webp'),
-(2, 'Gandia', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/city/Gandia.webp'),
-(3, 'Albaida', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/city/Albaida.webp'),
-(4, 'Alcoi', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/city/Alcoi.webp'),
-(5, 'Xativa', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/city/Xativa.webp');
+(1, 'Ontinyent', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/city/Ontinyent.webp'),
+(2, 'Gandia', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/city/Gandia.webp'),
+(3, 'Albaida', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/city/Albaida.webp'),
+(4, 'Alcoi', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/city/Alcoi.webp'),
+(5, 'Xativa', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/city/Xativa.webp');
 
 -- --------------------------------------------------------
 
@@ -135,12 +135,12 @@ CREATE TABLE `extras` (
 --
 
 INSERT INTO `extras` (`id_extras`, `name_extras`, `creation_date`, `update_date`, `is_active`, `image_extras`) VALUES
-(1, 'Heating', '2024-01-26 17:49:03', '2024-01-26 17:49:03', 1, 'views/images/extras/heating.webp'),
-(2, 'Air Conditioning', '2024-01-26 17:49:03', '2024-01-26 17:49:03', 1, 'views/images/extras/air.webp'),
-(3, 'Fireplace', '2024-01-26 17:49:03', '2024-01-26 17:49:03', 1, 'views/images/extras/fireplace.webp'),
-(4, 'Elevator', '2024-01-26 17:49:03', '2024-01-26 17:49:03', 1, 'views/images/extras/elevator.webp'),
-(5, 'Sauna', '2024-01-26 17:49:03', '2024-01-26 17:49:03', 1, 'views/images/extras/sauna.webp'),
-(6, 'Solar Panel', '2024-02-06 18:51:06', '2024-02-06 18:51:06', 1, '/views/images/extras/solar.webp');
+(1, 'Heating', '2024-01-26 17:49:03', '2024-01-26 17:49:03', 1, 'view/images/extras/heating.webp'),
+(2, 'Air Conditioning', '2024-01-26 17:49:03', '2024-01-26 17:49:03', 1, 'view/images/extras/air.webp'),
+(3, 'Fireplace', '2024-01-26 17:49:03', '2024-01-26 17:49:03', 1, 'view/images/extras/fireplace.webp'),
+(4, 'Elevator', '2024-01-26 17:49:03', '2024-01-26 17:49:03', 1, 'view/images/extras/elevator.webp'),
+(5, 'Sauna', '2024-01-26 17:49:03', '2024-01-26 17:49:03', 1, 'view/images/extras/sauna.webp'),
+(6, 'Solar Panel', '2024-02-06 18:51:06', '2024-02-06 18:51:06', 1, 'view/images/extras/solar.webp');
 
 -- --------------------------------------------------------
 
@@ -162,81 +162,81 @@ CREATE TABLE `images` (
 --
 
 INSERT INTO `images` (`id_images`, `path_images`, `is_active`, `creation_date`, `update_date`, `id_property`) VALUES
-(1, 'views/images/property/property1-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1),
-(2, 'views/images/property/property1-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1),
-(3, 'views/images/property/property1-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1),
-(4, 'views/images/property/property1-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1),
-(5, 'views/images/property/property1-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1),
-(6, 'views/images/property/property2-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2),
-(7, 'views/images/property/property2-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2),
-(8, 'views/images/property/property2-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2),
-(9, 'views/images/property/property2-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2),
-(10, 'views/images/property/property2-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2),
-(11, 'views/images/property/property3-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3),
-(12, 'views/images/property/property3-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3),
-(13, 'views/images/property/property3-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3),
-(14, 'views/images/property/property3-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3),
-(15, 'views/images/property/property3-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3),
-(16, 'views/images/property/property4-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4),
-(17, 'views/images/property/property4-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4),
-(18, 'views/images/property/property4-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4),
-(19, 'views/images/property/property4-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4),
-(20, 'views/images/property/property4-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4),
-(21, 'views/images/property/property5-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 5),
-(22, 'views/images/property/property5-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 5),
-(23, 'views/images/property/property5-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 5),
-(24, 'views/images/property/property5-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 5),
-(25, 'views/images/property/property5-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 5),
-(26, 'views/images/property/property1-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 34),
-(27, 'views/images/property/property34-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 34),
-(28, 'views/images/property/property34-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 34),
-(29, 'views/images/property/property34-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 34),
-(30, 'views/images/property/property34-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 34),
-(31, 'views/images/property/property2-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 35),
-(32, 'views/images/property/property35-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 35),
-(33, 'views/images/property/property35-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 35),
-(34, 'views/images/property/property35-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 35),
-(35, 'views/images/property/property35-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 35),
-(36, 'views/images/property/property1-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 37),
-(37, 'views/images/property/property37-147.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 37),
-(38, 'views/images/property/property37-605.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 37),
-(39, 'views/images/property/property37-585.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 37),
-(40, 'views/images/property/property37-113.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 37),
-(41, 'views/images/property/property2-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 38),
-(42, 'views/images/property/property5-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 38),
-(43, 'views/images/property/property38-75.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 38),
-(44, 'views/images/property/property38-276.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 38),
-(45, 'views/images/property/property38-157.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 38),
-(46, 'views/images/property/property3-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 39),
-(47, 'views/images/property/property5-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 39),
-(48, 'views/images/property/property39-729.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 39),
-(49, 'views/images/property/property39-685.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 39),
-(50, 'views/images/property/property39-237.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 39),
-(51, 'views/images/property/property5-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 40),
-(52, 'views/images/property/property40-766.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 40),
-(53, 'views/images/property/property40-859.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 40),
-(54, 'views/images/property/property40-998.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 40),
-(55, 'views/images/property/property40-415.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 40),
-(56, 'views/images/property/property3-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 41),
-(57, 'views/images/property/property41-152.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 41),
-(58, 'views/images/property/property41-522.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 41),
-(59, 'views/images/property/property41-155.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 41),
-(60, 'views/images/property/property41-211.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 41),
-(61, 'views/images/property/property2-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 42),
-(62, 'views/images/property/property42-651.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 42),
-(63, 'views/images/property/property42-577.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 42),
-(64, 'views/images/property/property42-933.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 42),
-(65, 'views/images/property/property42-935.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 42),
-(66, 'views/images/property/property1-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 43),
-(67, 'views/images/property/property43-580.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 43),
-(68, 'views/images/property/property43-267.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 43),
-(69, 'views/images/property/property43-599.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 43),
-(70, 'views/images/property/property43-194.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 43),
-(71, 'views/images/property/property5-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 36),
-(72, 'views/images/property/property42-524.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 36),
-(73, 'views/images/property/property42-928.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 36),
-(74, 'views/images/property/property42-71.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 36),
-(75, 'views/images/property/property42-569.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 36);
+(1, 'view/images/property/property1-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1),
+(2, 'view/images/property/property1-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1),
+(3, 'view/images/property/property1-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1),
+(4, 'view/images/property/property1-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1),
+(5, 'view/images/property/property1-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1),
+(6, 'view/images/property/property2-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2),
+(7, 'view/images/property/property2-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2),
+(8, 'view/images/property/property2-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2),
+(9, 'view/images/property/property2-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2),
+(10, 'view/images/property/property2-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2),
+(11, 'view/images/property/property3-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3),
+(12, 'view/images/property/property3-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3),
+(13, 'view/images/property/property3-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3),
+(14, 'view/images/property/property3-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3),
+(15, 'view/images/property/property3-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3),
+(16, 'view/images/property/property4-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4),
+(17, 'view/images/property/property4-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4),
+(18, 'view/images/property/property4-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4),
+(19, 'view/images/property/property4-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4),
+(20, 'view/images/property/property4-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4),
+(21, 'view/images/property/property5-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 5),
+(22, 'view/images/property/property5-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 5),
+(23, 'view/images/property/property5-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 5),
+(24, 'view/images/property/property5-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 5),
+(25, 'view/images/property/property5-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 5),
+(26, 'view/images/property/property1-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 34),
+(27, 'view/images/property/property34-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 34),
+(28, 'view/images/property/property34-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 34),
+(29, 'view/images/property/property34-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 34),
+(30, 'view/images/property/property34-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 34),
+(31, 'view/images/property/property2-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 35),
+(32, 'view/images/property/property35-2.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 35),
+(33, 'view/images/property/property35-3.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 35),
+(34, 'view/images/property/property35-4.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 35),
+(35, 'view/images/property/property35-5.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 35),
+(36, 'view/images/property/property1-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 37),
+(37, 'view/images/property/property37-147.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 37),
+(38, 'view/images/property/property37-605.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 37),
+(39, 'view/images/property/property37-585.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 37),
+(40, 'view/images/property/property37-113.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 37),
+(41, 'view/images/property/property2-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 38),
+(42, 'view/images/property/property5-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 38),
+(43, 'view/images/property/property38-75.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 38),
+(44, 'view/images/property/property38-276.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 38),
+(45, 'view/images/property/property38-157.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 38),
+(46, 'view/images/property/property3-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 39),
+(47, 'view/images/property/property5-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 39),
+(48, 'view/images/property/property39-729.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 39),
+(49, 'view/images/property/property39-685.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 39),
+(50, 'view/images/property/property39-237.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 39),
+(51, 'view/images/property/property5-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 40),
+(52, 'view/images/property/property40-766.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 40),
+(53, 'view/images/property/property40-859.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 40),
+(54, 'view/images/property/property40-998.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 40),
+(55, 'view/images/property/property40-415.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 40),
+(56, 'view/images/property/property3-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 41),
+(57, 'view/images/property/property41-152.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 41),
+(58, 'view/images/property/property41-522.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 41),
+(59, 'view/images/property/property41-155.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 41),
+(60, 'view/images/property/property41-211.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 41),
+(61, 'view/images/property/property2-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 42),
+(62, 'view/images/property/property42-651.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 42),
+(63, 'view/images/property/property42-577.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 42),
+(64, 'view/images/property/property42-933.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 42),
+(65, 'view/images/property/property42-935.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 42),
+(66, 'view/images/property/property1-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 43),
+(67, 'view/images/property/property43-580.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 43),
+(68, 'view/images/property/property43-267.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 43),
+(69, 'view/images/property/property43-599.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 43),
+(70, 'view/images/property/property43-194.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 43),
+(71, 'view/images/property/property5-1.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 36),
+(72, 'view/images/property/property42-524.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 36),
+(73, 'view/images/property/property42-928.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 36),
+(74, 'view/images/property/property42-71.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 36),
+(75, 'view/images/property/property42-569.webp', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 36);
 
 -- --------------------------------------------------------
 
@@ -258,9 +258,9 @@ CREATE TABLE `large_people` (
 --
 
 INSERT INTO `large_people` (`id_large_people`, `name_large_people`, `is_active`, `creation_date`, `update_date`, `image_people`) VALUES
-(1, 'Kitchen', 1, '2024-02-22 16:20:32', '2024-02-22 16:20:32', 'views/images/adapted_people/kitchen.webp'),
-(2, 'Bathroom', 1, '2024-02-22 16:20:32', '2024-02-22 16:20:32', 'views/images/adapted_people/bathroom.webp'),
-(3, 'Stairs', 1, '2024-02-22 16:20:32', '2024-02-22 16:20:32', 'views/images/adapted_people/stairs.webp');
+(1, 'Kitchen', 1, '2024-02-22 16:20:32', '2024-02-22 16:20:32', 'view/images/adapted_people/kitchen.webp'),
+(2, 'Bathroom', 1, '2024-02-22 16:20:32', '2024-02-22 16:20:32', 'view/images/adapted_people/bathroom.webp'),
+(3, 'Stairs', 1, '2024-02-22 16:20:32', '2024-02-22 16:20:32', 'view/images/adapted_people/stairs.webp');
 
 -- --------------------------------------------------------
 
@@ -293,10 +293,10 @@ CREATE TABLE `operation` (
 --
 
 INSERT INTO `operation` (`id_operation`, `name_operation`, `is_active`, `creation_date`, `update_date`, `image_operation`) VALUES
-(1, 'Sale', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/operation/sale.webp'),
-(2, 'Rent', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/operation/rent.webp'),
-(3, 'Share', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/operation/share.webp'),
-(4, 'Rent to own', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/operation/rent_to_own.webp');
+(1, 'Sale', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/operation/sale.webp'),
+(2, 'Rent', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/operation/rent.webp'),
+(3, 'Share', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/operation/share.webp'),
+(4, 'Rent to own', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/operation/rent_to_own.webp');
 
 -- --------------------------------------------------------
 
@@ -526,11 +526,11 @@ CREATE TABLE `type` (
 --
 
 INSERT INTO `type` (`id_type`, `name_type`, `is_active`, `creation_date`, `update_date`, `image_type`) VALUES
-(1, 'Apartment', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/type/apartment.webp'),
-(2, 'House', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/type/house.webp'),
-(3, 'Townhouse', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/type/townhouse.webp'),
-(4, 'Duplex', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/type/duplex.webp'),
-(5, 'Office', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'views/images/type/office.webp');
+(1, 'Apartment', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/type/apartment.webp'),
+(2, 'House', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/type/house.webp'),
+(3, 'Townhouse', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/type/townhouse.webp'),
+(4, 'Duplex', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/type/duplex.webp'),
+(5, 'Office', 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 'view/images/type/office.webp');
 
 -- --------------------------------------------------------
 

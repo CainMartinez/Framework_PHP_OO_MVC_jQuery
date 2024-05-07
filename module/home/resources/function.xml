@@ -33,11 +33,11 @@
         <uri>recomendation</uri>
     </function>
     <function>
-        <name>loadMostVisited</name>
-        <uri>loadMostVisited</uri>
+        <name>most_visited</name>
+        <uri>most_visited</uri>
     </function>
     <function>
-        <name>loadLastVisited</name>
-        <uri>loadLastVisited</uri>
+        <name>last_visited</name>
+        <uri>last_visited</uri>
     </function>
 </functions>
