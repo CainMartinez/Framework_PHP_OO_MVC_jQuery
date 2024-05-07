@@ -40,8 +40,8 @@
             try {
                 call_user_func(array($this -> loadModule(), $this -> loadFunction()));
             }catch(Exception $e) {
-                echo $e -> getMessage();
-                // common::load_error();
+                // echo $e -> getMessage();
+                common::load_error();
             }
         }
         
