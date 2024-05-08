@@ -23,8 +23,8 @@ function load_menu() {
             $('#register_button').hide();
             $('#login_button').hide();
             // Agregar el nombre de usuario, la imagen y el botón de logout al menú
-            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + "?module=home&op=view" + '" class="rd-nav-link button_homepage">Home</a>').appendTo('.rd-navbar-nav');
-            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + "?module=shop&op=view" + '" class="rd-nav-link">Shop</a>').appendTo('.rd-navbar-nav');
+            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=home") + '" class="rd-nav-link button_homepage">Home</a>').appendTo('.rd-navbar-nav');
+            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=shop") + '" class="rd-nav-link">Shop</a>').appendTo('.rd-navbar-nav');
             $('<li></li>').attr({'id' : 'login_ok', 'class' : 'rd-nav-item'}).html(
                 '<img src="' + data.avatar + '" alt="User Avatar" class="img-thumbnail" style="width:50px; height:50px;">&nbsp;&nbsp;&nbsp;' + 
                 '<span class="username btn btn-info">' + data.username + '</span>&nbsp;&nbsp;&nbsp;' + 
@@ -34,8 +34,8 @@ function load_menu() {
             console.error(e);
         });
     } else {
-        $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + "?module=home&op=view" + '" class="rd-nav-link button_homepage">Home</a>').appendTo('.rd-navbar-nav');
-        $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + "?module=shop&op=view" + '" class="rd-nav-link">Shop</a>').appendTo('.rd-navbar-nav');
+        $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=shop") + '" class="rd-nav-link">Shop</a>').prependTo('.rd-navbar-nav');
+        $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=home") + '" class="rd-nav-link button_homepage">Home</a>').prependTo('.rd-navbar-nav');
         $('<a></a>').attr({'id' : 'register_button', 'type' : 'button', 'class' : 'btn btn-secondary'}).html('Register').appendTo('#search_auto');
         $('<a></a>').attr({'id' : 'login_button', 'type' : 'button', 'class' : 'btn btn-success'}).html('Login').appendTo('#search_auto');
     }
@@ -143,7 +143,7 @@ function logout_auto() {
                 confirmButtonText: 'Log in again',
                 timer: 3000
             }).then(() => {
-                window.location.href = "index.php?page=login";
+                window.location.href = friendlyURL("?module=login");
             });;
         }).catch(function(d) {
             console.log(d);
@@ -163,7 +163,9 @@ function friendlyURL(url) {
         	link += "/" + aux[1];
         }
     }
-    return "http://localhost" + link;
+    link = "http://localhost/living_mobility" + link;
+    console.log(link);
+    return link;
 }
 $(document).ready(function() {
     load_menu();

@@ -1,8 +1,9 @@
 function carousel_people() {
   ajaxPromise(
-    "GET",
+    "POST",
     "JSON",
-    "?module=home&op=carrousel_people"
+    "?module=home",
+    {"op":"carrousel_people"}
   )
     .then(function (data) {
       let html = "";
@@ -41,9 +42,10 @@ function carousel_people() {
 }
 function categories() {
   ajaxPromise(
-    "GET",
+    "POST",
     "JSON",
-    "?module=home&op=categories"
+    friendlyURL("?module=home"),
+    {"op":"categories"}
   )
     .then(function (data) {
       console.log(data);
@@ -90,9 +92,10 @@ function categories() {
 }
 function type() {
   ajaxPromise( 
-    "GET",
+    "POST",
     "JSON",
-    "?module=home&op=type"
+    friendlyURL("?module=home"),
+    {"op":"type"}
   )
   .then(function (data) {
     let html = "";
@@ -120,9 +123,10 @@ function type() {
 }
 function operation() {
   ajaxPromise(
-    "GET",
+    "POST",
     "JSON",
-    "?module=home&op=operation"
+    friendlyURL("?module=home"),
+    {"op":"operation"}
   )
     .then(function (data) {
       var table = $("<table></table>");
@@ -165,9 +169,10 @@ function operation() {
 }
 function city() {
   ajaxPromise(
-    "GET",
+    "POST",
     "JSON",
-    "?module=home&op=city"
+    friendlyURL("?module=home"),
+    {"op":"city"}
   )
     .then(function (data) {
       let html = "";
@@ -194,9 +199,10 @@ function city() {
 }
 function extras() {
   ajaxPromise(
-    "GET",
+    "POST",
     "JSON",
-    "?module=home&op=extras"
+    friendlyURL("?module=home"),
+    {"op":"extras"}
   )
     .then(function (data) {
       let html = "";
@@ -225,9 +231,10 @@ function extras() {
 }
 function recomendation() {
   ajaxPromise(
-    "GET",
+    "POST",
     "JSON",
-    "?module=home&op=recomendation"
+    friendlyURL("?module=home"),
+    {"op":"recomendation"}
   )
     .then(function (data) {
       let html = "";
@@ -259,9 +266,10 @@ function recomendation() {
 }
 function most_visited() {
   ajaxPromise(
-    "GET",
+    "POST",
     "JSON",
-    "?module=home&op=most_visited"
+    friendlyURL("?module=home"),
+    {"op":"most_visited"}
   )
     .then(function(mostVisited) {
         let html = "";
@@ -293,40 +301,41 @@ function most_visited() {
     });
 }
 function last_visited() {
-    ajaxPromise(
-        "GET",
-        "JSON",
-        "?module=home&op=last_visited"
-    )
-    .then(function(lastVisited) {
-      console.log(lastVisited);
-        let html = "";
-        for (let i = 0; i < lastVisited.length; i++) {
-            let property = lastVisited[i];
-            html += `
-                <div class="col-md-6 wow-outer property_recomendation" id="${property.id_property}">
-                    <article class="post-modern wow slideInLeft">
-                        <a class="post-modern-media">
-                            <img src="${property.path_images}" alt="" width="571" height="353"/>
-                        </a>
-                        <h4 class="post-modern-title">
-                            <a class="post-modern-title">${property.property_name}</a>
-                        </h4>
-                        <ul class="post-modern-meta">
-                            <li><a class="button-winona">${property.price} €</a></li>
-                            <li>${property.square_meters} Sq. Meters</li>
-                            <li>${property.number_of_rooms} Rooms</li>
-                        </ul>
-                        <p>${property.description}</p>
-                    </article>
-                </div>
-                `;
-        }
-        $("#lastVisited").html(html);
-    })
-    .catch(function(error) {
-        console.error(error);
-    });
+  ajaxPromise(
+      "POST",
+      "JSON",
+      friendlyURL("?module=home"),
+      {"op":"last_visited"}
+  )
+  .then(function(lastVisited) {
+    console.log(lastVisited);
+      let html = "";
+      for (let i = 0; i < lastVisited.length; i++) {
+          let property = lastVisited[i];
+          html += `
+              <div class="col-md-6 wow-outer property_recomendation" id="${property.id_property}">
+                  <article class="post-modern wow slideInLeft">
+                      <a class="post-modern-media">
+                          <img src="${property.path_images}" alt="" width="571" height="353"/>
+                      </a>
+                      <h4 class="post-modern-title">
+                          <a class="post-modern-title">${property.property_name}</a>
+                      </h4>
+                      <ul class="post-modern-meta">
+                          <li><a class="button-winona">${property.price} €</a></li>
+                          <li>${property.square_meters} Sq. Meters</li>
+                          <li>${property.number_of_rooms} Rooms</li>
+                      </ul>
+                      <p>${property.description}</p>
+                  </article>
+              </div>
+              `;
+      }
+      $("#lastVisited").html(html);
+  })
+  .catch(function(error) {
+      console.error(error);
+  });
 }
 function clicks_home() {
   $(document).on("click",'div.property_recomendation', function (){
