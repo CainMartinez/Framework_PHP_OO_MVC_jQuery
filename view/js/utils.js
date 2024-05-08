@@ -164,7 +164,7 @@ function friendlyURL(url) {
         }
     }
     link = "http://localhost/living_mobility" + link;
-    console.log(link);
+    // console.log(link);
     return link;
 }
 $(document).ready(function() {

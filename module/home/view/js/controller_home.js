@@ -48,7 +48,7 @@ function categories() {
     {"op":"categories"}
   )
     .then(function (data) {
-      console.log(data);
+      // console.log(data);
       var rowContainer = $("<div></div>").attr(
         "class",
         "owl-carousel owl-theme"
@@ -164,7 +164,7 @@ function operation() {
       $("#containerOperation").append(table);
     })
     .catch(function (e) {
-      console.log(e);
+      console.error(e);
     });
 }
 function city() {
@@ -308,7 +308,7 @@ function last_visited() {
       {"op":"last_visited"}
   )
   .then(function(lastVisited) {
-    console.log(lastVisited);
+    // console.log(lastVisited);
       let html = "";
       for (let i = 0; i < lastVisited.length; i++) {
           let property = lastVisited[i];
