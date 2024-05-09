@@ -473,7 +473,7 @@ function order_properties() {
     });
 }
 function load_city() {
-    ajaxPromise('GET', 'JSON', 'module/shop/controller/controller_shop.php?op=dynamic_city')
+    ajaxPromise('POST', 'JSON', friendlyURL('?module=shop'),{ 'op': 'dynamic_city' })
         .then(function (data) {
             
             for (let row in data) {
@@ -495,7 +495,7 @@ function load_city() {
     });
 }
 function load_large_people() {
-    ajaxPromise('GET', 'JSON', 'module/shop/controller/controller_shop.php?op=dynamic_large_people')
+    ajaxPromise('POST', 'JSON', friendlyURL('?module=shop'),{op:'dynamic_large_people'})
         .then(function (data) {
             for (let row in data) {
                 let large_people = data[row];
@@ -516,7 +516,7 @@ function load_large_people() {
     });
 }
 function load_type(){
-    ajaxPromise('GET', 'JSON', 'module/shop/controller/controller_shop.php?op=dynamic_type')
+    ajaxPromise('POST', 'JSON', friendlyURL('?module=shop'),{op:'dynamic_type'})
         .then(function (data) {
             for (let row in data) {
                 let type = data[row];
@@ -537,7 +537,7 @@ function load_type(){
     });
 }
 function load_operation() {
-    ajaxPromise('GET', 'JSON', 'module/shop/controller/controller_shop.php?op=dynamic_operation')
+    ajaxPromise('POST', 'JSON', friendlyURL('?module=shop'),{op:'dynamic_operation'})
         .then(function (data) {
             for (let row in data) {
                 let operation = data[row];
@@ -558,7 +558,7 @@ function load_operation() {
     });
 }
 function load_extras() {
-    ajaxPromise('GET', 'JSON', 'module/shop/controller/controller_shop.php?op=dynamic_extras')
+    ajaxPromise('POST', 'JSON', friendlyURL('?module=shop'),{op:'dynamic_extras'})
         .then(function (data) {
             for (let row in data) {
                 let extras = data[row];
@@ -576,7 +576,7 @@ function load_extras() {
         });
 }
 function load_category() {
-    ajaxPromise('GET', 'JSON', 'module/shop/controller/controller_shop.php?op=dynamic_category')
+    ajaxPromise('POST', 'JSON', friendlyURL('?module=shop'),{op:'dynamic_category'})
         .then(function (data) {
             for (let row in data) {
                 let category = data[row];

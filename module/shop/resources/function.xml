@@ -4,4 +4,28 @@
         <name>view</name>
         <uri>view</uri>
     </function>
+    <function>
+        <name>dynamic_city</name>
+        <uri>dynamic_city</uri>
+    </function>
+    <function>
+        <name>dynamic_large_people</name>
+        <uri>dynamic_large_people</uri>
+    </function>
+    <function>
+        <name>dynamic_type</name>
+        <uri>dynamic_type</uri>
+    </function>
+    <function>
+        <name>dynamic_operation</name>
+        <uri>dynamic_operation</uri>
+    </function>
+    <function>
+        <name>dynamic_extras</name>
+        <uri>dynamic_extras</uri>
+    </function>
+    <function>
+        <name>dynamic_category</name>
+        <uri>dynamic_category</uri>
+    </function>
 </functions>
