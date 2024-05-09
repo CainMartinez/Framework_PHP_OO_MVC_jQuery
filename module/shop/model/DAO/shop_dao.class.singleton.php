@@ -112,19 +112,26 @@ class shop_dao{
             $order = 'ASC';
             $filter = 'id_property';
         }
-        $sql = "SELECT DISTINCT p.*,c.*,i.path_images
-        FROM property p, city c, images i
-        WHERE p.id_city = c.id_city
-        AND p.id_property = i.id_property
+        $sql = "SELECT DISTINCT p.*,c.*
+        FROM property p
+        INNER JOIN city c ON p.id_city = c.id_city
         GROUP BY p.id_property
         ORDER BY p.$filter $order
         LIMIT $offset, 3;";
-		error_log($sql, 3, "debug.txt");
 
         $stmt = $db->ejecutar($sql);
-        $retrArray = $db->listar($stmt);
-        return $retrArray;
+        $properties = $db->listar($stmt);
+
+        foreach ($properties as $key => $property) {
+            $sql = "SELECT * FROM images WHERE id_property = '{$property['id_property']}'";
+            $stmt = $db->ejecutar($sql);
+            $images = $db->listar($stmt);
+            $properties[$key]['images'] = $images;
+        }
+
+        return $properties;
     }
+
     public function select_order_properties($db, $filters_shop, $offset, $filter){
         $order = 'ASC';
         $filter = 'id_property';
@@ -196,20 +203,19 @@ class shop_dao{
     }
 
     public function search_filter($db, $filters_search, $offset){
-        
+            
         $id_category = isset($filters_search['id_category']) ? $filters_search['id_category'] : null;
         $id_city = isset($filters_search['id_city']) ? $filters_search['id_city'] : null;
         $id_type = isset($filters_search['id_type']) ? $filters_search['id_type'] : null;
 
-        $sql = "SELECT DISTINCT p.*,c.*,t.*,cat.*,i.path_images
-        FROM property p, city c,type t,property_type pt,category cat, property_category pc, images i
-        WHERE p.id_city = c.id_city
-        AND pt.id_property = p.id_property
-        AND cat.id_category = pc.id_category
-        AND pc.id_property = p.id_property
-        AND pt.id_type = t.id_type
-        AND p.id_property = i.id_property"
-        . ($id_type ? " AND t.id_type = $id_type" : "")
+        $sql = "SELECT DISTINCT p.*,c.*,t.*,cat.*
+        FROM property p
+        INNER JOIN city c ON p.id_city = c.id_city
+        INNER JOIN property_type pt ON pt.id_property = p.id_property
+        INNER JOIN type t ON pt.id_type = t.id_type
+        INNER JOIN property_category pc ON pc.id_property = p.id_property
+        INNER JOIN category cat ON cat.id_category = pc.id_category"
+        . ($id_type ? " WHERE t.id_type = $id_type" : "")
         . ($id_city ? " AND p.id_city = $id_city" : "")
         . ($id_category ? " AND cat.id_category = '$id_category'" : "") .
         " GROUP BY p.id_property
@@ -217,9 +223,16 @@ class shop_dao{
         LIMIT $offset, 3;";
 
         $stmt = $db->ejecutar($sql);
-        $retrArray = $db->listar($stmt);
+        $properties = $db->listar($stmt);
 
-        return $retrArray;
+        foreach ($properties as $key => $property) {
+            $sql = "SELECT * FROM images WHERE id_property = '{$property['id_property']}'";
+            $stmt = $db->ejecutar($sql);
+            $images = $db->listar($stmt);
+            $properties[$key]['images'] = $images;
+        }
+
+        return $properties;
     }
     public function select_images_property($db){
         $sql = "SELECT * FROM images";
@@ -299,15 +312,7 @@ class shop_dao{
         return $imgArray;
     }
     public function filters_shop($db,$filters_shop, $offset, $filter){
-        if (is_string($filters_shop)) {
-            $filters_shop = json_decode($filters_shop, true); 
-        } elseif (is_object($filters_shop)) {
-            $filters_shop = get_object_vars($filters_shop);
-        }
-        if (!is_array($filters_shop)) {
-            // error_log('El array $filters_shop no es un array', 3, "debug.txt");
-            return [];
-        }
+
         if ($filter == 'price') {
             $order = 'DESC';
             $filter = 'price';
@@ -321,20 +326,17 @@ class shop_dao{
             $order = 'ASC';
             $filter = 'id_property';
         }
-        // error_log($filters_shop, 3, "debug.txt");
-        // error_log(print_r($filters_shop, true), 3, "debug.txt");
-        $consulta = "SELECT DISTINCT p.*, c.name_city,lp.name_large_people,i.path_images,
+
+        $consulta = "SELECT DISTINCT p.*, c.name_city,lp.name_large_people,
             (SELECT GROUP_CONCAT(t.name_type) FROM property_type pt INNER JOIN type t ON pt.id_type = t.id_type WHERE pt.id_property = p.id_property) as type_concat,
             (SELECT GROUP_CONCAT(o.name_operation) FROM property_operation po INNER JOIN operation o ON po.id_operation = o.id_operation WHERE po.id_property = p.id_property) as operation_concat,
             (SELECT GROUP_CONCAT(c.name_category) FROM property_category pc INNER JOIN category c ON pc.id_category = c.id_category WHERE pc.id_property = p.id_property) as category_concat,
             (SELECT GROUP_CONCAT(e.name_extras) FROM property_extras pe INNER JOIN extras e ON pe.id_extras = e.id_extras WHERE pe.id_property = p.id_property) as extras_concat
             FROM property p
             INNER JOIN city c ON p.id_city = c.id_city
-            INNER JOIN images i ON p.id_property = i.id_property
             INNER JOIN large_people lp ON p.id_large_people = lp.id_large_people";
 
         foreach ($filters_shop as $key => $value) {
-            // error_log("Dentro del bucle foreach. Clave: $key, Valor: $value", 3, "debug.txt");s
             if (strpos($consulta, 'WHERE') !== false) {
                 switch ($key) {
                     case 'id_city':
@@ -412,15 +414,18 @@ class shop_dao{
         $consulta .= " GROUP BY p.id_property 
         ORDER BY p.$filter $order
         LIMIT $offset, 3;";
-        
-        // ORDER BY p.$filter $order
-        // error_log($filters_shop['id_extras'], 3, "debug.txt");
-        error_log($consulta, 3, "debug.txt");
 
         $stmt = $db->ejecutar($consulta);
-        $retrArray = $db->listar($stmt);
+        $properties = $db->listar($stmt);
 
-        return $retrArray;
+        foreach ($properties as $key => $property) {
+            $sql = "SELECT * FROM images WHERE id_property = '{$property['id_property']}'";
+            $stmt = $db->ejecutar($sql);
+            $images = $db->listar($stmt);
+            $properties[$key]['images'] = $images;
+        }
+
+        return $properties;
     }
     public function select_similar_properties($db, $id_large_people){
         $sql= "SELECT * ,i.path_images

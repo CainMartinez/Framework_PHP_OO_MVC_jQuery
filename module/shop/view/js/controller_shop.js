@@ -3,6 +3,7 @@ function loadProperties() {
     let details_home = localStorage.getItem('details_home') || false;
     let filters_search = localStorage.getItem('filters_search') || false;
     let filters_shop = localStorage.getItem('filters_shop') || false;
+    let list_all = 'list_all';
     var order = localStorage.getItem('order') || false;
     if (order === '' || order === null || order === undefined || order === false) {
         order = 'id_property';
@@ -17,19 +18,13 @@ function loadProperties() {
         loadDetails(details_home);
         localStorage.removeItem('details_home');
     }else if (filters_search !== false) {
-        // if para el filtro de la barra de busqueda
-        ajaxForSearch(friendlyURL('?module=shop'), filters_search,order);
-        // pagination_shop();
+        ajaxForSearch(friendlyURL('?module=shop'),filters_search,order);
         localStorage.removeItem('filters_search');
     }else if (filters_shop !== false) {
-        // console.log('Envio en la URL op=filters_shop');
-        // pagination_shop();
         ajaxForSearch(friendlyURL('?module=shop'),filters_shop,order);
         highlight_shop();
-        // localStorage.removeItem('filters_shop');
     } else {
-        ajaxForSearch(friendlyURL('?module=shop'),"list_all",order);
-        // pagination_shop();
+        ajaxForSearch(friendlyURL('?module=shop'),list_all,order);
     }
     pagination_shop();
 }
@@ -117,14 +112,17 @@ function likes() {
         }
     });
 }
-function ajaxForSearch(url, filters_shop,order) {
+function ajaxForSearch(url,op,order) {
     console.log(filters_shop);
     if (!localStorage.getItem('currentPage')){
         localStorage.setItem('currentPage', 1);
     }
     var offset = localStorage.getItem('offset') || 0;
-    ajaxPromise('POST', 'JSON', url, { filters_shop, offset, order})
+    console.log(url,op,offset,order);
+    ajaxPromise('POST', 'JSON', url, { op, offset, order})
         .then(function (data) {
+            console.log(data);
+            // return;
             $('#properties_shop_details').empty();
             $('#images_properties').empty();
             $('#maps_details').hide();
