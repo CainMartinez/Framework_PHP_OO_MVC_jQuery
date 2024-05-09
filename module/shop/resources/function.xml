@@ -4,6 +4,7 @@
         <name>view</name>
         <uri>view</uri>
     </function>
+    <!-- Filters -->
     <function>
         <name>dynamic_city</name>
         <uri>dynamic_city</uri>
@@ -27,5 +28,18 @@
     <function>
         <name>dynamic_category</name>
         <uri>dynamic_category</uri>
+    </function>
+    <!-- Properties -->
+    <function>
+        <name>list_all</name>
+        <uri>list_all</uri>
+    </function>
+    <function>
+        <name>filters_shop</name>
+        <uri>filters_shop</uri>
+    </function>
+    <function>
+        <name>filters_search</name>
+        <uri>filters_search</uri>
     </function>
 </functions>

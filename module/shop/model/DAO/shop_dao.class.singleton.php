@@ -119,10 +119,10 @@ class shop_dao{
         GROUP BY p.id_property
         ORDER BY p.$filter $order
         LIMIT $offset, 3;";
+		error_log($sql, 3, "debug.txt");
 
         $stmt = $db->ejecutar($sql);
         $retrArray = $db->listar($stmt);
-
         return $retrArray;
     }
     public function select_order_properties($db, $filters_shop, $offset, $filter){
@@ -415,7 +415,7 @@ class shop_dao{
         
         // ORDER BY p.$filter $order
         // error_log($filters_shop['id_extras'], 3, "debug.txt");
-        // error_log($consulta, 3, "debug.txt");
+        error_log($consulta, 3, "debug.txt");
 
         $stmt = $db->ejecutar($consulta);
         $retrArray = $db->listar($stmt);

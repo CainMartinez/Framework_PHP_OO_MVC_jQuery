@@ -31,6 +31,15 @@ class shop_model{
     public function get_dynamic_category(){
         return $this->bll->get_dynamic_category_BLL();
     }
+    public function get_list_all($arrArgument){
+        return $this->bll->get_list_all_BLL($arrArgument);
+    }
+    public function get_filters_shop($arrArgument){
+        return $this->bll->get_filters_shop_BLL($arrArgument);
+    }
+    public function get_filters_search($arrArgument){
+        return $this->bll->get_filters_search_BLL($arrArgument);
+    }
 
 }
 ?>
