@@ -40,6 +40,12 @@ class shop_model{
     public function get_filters_search($arrArgument){
         return $this->bll->get_filters_search_BLL($arrArgument);
     }
+    public function get_details($arrArgument){
+        return $this->bll->get_details_property_BLL($arrArgument);
+    }
+    public function get_similar_properties($arrArgument){
+        return $this->bll->get_similar_properties_BLL($arrArgument);
+    }
 
 }
 ?>

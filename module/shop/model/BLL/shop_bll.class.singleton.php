@@ -42,5 +42,11 @@ class shop_bll{
     public function get_filters_search_BLL($arrArgument){
         return $this->dao->search_filter($this->db,$arrArgument[0],$arrArgument[1]);
     }
+    public function get_details_property_BLL($arrArgument){
+        return $this->dao->select_details_property($this->db,$arrArgument[0]);
+    }
+    public function get_similar_properties_BLL($arrArgument){
+        return $this->dao->select_similar_properties($this->db,$arrArgument[0]);
+    }
 }
 ?>

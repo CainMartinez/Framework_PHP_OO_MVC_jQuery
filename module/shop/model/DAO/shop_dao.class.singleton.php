@@ -302,15 +302,15 @@ class shop_dao{
                 WHERE p.id_property = '$id'";
         $stmt = $db->ejecutar($sql);
         $res = $db->listar($stmt);
+        foreach ($res as $key => $property) {
+            $sql = "SELECT * FROM images WHERE id_property = '{$property['id_property']}'";
+            $stmt = $db->ejecutar($sql);
+            $images = $db->listar($stmt);
+            $properties[$key]['images'] = $images;
+        }       
         return $res;
     }
 
-    public function select_imgs_property($db, $id){
-        $sql = "SELECT * FROM images WHERE id_property = '$id'";
-        $stmt = $db->ejecutar($sql);
-        $imgArray = $db->listar($stmt);
-        return $imgArray;
-    }
     public function filters_shop($db,$offset,$filter,$filters_shop_json){
         $filters_shop = json_decode($filters_shop_json, true);
         if ($filter == 'price') {

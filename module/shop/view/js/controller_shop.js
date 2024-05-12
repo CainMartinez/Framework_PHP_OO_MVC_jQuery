@@ -50,7 +50,6 @@ function highlight_like(id_property) {
         });
     }
 }
-
 function likes() {
     $(document).on("click",".like_button",function(){
         var id_property = this.getAttribute('id');
@@ -190,6 +189,7 @@ function ajaxForSearch(url,op,order,filters_shop) {
             console.error(error);
             // window.location.href = "index.php?page=503";
         });
+        
 }
 function load_map_details(data) {
 
@@ -246,6 +246,9 @@ function load_map(data) {
 function clicks_shop() {
     $(document).on("click", ".more_info_list", function () {
         var id_property = this.getAttribute('id');
+        $('html, body').animate({
+            scrollTop: $('.content-container').offset().top
+        }, 'slow');
         loadDetails(id_property);
     });
     $(document).on("click", ".button_homepage", function () {
@@ -253,7 +256,7 @@ function clicks_shop() {
     });
 }
 function loadDetails(id_property) {
-    ajaxPromise('GET', 'JSON', 'module/shop/controller/controller_shop.php?op=details_property&id=' + id_property)
+    ajaxPromise('POST', 'JSON', friendlyURL('?module=shop'),{'op':'details_property','id': id_property})
         .then(function (data) {
         
             // $('#properties_shop').empty();
@@ -274,11 +277,11 @@ function loadDetails(id_property) {
             var rowDiv = $('<div></div>').addClass('row row-35 row-xxl-70 offset-top-2').appendTo('#images_properties');
             var propertyDetailsDiv = $('<div></div>').addClass('property-details').appendTo(rowDiv);
             var owlCarouselDiv = $('<div></div>').addClass('owl-carousel owl-theme carrousel_details').appendTo('#properties_shop_details');
-            for (row in data[1][0]) {
+            for (row in data) {
                 var itemDiv = $("<div></div>").addClass("item").appendTo(owlCarouselDiv);
                 var articleContent = "<article class='thumbnail-light'>" +
                     "<a class='thumbnail-light-media' href='#'><img class='thumbnail-light-image' src='" +
-                    data[1][0][row].path_images +
+                    data[row].path_images +
                     "' alt='Image " + (parseInt(row) + 1) + "' width='270' height='300' /></a>" +
                     "<h4 class='thumbnail-light-title title-category'><a href='#'>" +
                     "Image " + (parseInt(row) + 1) +
@@ -338,7 +341,7 @@ function loadDetails(id_property) {
                 .html("<i class='fas fa-heart'></i>&nbsp;" + data[0].likes);
             var backButton = $('<a></a>')
                 .addClass('button button-primary-white')
-                .attr('href', 'index.php?page=shop')
+                .attr('href', friendlyURL('?module=shop'))
                 .html('<i class="fas fa-arrow-left"></i> Back')
                 .css({
                     'margin-left': '10px',
@@ -352,10 +355,9 @@ function loadDetails(id_property) {
 
             propertyDetailsDiv.append(table);
             load_map_details(data);
-            id_large_people = data[0].id_large_people
+            id_large_people = data.id_large_people
         }).catch(function (e) {
             console.error(e);
-            // window.location.href = "index.php?page=503";
         });
         scroll_properties(id_large_people);
 }
@@ -855,7 +857,7 @@ function scroll_properties(id_large_people){
     more_properties();
     function similar_properties(id_large_people, limit_property) {
         let id = id_large_people.id;
-    ajaxPromise('POST', 'JSON', 'module/shop/controller/controller_shop.php?op=similar_properties', { id })
+    ajaxPromise('POST', 'JSON', friendlyURL('?module=shop'),{'op':'similar_properties', id })
         .then(function (data) {
             $('#propertyScroll').empty();
             let end_loop = determineLimit(data, limit_property);

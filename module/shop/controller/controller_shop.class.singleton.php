@@ -38,5 +38,11 @@ class controller_shop{
     function filters_search(){
         echo json_encode(common::load_model('shop_model','get_filters_search',[$_POST['filters_search'],$_POST['offset']]));
     }
+    function details_property(){
+        echo json_encode(common::load_model('shop_model', 'get_details',[$_POST['id']]));
+    }
+    function similar_properties(){
+        echo json_encode(common::load_model('shop_model', 'get_similar_properties',[$_POST['id']]));
+    }
 }
 ?>

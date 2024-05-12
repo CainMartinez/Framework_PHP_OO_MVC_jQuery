@@ -42,4 +42,12 @@
         <name>filters_search</name>
         <uri>filters_search</uri>
     </function>
+    <function>
+        <name>details_property</name>
+        <uri>details_property</uri>
+    </function>
+    <function>
+        <name>similar_properties</name>
+        <uri>similar_properties</uri>
+    </function>
 </functions>
