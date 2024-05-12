@@ -4,7 +4,6 @@ class shop_dao{
 
     private function __construct(){
     }
-
     public static function getInstance(){
         if (!(self::$_instance instanceof self)) {
             self::$_instance = new self();
@@ -78,7 +77,6 @@ class shop_dao{
             return "0";
         }
     }
-
     public function dislike_property($db, $id_property, $username) {
         $sql = "SELECT id_user FROM users WHERE username = '$username'";
         $stmt = $db->ejecutar($sql);
@@ -131,7 +129,6 @@ class shop_dao{
 
         return $properties;
     }
-
     public function select_order_properties($db, $filters_shop, $offset, $filter){
         $order = 'ASC';
         $filter = 'id_property';
@@ -201,7 +198,6 @@ class shop_dao{
 
         return $retrArray;
     }
-
     public function search_filter($db, $filters_search, $offset){
             
         $id_category = isset($filters_search['id_category']) ? $filters_search['id_category'] : null;
@@ -234,41 +230,30 @@ class shop_dao{
 
         return $properties;
     }
-    public function select_images_property($db){
-        $sql = "SELECT * FROM images";
-        $stmt = $db->ejecutar($sql);
-        $imagesArray = $db->listar($stmt);
-        return $imagesArray;
-    }
-
     public function select_city($db){
         $sql = "SELECT * FROM city";
         $stmt = $db->ejecutar($sql);
         $cityArray = $db->listar($stmt);
         return $cityArray;
     }
-
     public function select_type($db) {
         $sql= "SELECT * FROM `type` ORDER BY id_type ASC LIMIT 30;";
         $stmt = $db->ejecutar($sql);
         $retrArray = $db->listar($stmt);
         return $retrArray;
     }
-
     public function select_large_people($db){
         $sql= "SELECT * FROM `large_people` ORDER BY id_large_people ASC LIMIT 30;";
         $stmt = $db->ejecutar($sql);
         $retrArray = $db->listar($stmt);
         return $retrArray;
     }
-
     public function select_extras($db) {
         $sql= "SELECT * FROM `extras`;";
         $stmt = $db->ejecutar($sql);
         $retrArray = $db->listar($stmt);
         return $retrArray;
     }
-
     public function select_categories($db) {
         $sql= "SELECT * FROM category";
         $stmt = $db->ejecutar($sql);
@@ -281,14 +266,6 @@ class shop_dao{
         $retrArray = $db->listar($stmt);
         return $retrArray;
     }
-
-    public function select_images_filter_home($db){
-        $sql = "SELECT * FROM images";
-        $stmt = $db->ejecutar($sql);
-        $imagesArray = $db->listar($stmt);
-        return $imagesArray;
-    }
-
     public function select_details_property($db, $id){
         $sql = "SELECT p.*, c.name_city,lp.name_large_people,i.path_images,
                 (SELECT GROUP_CONCAT(t.name_type) FROM property_type pt INNER JOIN type t ON pt.id_type = t.id_type WHERE pt.id_property = p.id_property) as type_concat,
@@ -310,63 +287,123 @@ class shop_dao{
         }       
         return $res;
     }
+    public function filters_shop($db,$offset,$filter,$filters_shop){
+		if (is_string($filters_shop)) {
+			$filters_shop = json_decode($filters_shop, true); 
+		} elseif (is_object($filters_shop)) {
+			$filters_shop = get_object_vars($filters_shop);
+		}
+		if (!is_array($filters_shop)) {
+			// error_log('El array $filters_shop no es un array', 3, "debug.txt");
+			return [];
+		}
+		if ($filter == 'price') {
+			$order = 'DESC';
+			$filter = 'price';
+		}else if ($filter == 'name') {
+			$order = 'ASC';
+			$filter = 'property_name';
+		} else if ($filter == 'visits') {
+			$order = 'DESC';
+			$filter = 'visits';
+		}else{
+			$order = 'ASC';
+			$filter = 'id_property';
+		}
+		// error_log($filters_shop, 3, "debug.txt");
+		// error_log(print_r($filters_shop, true), 3, "debug.txt");
+		$consulta = "SELECT DISTINCT p.*, c.name_city,lp.name_large_people,i.path_images,
+			(SELECT GROUP_CONCAT(t.name_type) FROM property_type pt INNER JOIN type t ON pt.id_type = t.id_type WHERE pt.id_property = p.id_property) as type_concat,
+			(SELECT GROUP_CONCAT(o.name_operation) FROM property_operation po INNER JOIN operation o ON po.id_operation = o.id_operation WHERE po.id_property = p.id_property) as operation_concat,
+			(SELECT GROUP_CONCAT(c.name_category) FROM property_category pc INNER JOIN category c ON pc.id_category = c.id_category WHERE pc.id_property = p.id_property) as category_concat,
+			(SELECT GROUP_CONCAT(e.name_extras) FROM property_extras pe INNER JOIN extras e ON pe.id_extras = e.id_extras WHERE pe.id_property = p.id_property) as extras_concat
+			FROM property p
+			INNER JOIN city c ON p.id_city = c.id_city
+			INNER JOIN images i ON p.id_property = i.id_property
+			INNER JOIN large_people lp ON p.id_large_people = lp.id_large_people";
 
-    public function filters_shop($db,$offset,$filter,$filters_shop_json){
-        $filters_shop = json_decode($filters_shop_json, true);
-        if ($filter == 'price') {
-            $order = 'DESC';
-            $filter = 'price';
-        } else if ($filter == 'name') {
-            $order = 'ASC';
-            $filter = 'property_name';
-        } else if ($filter == 'visits') {
-            $order = 'DESC';
-            $filter = 'visits';
-        } else {
-            $order = 'ASC';
-            $filter = 'id_property';
-        }
-
-        $sql = "SELECT DISTINCT *
-        FROM property p, property_type pt, type t, property_extras pe, extras e, property_category pc, category c, city ct, large_people lp
-        WHERE p.id_property=pt.id_property
-        AND pt.id_type=t.id_type
-        AND p.id_property=pe.id_property
-        AND pe.id_extras=e.id_extras
-        AND p.id_property=pc.id_property
-        AND pc.id_category=c.id_category
-        AND p.id_city=ct.id_city
-        AND p.id_large_people=lp.id_large_people";
-
-        foreach ($filters_shop as $filter => $value) {
-
-            $filterColumn = $filter[0];
-            $filterValue = $filter[1];
-
-            if ($filterColumn == 'id_type') {
-                $sql .= " AND t.$filterColumn = $filterValue";
-            } else if ($filterColumn == 'id_city') {
-                $sql .= " AND ct.$filterColumn = $filterValue";
-            } else if ($filterColumn == 'id_category') {
-                $sql .= " AND c.$filterColumn = $filterValue";
-            } else if ($filterColumn == 'id_operation') {
-                $sql .= " AND p.$filterColumn >= $filterValue";
-            }else if ($filterColumn == 'id_extras') {
-                if (is_array($filterValue)) {
-                    $extra = implode(",", $filterValue);
-                    $sql .= " AND e.$filterColumn IN ($extra)";
-                } else {
-                    $sql .= " AND e.$filterColumn = $filterValue";
-                }
-            } else if ($filterColumn == 'id_large_people') {
-                $sql .= " AND a.$filterColumn = $filterValue";
-            }
-        }
-        $sql .= " GROUP BY p.id_property 
-        ORDER BY p.$filter $order
-        LIMIT $offset, 3;";
-        // error_log($sql,3,"debug.txt");
-        $stmt = $db->ejecutar($sql);
+		foreach ($filters_shop as $key => $value) {
+			// error_log("Dentro del bucle foreach. Clave: $key, Valor: $value", 3, "debug.txt");s
+			if (strpos($consulta, 'WHERE') !== false) {
+				switch ($key) {
+					case 'id_city':
+						$consulta .= " AND c.id_city = " . $filters_shop['id_city'];
+						break;
+					case 'id_large_people':
+						$consulta .= " AND lp.id_large_people = " . $filters_shop['id_large_people'];
+						break;
+					case 'id_type':
+						$consulta .= " AND p.id_property IN (SELECT pt.id_property FROM property_type pt WHERE pt.id_type = " . $filters_shop['id_type'] . ")";
+						break;
+					case 'id_operation':
+						$consulta .= " AND p.id_property IN (SELECT po.id_property FROM property_operation po WHERE po.id_operation = " . $filters_shop['id_operation'] . ")";
+						break;
+					case 'id_category':
+						$consulta .= " AND p.id_property IN (SELECT pc.id_property FROM property_category pc WHERE pc.id_category = " . $filters_shop['id_category'] . ")";
+						break;
+					case 'id_extras':
+						if (is_array($filters_shop['id_extras'])) {
+							$extras = array_map('intval', $filters_shop['id_extras']);
+							$conditions = [];
+							foreach ($extras as $extra) {
+								$conditions[] = "p.id_property IN (SELECT pe.id_property FROM property_extras pe WHERE pe.id_extras = $extra)";
+							}
+							$consulta .= " AND " . implode(' AND ', $conditions);
+						} else {
+							$consulta .= " AND p.id_property IN (SELECT pe.id_property FROM property_extras pe WHERE pe.id_extras = " . intval($filters_shop['id_extras']) . ")";
+						}
+						break;
+					case 'minPrice':
+						$consulta .= " AND p.price >= " . $filters_shop['minPrice'];
+						break;
+					case 'maxPrice':
+						$consulta .= " AND p.price <= " . $filters_shop['maxPrice'];
+						break;
+				}
+			} else {
+				switch ($key) {
+					case 'id_city':
+						$consulta .= " WHERE c.id_city = " . $filters_shop['id_city'];
+						break;
+					case 'id_large_people':
+						$consulta .= " WHERE lp.id_large_people = " . $filters_shop['id_large_people'];
+						break;
+					case 'id_type':
+						$consulta .= " WHERE p.id_property IN (SELECT pt.id_property FROM property_type pt WHERE pt.id_type = " . $filters_shop['id_type'] . ")";
+						break;
+					case 'id_operation':
+						$consulta .= " WHERE p.id_property IN (SELECT po.id_property FROM property_operation po WHERE po.id_operation = " . $filters_shop['id_operation'] . ")";
+						break;
+					case 'id_category':
+						$consulta .= " WHERE p.id_property IN (SELECT pc.id_property FROM property_category pc WHERE pc.id_category = " . $filters_shop['id_category'] . ")";
+						break;
+					case 'id_extras':
+						if (is_array($filters_shop['id_extras'])) {
+							$extras = array_map('intval', $filters_shop['id_extras']);
+							$conditions = [];
+							foreach ($extras as $extra) {
+								$conditions[] = "p.id_property IN (SELECT pe.id_property FROM property_extras pe WHERE pe.id_extras = $extra)";
+							}
+							$consulta .= " WHERE " . implode(' AND ', $conditions);
+						} else {
+							$consulta .= " WHERE p.id_property IN (SELECT pe.id_property FROM property_extras pe WHERE pe.id_extras = " . intval($filters_shop['id_extras']) . ")";
+						}
+						break;
+					case 'minPrice':
+						$consulta .= " WHERE p.price >= " . $filters_shop['minPrice'];
+						break;
+					case 'maxPrice':
+						$consulta .= " WHERE p.price <= " . $filters_shop['maxPrice'];
+						break;
+				}
+			}
+		}
+		$consulta .= " GROUP BY p.id_property 
+		ORDER BY p.$filter $order
+		LIMIT $offset, 3;";
+		
+        error_log($consulta,3,"debug.txt");
+        $stmt = $db->ejecutar($consulta);
         $retrArray = $db->listar($stmt);
         foreach ($retrArray as $key => $property) {
             $sql = "SELECT * FROM images WHERE id_property = '{$property['id_property']}'";
@@ -377,7 +414,7 @@ class shop_dao{
         }
 
         return $retrArray;
-    }
+	}
     public function select_similar_properties($db, $id_large_people){
         $sql= "SELECT * ,i.path_images
             FROM property p, images i

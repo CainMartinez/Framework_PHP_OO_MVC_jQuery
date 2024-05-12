@@ -46,6 +46,12 @@ class shop_model{
     public function get_similar_properties($arrArgument){
         return $this->bll->get_similar_properties_BLL($arrArgument);
     }
+    public function get_pagination(){
+        return $this->bll->get_pagination_BLL();
+    }
+    public function get_pagination_filters($arrArgument){
+        return $this->bll->get_pagination_filters_BLL($arrArgument);
+    }
 
 }
 ?>

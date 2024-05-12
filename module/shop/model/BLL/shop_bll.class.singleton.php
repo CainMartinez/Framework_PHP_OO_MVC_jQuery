@@ -48,5 +48,11 @@ class shop_bll{
     public function get_similar_properties_BLL($arrArgument){
         return $this->dao->select_similar_properties($this->db,$arrArgument[0]);
     }
+    public function get_pagination_BLL(){
+        return $this->dao->counting($this->db);
+    }
+    public function get_pagination_filters_BLL($arrArgument){
+        return $this->dao->counting_filters($this->db,$arrArgument[0]);
+    }
 }
 ?>

@@ -38,10 +38,12 @@
         <name>filters_shop</name>
         <uri>filters_shop</uri>
     </function>
+    <!-- Search -->
     <function>
         <name>filters_search</name>
         <uri>filters_search</uri>
     </function>
+    <!-- Details -->
     <function>
         <name>details_property</name>
         <uri>details_property</uri>
@@ -49,5 +51,14 @@
     <function>
         <name>similar_properties</name>
         <uri>similar_properties</uri>
+    </function>
+    <!-- Pagination -->
+    <function>
+        <name>pagination</name>
+        <uri>pagination</uri>
+    </function>
+    <function>
+        <name>pagination_filters</name>
+        <uri>pagination_filters</uri>
     </function>
 </functions>

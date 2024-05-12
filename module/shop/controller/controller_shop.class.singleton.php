@@ -44,5 +44,11 @@ class controller_shop{
     function similar_properties(){
         echo json_encode(common::load_model('shop_model', 'get_similar_properties',[$_POST['id']]));
     }
+    function pagination(){
+        echo json_encode(common::load_model('shop_model', 'get_pagination'));
+    }
+    function pagination_filters(){
+        echo json_encode(common::load_model('shop_model', 'get_pagination_filters',[$_POST['filters_shop']]));
+    }
 }
 ?>

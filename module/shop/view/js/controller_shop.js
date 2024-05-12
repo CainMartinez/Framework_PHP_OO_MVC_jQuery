@@ -25,7 +25,7 @@ function loadProperties() {
     } else {
         ajaxForSearch(friendlyURL('?module=shop'),"list_all",order);
     }
-    // pagination_shop();
+    pagination_shop();
 }
 function highlight_like(id_property) {
     var token = localStorage.getItem('refresh_token');
@@ -783,13 +783,13 @@ function highlight_shop() {
 function pagination_shop() {
     let filters_shop = JSON.parse(localStorage.getItem('filters_shop')) || false;
 
-    let url = 'module/shop/controller/controller_shop.php?op=';
     if (filters_shop && Object.keys(filters_shop).length > 0) {
-        url += 'pagination_filters';
+        op = 'pagination_filters';
     } else {
-        url += 'pagination';
+        op = 'pagination';
     }
-    ajaxPromise('POST', 'JSON', url, { 'filters_shop': filters_shop })
+    console.log(op);
+    ajaxPromise('POST', 'JSON', friendlyURL('?module=shop'), { op, filters_shop })
     .then(function(data) {
         var total_pages;
         if (data[0].total > 2) {
