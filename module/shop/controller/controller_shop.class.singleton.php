@@ -33,7 +33,7 @@ class controller_shop{
         echo json_encode(common::load_model('shop_model', 'get_list_all',[$_POST['offset'],$_POST['order']]));
     }
     function filters_shop(){
-        echo json_encode(common::load_model('shop_model','get_filters_shop',[$_POST['filters_shop'],$_POST['offset'],$_POST['order']]));
+        echo json_encode(common::load_model('shop_model','get_filters_shop',[$_POST['offset'],$_POST['order'],$_POST['filters_shop']]));
     }
     function filters_search(){
         echo json_encode(common::load_model('shop_model','get_filters_search',[$_POST['filters_search'],$_POST['offset']]));

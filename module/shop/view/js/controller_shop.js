@@ -3,7 +3,6 @@ function loadProperties() {
     let details_home = localStorage.getItem('details_home') || false;
     let filters_search = localStorage.getItem('filters_search') || false;
     let filters_shop = localStorage.getItem('filters_shop') || false;
-    let list_all = 'list_all';
     var order = localStorage.getItem('order') || false;
     if (order === '' || order === null || order === undefined || order === false) {
         order = 'id_property';
@@ -18,15 +17,15 @@ function loadProperties() {
         loadDetails(details_home);
         localStorage.removeItem('details_home');
     }else if (filters_search !== false) {
-        ajaxForSearch(friendlyURL('?module=shop'),filters_search,order);
+        ajaxForSearch(friendlyURL('?module=shop'),"filters_search",order,filters_search);
         localStorage.removeItem('filters_search');
     }else if (filters_shop !== false) {
-        ajaxForSearch(friendlyURL('?module=shop'),filters_shop,order);
+        ajaxForSearch(friendlyURL('?module=shop'),"filters_shop",order,filters_shop);
         highlight_shop();
     } else {
-        ajaxForSearch(friendlyURL('?module=shop'),list_all,order);
+        ajaxForSearch(friendlyURL('?module=shop'),"list_all",order);
     }
-    pagination_shop();
+    // pagination_shop();
 }
 function highlight_like(id_property) {
     var token = localStorage.getItem('refresh_token');
@@ -112,14 +111,14 @@ function likes() {
         }
     });
 }
-function ajaxForSearch(url,op,order) {
+function ajaxForSearch(url,op,order,filters_shop) {
     console.log(filters_shop);
     if (!localStorage.getItem('currentPage')){
         localStorage.setItem('currentPage', 1);
     }
     var offset = localStorage.getItem('offset') || 0;
-    console.log(url,op,offset,order);
-    ajaxPromise('POST', 'JSON', url, { op, offset, order})
+    console.log(url,op,offset,order,filters_shop);
+    ajaxPromise('POST', 'JSON', url, { op, offset, order,filters_shop})
         .then(function (data) {
             console.log(data);
             // return;
@@ -925,5 +924,5 @@ $(document).ready(function () {
     print_filters();
     filters_shop();
     clicks_shop();
-    likes();
+    // likes();
 });
