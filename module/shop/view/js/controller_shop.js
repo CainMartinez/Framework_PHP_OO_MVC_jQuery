@@ -1,5 +1,4 @@
 function loadProperties() {
-    // var filters_home = localStorage.getItem('filters_home') || false;
     let details_home = localStorage.getItem('details_home') || false;
     let filters_search = localStorage.getItem('filters_search') || false;
     let filters_shop = localStorage.getItem('filters_shop') || false;
@@ -7,19 +6,13 @@ function loadProperties() {
     if (order === '' || order === null || order === undefined || order === false) {
         order = 'id_property';
     }
-    console.log(order);
-    // if (filters_home !== false) {
-    //     // console.log('Envio en la URL op=home_filter');
-    //     ajaxForSearch('module/shop/controller/controller_shop.php?op=home_filter');
-    //     // localStorage.removeItem('filters_home');
-    // }
     if (details_home !== false) {
         loadDetails(details_home);
         localStorage.removeItem('details_home');
     }else if (filters_search !== false) {
         ajaxForSearch(friendlyURL('?module=shop'),"filters_search",order,filters_search);
         localStorage.removeItem('filters_search');
-    }else if (filters_shop !== false) {
+    } else if (filters_shop !== false) {
         ajaxForSearch(friendlyURL('?module=shop'),"filters_shop",order,filters_shop);
         highlight_shop();
     } else {
@@ -114,6 +107,10 @@ function ajaxForSearch(url,op,order,filters_shop) {
     console.log(filters_shop);
     if (!localStorage.getItem('currentPage')){
         localStorage.setItem('currentPage', 1);
+    }
+    if (localStorage.getItem('filterApplied') === 'true') {
+        localStorage.setItem('offset', 0);
+        localStorage.setItem('filterApplied', 'false');
     }
     var offset = localStorage.getItem('offset') || 0;
     console.log(url,op,offset,order,filters_shop);
@@ -446,7 +443,7 @@ function print_filters() {
             '</select>' 
             )
     $(document).on('click', '#Remove_filter', function () {
-        remove_filters();
+        remove_filters_button();
     });
     $(document).on('click', '#apply_extras', function () {
         handleCheckboxChange();
@@ -714,7 +711,6 @@ function apply_filters() {
     if (filters_shop['maxPrice']) {
         filter.push(['maxPrice', filters_shop['maxPrice']])
     }
-
     return filter;
 }
 function highlight_shop() {
@@ -910,7 +906,7 @@ function determineLimit(data, limit_property){
     }
     return loopEnd;
 }
-function remove_filters() {
+function remove_filters_button() {
     localStorage.removeItem('filters_shop');
     localStorage.removeItem('selectedCategory');
     localStorage.removeItem('selectedCity');

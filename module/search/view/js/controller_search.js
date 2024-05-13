@@ -140,7 +140,7 @@ function search_button() {
         if(Object.keys(search).length != 0){
             localStorage.setItem('filters_shop', JSON.stringify(shop));
             setTimeout(function(){ 
-                window.location.href = 'index.php?page=shop';
+                window.location.href = friendlyURL('?module=shop');
             }, 1000);
         }
     });
@@ -166,6 +166,7 @@ function remove_filters() {
     localStorage.removeItem('offset');
     localStorage.removeItem('order');
     localStorage.removeItem('details_home');
+    localStorage.removeItem('filterApplied');
 }
 $(document).ready(function() {
     launch_search();

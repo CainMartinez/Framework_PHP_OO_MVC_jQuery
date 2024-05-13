@@ -198,7 +198,7 @@ class shop_dao{
 
         return $retrArray;
     }
-    public function search_filter($db, $filters_search, $offset){
+    public function search_filter($db,$offset,$order,$filters_search){
             
         $id_category = isset($filters_search['id_category']) ? $filters_search['id_category'] : null;
         $id_city = isset($filters_search['id_city']) ? $filters_search['id_city'] : null;
@@ -215,7 +215,7 @@ class shop_dao{
         . ($id_city ? " AND p.id_city = $id_city" : "")
         . ($id_category ? " AND cat.id_category = '$id_category'" : "") .
         " GROUP BY p.id_property
-        ORDER BY p.id_property ASC
+        ORDER BY p.$order ASC
         LIMIT $offset, 3;";
 
         $stmt = $db->ejecutar($sql);
