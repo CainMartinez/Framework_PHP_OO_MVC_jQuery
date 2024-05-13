@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <functions>
     <function>
-        <name>search</name>
-        <uri>search</uri>
+        <name>dynamic_search_city</name>
+        <uri>dynamic_search_city</uri>
+    </function>
+    <function>
+        <name>dynamic_search_type</name>
+        <uri>dynamic_search_type</uri>
+    </function>
+    <function>
+        <name>search_type</name>
+        <uri>search_type</uri>
+    </function>
+    <function>
+        <name>autocomplete</name>
+        <uri>autocomplete</uri>
     </function>
 </functions>

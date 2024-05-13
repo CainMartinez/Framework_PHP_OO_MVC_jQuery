@@ -1,7 +1,9 @@
 var selectedCategory;
 function load_search_city() {
-    ajaxPromise('GET', 'JSON', 'module/search/controller/controller_search.php?op=dynamic_search_city')
+    ajaxPromise('POST', 'JSON',friendlyURL('?module=search'),{op:'dynamic_search_city'})
         .then(function (data) {
+            // console.log(data);
+            // return data;
             for (let row in data) {
                 let city = data[row];
                 $('#search_city').append('<option value="' + city.id_city + '">' + city.name_city + '</option>');
@@ -13,13 +15,24 @@ function load_search_city() {
 }
 function load_search_type(data = undefined) {
     $('#search_type').empty();
-    let ajaxUrl = 'module/search/controller/controller_search.php?op=dynamic_search_type';
     let ajaxData = {};
+    let ajaxUrl = friendlyURL('?module=search');
+
     if (data !== undefined) {
-        ajaxData.id_city = data['id_city'];
+        ajaxData = {
+            id_city: data['id_city'],
+            op: 'dynamic_search_type'
+        };
+    } else {
+        ajaxData = {
+            op: 'search_type'
+        };
     }
+
     ajaxPromise('POST', 'JSON', ajaxUrl, ajaxData)
         .then(function (data) {
+            // console.log(data);
+            // return;
             $('<option>Select Type</option>').attr('selected', true).attr('disabled', true).appendTo('#search_type');
             for (let row in data) {
                 let type = data[row];
@@ -57,8 +70,8 @@ function autocomplete(){
         if(($('#search_type').val() == 0) && ($('#search_city').val() != 0)){ 
             auto_complete_data.id_city = $('#search_city').val();
         }
-        // console.log(auto_complete_data);
-        ajaxPromise('POST', 'JSON','module/search/controller/controller_search.php?op=autocomplete', auto_complete_data)
+        console.log(auto_complete_data);
+        ajaxPromise('POST', 'JSON',friendlyURL('?module=search'),{op: 'autocomplete', auto_complete_data})
         .then(function(data) {
             $('#search_results').empty();
             $('#search_results').fadeIn(10000000);
@@ -137,7 +150,7 @@ function clear_localstorage() {
         remove_filters();
         location.reload();
     });
-    if(window.location.href.indexOf('index.php?page=homepage') != -1) {
+    if(window.location.href.indexOf('/home') != -1) {
         remove_filters();
     }
 }

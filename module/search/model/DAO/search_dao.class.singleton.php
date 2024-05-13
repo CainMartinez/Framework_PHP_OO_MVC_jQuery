@@ -11,16 +11,19 @@
             }
             return self::$_instance;
         }
-        
-        public function select_auto($db,$name_city, $name_type, $complete){
-            if (!empty($name_city) && empty($name_type)){
-                return $this->select_only_one_city($db,$name_city, $complete);
-            } else if (!empty($name_type) && !empty($name_city)){
-                return $this->select_auto_type_city($db,$name_city, $name_type, $complete);
-            } else if (!empty($name_type) && empty($name_city)){
-                return $this->select_only_one_type($db,$name_type, $complete);
+        public function select_auto($db, $param) {
+            $complete = isset($param['complete']) ? $param['complete'] : null;
+            $name_city = isset($param['id_city']) ? $param['id_city'] : null;
+            $name_type = isset($param['id_type']) ? $param['id_type'] : null;
+
+            if (!empty($name_city) && empty($name_type)) {
+                return $this->select_only_one_city($db, $name_city, $complete);
+            } else if (!empty($name_type) && !empty($name_city)) {
+                return $this->select_auto_type_city($db, $name_city, $name_type, $complete);
+            } else if (!empty($name_type) && empty($name_city)) {
+                return $this->select_only_one_type($db, $name_type, $complete);
             } else {
-                return $this->select_category($db,$complete);
+                return $this->select_category($db, $complete);
             }
         }
         public function select_category($db,$complete){
@@ -78,20 +81,24 @@
             return $db -> listar($stmt);
         
         }
-        public function select_search_type($db,$city = null){
+        public function select_search_type($db,$city){
             
-            if ($city === null) {
-                $sql = "SELECT DISTINCT * FROM type";
-            } else {
-                $sql = "SELECT DISTINCT *
-                FROM type t,property_type pt,property p
-                WHERE t.id_type = pt.id_type 
-                AND pt.id_property = p.id_property
-                AND p.id_city=$city";
-            }
+            $sql = "SELECT DISTINCT *
+            FROM type t,property_type pt,property p
+            WHERE t.id_type = pt.id_type 
+            AND pt.id_property = p.id_property
+            AND p.id_city=$city";
 
             $stmt = $db -> ejecutar($sql);
             return $db -> listar($stmt);
         }
+        public function search_type($db){
+            
+            $sql = "SELECT DISTINCT * FROM type";
+
+            $stmt = $db -> ejecutar($sql);
+            return $db -> listar($stmt);
+        }
+
     }
 ?>

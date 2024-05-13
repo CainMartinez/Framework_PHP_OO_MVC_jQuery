@@ -2,7 +2,7 @@ function carousel_people() {
   ajaxPromise(
     "POST",
     "JSON",
-    "?module=home",
+    friendlyURL("?module=home"),
     {"op":"carrousel_people"}
   )
     .then(function (data) {
