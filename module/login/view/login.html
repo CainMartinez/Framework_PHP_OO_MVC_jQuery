@@ -1,0 +1,117 @@
+<section class="section novi-background section-1 bg-primary-darker text-center" id="title_property_login">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-10 col-lg-7 col-xl-6"><br><br>
+                <h3 class="wow-outer"><span class="wow slideInDown text-uppercase">- - - - - - - - - - - - -</span></h3>
+                <h2 class="wow-outer"><span class="wow slideInDown text-uppercase">Login</span></h2>
+                <h3 class="wow-outer"><span class="wow slideInDown text-uppercase">- - - - - - - - - - - - -</span></h3>
+                <br>
+                <form id="loginForm" class="needs-validation" novalidate>
+                    <div class="form-group">
+                        <label for="usernameLogin">Username</label>
+                        <input type="text" class="form-control" id="usernameLogin" name="usernameLogin" required placeholder="Enter your username..." autocomplete="username">
+                        <span id="errorUsernameLogin" class="error text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordLogin">Password</label>
+                        <input type="password" class="form-control" id="passwordLogin" name="passwordLogin" required placeholder="Enter your password..." autocomplete="off">
+                        <span id="errorPasswordLogin" class="error text-danger"></span>
+                    </div>
+                    <br>
+                        <div class="social-login">
+                            <a href="https://github.com/login/oauth/authorize?client_id=YOUR_CLIENT_ID" target="_blank">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&state=YOUR_STATE&scope=r_liteprofile%20r_emailaddress%20w_member_social" target="_blank">
+                                <i class="fa-brands fa-linkedin"></i>
+                            </a>
+                            <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=email%20profile" target="_blank">
+                                <i class="fa-brands fa-google"></i>
+                            </a>
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                        
+                    
+                </form><br><hr>
+                <table style="width:100%">
+                    <tr>
+                        <td>Don't have an account?</td>
+                        <td></td>
+                        <td>Forgot your password?</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;"><a id="showRegisterForm" class="btn btn-success">Register</a></td>
+                        <td></td>
+                        <td style="text-align:center;"><a id="showRecoverForm" class="btn btn-danger">Recover</a></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section novi-background section-1 bg-primary-darker text-center" id="title_property_register">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-10 col-lg-7 col-xl-6"><br><br>
+                <h3 class="wow-outer"><span class="wow slideInDown text-uppercase">- - - - - - - - - - - - -</span></h3>
+                <h2 class="wow-outer"><span class="wow slideInDown text-uppercase">Register</span></h2>
+                <h3 class="wow-outer"><span class="wow slideInDown text-uppercase">- - - - - - - - - - - - -</span></h3>
+                <br>
+                <form id="registerForm" class="needs-validation" novalidate>
+                    <div class="form-group">
+                        <label for="usernameRegister">Username</label>
+                        <input type="text" class="form-control" id="usernameRegister" name="usernameRegister" required placeholder="Enter an username..." autocomplete="off">
+                        <span id="errorUsername" class="error text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailRegister">Email</label>
+                        <input type="email" class="form-control" id="emailRegister" name="emailRegister" required placeholder="Enter an email...">
+                        <span id="errorMail" class="error text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordRegister">Password</label>
+                        <input type="password" class="form-control" id="passwordRegister" name="passwordRegister" required placeholder="Enter a password..." autocomplete="off">
+                        <span id="errorPassword" class="error text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordRepeatRegister">Repeat Password</label>
+                        <input type="password" class="form-control" id="passwordRepeatRegister" required placeholder="Repeat a password..." autocomplete="off">
+                        <span id="errorRepeatPassword" class="error text-danger"></span>
+                    </div>
+                    <br>
+                    <input type="submit" id="register" class="btn btn-primary" value="Register">
+                </form><br><hr>
+                <p>Already have an account?&nbsp;&nbsp;&nbsp;<a id="showLoginForm" class="btn btn-danger">Click Here</a></p>        
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section novi-background section-1 bg-primary-darker text-center" id="title_property_recover" style="display: none;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-10 col-lg-7 col-xl-6"><br><br>
+                <h3 class="wow-outer"><span class="wow slideInDown text-uppercase">- - - - - - - - - - - - - - - -</span></h3>
+                <h2 class="wow-outer"><span class="wow slideInDown text-uppercase">Recover Password</span></h2>
+                <h3 class="wow-outer"><span class="wow slideInDown text-uppercase">- - - - - - - - - - - - - - - -</span></h3>
+                <br>
+                <form id="recoverForm" class="needs-validation" novalidate>
+                    <div class="form-group">
+                        <label for="emailRecover">Email</label>
+                        <input type="email" class="form-control" id="emailRecover" name="emailRecover" required placeholder="Enter your email...">
+                        <span id="errorEmailRecover" class="error text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordRepeatRecover">Repeat Password</label>
+                        <input type="password" class="form-control" id="passwordRepeatRecover" required placeholder="Repeat a password..." autocomplete="off">
+                        <span id="errorRepeatPassword" class="error text-danger"></span>
+                    </div>
+                    <br>
+                    <input type="submit" id="recover" class="btn btn-primary" value="Recover">
+                </form><br><hr>
+                <p>Remembered your password?&nbsp;&nbsp;&nbsp;<a id="showLoginFormFromRecover" class="btn btn-danger">Click Here</a></p>        
+            </div>
+        </div>
+    </div>
+</section>

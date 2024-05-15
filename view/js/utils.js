@@ -36,8 +36,7 @@ function load_menu() {
     } else {
         $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=shop") + '" class="rd-nav-link">Shop</a>').prependTo('.rd-navbar-nav');
         $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=home") + '" class="rd-nav-link button_homepage">Home</a>').prependTo('.rd-navbar-nav');
-        $('<a></a>').attr({'id' : 'register_button', 'type' : 'button', 'class' : 'btn btn-secondary'}).html('Register').appendTo('#search_auto');
-        $('<a></a>').attr({'id' : 'login_button', 'type' : 'button', 'class' : 'btn btn-success'}).html('Login').appendTo('#search_auto');
+        $('<a></a>').attr({'id' : 'login_button', 'type' : 'button', 'class' : 'btn btn-success', 'href' : friendlyURL("?module=login")}).html('Login').appendTo('#search_auto');
     }
 }
 function click_logout() {

@@ -7,5 +7,8 @@
             }
             return self::$_instance;
         }
+        function view(){
+            common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'login.html');
+        }
     }
 ?>
