@@ -3,5 +3,13 @@
     <function>
         <name>view</name>
         <uri>view</uri>
-    </function> 
+    </function>
+    <function>
+        <name>register</name>
+        <uri>register</uri>
+    </function>
+    <function>
+        <name>verify</name>
+        <uri>verify</uri>
+    </function>
 </functions>

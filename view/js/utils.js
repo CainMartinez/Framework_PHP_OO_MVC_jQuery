@@ -166,8 +166,33 @@ function friendlyURL(url) {
     // console.log(link);
     return link;
 }
+function load_content() {
+    let path = window.location.pathname.split('/');
+    
+    if(path[5] === 'recover'){
+        window.location.href = friendlyURL("?module=login");
+        localStorage.setItem("token_email", path[5]);
+    }else if (path[5] === 'verify') {
+        ajaxPromise( 'POST', 'JSON',friendlyURL("?module=login"), {token_email: path[5],op: 'verify'})
+        .then(function(data) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Email verified',
+                text: "You can now log in",
+                showConfirmButton: false,
+                timer: 3000
+            }).then(() => {
+                window.location.href = friendlyURL("?module=login");
+            });
+        })
+        .catch(function() {
+            console.log('Error: verify email error');
+        });
+    }
+}
 $(document).ready(function() {
     load_menu();
+    load_content();
     // click_logout();
     // setInterval(function() { control_activity() }, 60000); //1min = 60000ms
     // protecturl();

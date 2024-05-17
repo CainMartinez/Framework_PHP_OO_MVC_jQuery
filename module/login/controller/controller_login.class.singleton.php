@@ -10,5 +10,11 @@
         function view(){
             common::load_view('top_page_login.html', VIEW_PATH_LOGIN . 'login.html');
         }
+        function register(){
+            echo json_encode(common::load_model('login_model', 'get_register', [$_POST['usernameRegister'],$_POST['passwordRegister'],$_POST['emailRegister']]));
+        }
+        function verify($token){
+            echo json_encode(common::load_model('login_model', 'get_verify', $token));
+        }
     }
 ?>

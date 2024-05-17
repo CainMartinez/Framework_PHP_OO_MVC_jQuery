@@ -2,56 +2,35 @@
     class mail {
         public static function send_email($email) {
             switch ($email['type']) {
-                case 'contact';
-                    $email['toEmail'] = '13salmu@gmail.com';
-                    $email['fromEmail'] = 'secondchanceonti@gmail.com';
-                    $email['inputEmail'] = 'secondchanceonti@gmail.com';
-                    $email['inputMatter'] = 'Email verification';
-                    $email['inputMessage'] = "<h2>Email verification.</h2><a href='http://localhost/Ejercicios/Framework_PHP_OO_MVC/index.php?module=contact&op=view'>Click here for verify your email.</a>";
-                    break;
                 case 'validate';
-                    $email['fromEmail'] = 'secondchanceonti@gmail.com';
-                    $email['inputEmail'] = 'secondchanceonti@gmail.com';
                     $email['inputMatter'] = 'Email verification';
-                    $email['inputMessage'] = "<h2>Email verification.</h2><a href='http://localhost/Ejercicios/Framework_PHP_OO_MVC/module/login/verify/$email[token]'>Click here for verify your email.</a>";
+                    $email['inputMessage'] = "<h2>Email verification.</h2><a href='http://localhost/living_mobility/module/login/verify/$email[token]'>Click here for verify your email.</a>";
                     break;
                 case 'recover';
-                    $email['fromEmail'] = 'secondchanceonti@gmail.com';
-                    $email['inputEmail'] = 'secondchanceonti@gmail.com';
                     $email['inputMatter'] = 'Recover password';
-                    $email['inputMessage'] = "<a href='http://localhost/Ejercicios/Framework_PHP_OO_MVC/module/login/recover/$email[token]'>Click here for recover your password.</a>";
+                    $email['inputMessage'] = "<a href='http://localhost/living_mobility/module/login/recover/$email[token]'>Click here for recover your password.</a>";
                     break;
             }
-            return self::send_mailgun($email);
+            return self::send_resend($email);
         }
 
-        public static function send_mailgun($values){
-            $mailgun = parse_ini_file(UTILS . "credentials.ini");
-            $api_key = $mailgun['MAIL_API_KEY'];
+        public static function send_resend($values){
+            $resend = parse_ini_file(UTILS . "credentials.ini");
+            $api_key = $resend['MAIL_API_KEY'];
 
-            $config = array();
-            $config['api_key'] = $api_key;
+            $resend = Resend::client($api_key);
 
-            $message = array();
-            $message['from'] = $values['fromEmail'];
-            // $message['to'] = $values['toEmail'];
-            $message['to'] = 'salmu1997@gmail.com';
-            $message['h:Reply-To'] = $values['inputEmail'];
-            $message['subject'] = $values['inputMatter'];
-            $message['html'] = $values['inputMessage'];
-            
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $config['api_url']);
-            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-            curl_setopt($ch, CURLOPT_USERPWD, "api:{$config['api_key']}");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS,$message);
-            $result = curl_exec($ch);
-            curl_close($ch);
-            return $result;
+            try {
+                $result = $resend->emails->send([
+                    'from' => 'Acme <onboarding@resend.dev>',
+                    'to' => 'cainaljorf@gmail.com',
+                    'subject' => $values['inputMatter'],
+                    'html' => $values['inputMessage'],
+                ]);
+            } catch (\Exception $e) {
+                exit('Error: ' . $e->getMessage());
+            }
+
+            return $result->toJson();
         }
-    }
+}

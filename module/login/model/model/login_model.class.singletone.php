@@ -13,5 +13,11 @@
             }
             return self::$_instance;
         }
+        public function get_register($args){
+            return $this->bll->get_register_BLL($args);
+        }
+        public function get_verify($token){
+            return $this->bll->get_verify_BLL($token);
+        }
     }
 ?>

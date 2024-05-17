@@ -53,14 +53,14 @@ function validate_login(){
     var error = false;
 
 	if(document.getElementById('username').value.length === 0){
-		document.getElementById('error_username').innerHTML = "Tienes que escribir el usuario";
+		document.getElementById('error_username').innerHTML = "You have to type the user";
 		error = true;
 	}else{
         document.getElementById('error_username').innerHTML = "";
     }
 	
 	if(document.getElementById('pass').value.length === 0){
-		document.getElementById('error_password').innerHTML = "Tienes que escribir la contraseña";
+		document.getElementById('error_password').innerHTML = "You have to type the password";
 		error = true;
 	}else{
         document.getElementById('error_password').innerHTML = "";
@@ -181,7 +181,7 @@ function click_register(){
         }
     });
 
-	$('#button_register').on('click', function(e) {
+	$('#register').on('click', function(e) {
         e.preventDefault();
         register();
     }); 
@@ -191,49 +191,49 @@ function validate_register(){
     var mail_exp = /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-\.]+$/;
     var error = false;
 
-	if(document.getElementById('username_reg').value.length === 0){
-		document.getElementById('error_username_reg').innerHTML = "You have to write an username";
-		error = true;
-	}else{
-        if(document.getElementById('username_reg').value.length > 15 || document.getElementById('username_reg').value.length < 5){
-            document.getElementById('error_username_reg').innerHTML = "The username must be between 5 and 15 characters";
+    if(document.getElementById('usernameRegister').value.length === 0){
+        document.getElementById('errorUsername').innerHTML = "Enter your user name";
+        error = true;
+    }else{
+        if(document.getElementById('usernameRegister').value.length > 15 || document.getElementById('usernameRegister').value.length < 5){
+            document.getElementById('errorUsername').innerHTML = "The username must be between 5 and 15 characters";
             error = true;
         }else{
-            document.getElementById('error_username_reg').innerHTML = "";
+            document.getElementById('errorUsername').innerHTML = "";
         }
     }
 
-    if(document.getElementById('pass_reg').value.length === 0){
-		document.getElementById('error_password_reg').innerHTML = "You have to write a password";
-		error = true;
-	}else{
-        if(document.getElementById('pass_reg').value.length < 8){
-            document.getElementById('error_password_reg').innerHTML = "The password must be longer than 8 characters";
+    if(document.getElementById('passwordRegister').value.length === 0){
+        document.getElementById('errorPassword').innerHTML = "Enter your user password";
+        error = true;
+    }else{
+        if(document.getElementById('passwordRegister').value.length < 8){
+            document.getElementById('errorPassword').innerHTML = "The password must be longer than 8 characters";
             error = true;
         }else{
-            document.getElementById('error_password_reg').innerHTML = "";
+            document.getElementById('errorPassword').innerHTML = "";
         }
     }
 
-    if(document.getElementById('pass_reg_2').value != document.getElementById('pass_reg').value){
-		document.getElementById('error_password_reg_2').innerHTML = "Passwords don't match";
-		error = true;
-	}else{
-        document.getElementById('error_password_reg_2').innerHTML = "";
+    if(document.getElementById('passwordRepeatRegister').value != document.getElementById('passwordRegister').value){
+        document.getElementById('errorRepeatPassword').innerHTML = "Passwords don't match";
+        error = true;
+    }else{
+        document.getElementById('errorRepeatPassword').innerHTML = "";
     }
 
-    if(document.getElementById('email_reg').value.length === 0){
-		document.getElementById('error_email_reg').innerHTML = "You have to write an email";
-		error = true;
-	}else{
-        if(!mail_exp.test(document.getElementById('email_reg').value)){
-            document.getElementById('error_email_reg').innerHTML = "The email format is invalid"; 
+    if(document.getElementById('emailRegister').value.length === 0){
+        document.getElementById('errorMail').innerHTML = "Enter your email";
+        error = true;
+    }else{
+        if(!mail_exp.test(document.getElementById('emailRegister').value)){
+            document.getElementById('errorMail').innerHTML = "The email format is invalid"; 
             error = true;
         }else{
-            document.getElementById('error_email_reg').innerHTML = "";
+            document.getElementById('errorMail').innerHTML = "";
         }
     }
-	
+    
     if(error == true){
         return 0;
     }
@@ -241,23 +241,39 @@ function validate_register(){
 
 function register(){
     if(validate_register() != 0){
-        var data = $('#register_form').serialize();
-        $.ajax({
-            url: friendlyURL("?module=login&op=register"),
-            type: "POST",
-            dataType: "JSON",
-            data: data,
-        }).done(function(result) {  
+        var data = []
+		var usernameRegister = document.getElementById("usernameRegister").value
+		var emailRegister = document.getElementById("emailRegister").value
+		var passwordRegister = document.getElementById("passwordRegister").value
+		var op = "register"
+		data = {usernameRegister,emailRegister,passwordRegister,op}
+        // console.log(data);
+        // return;
+        ajaxPromise(
+            "POST",
+            "JSON",
+            friendlyURL("?module=login"),
+            data
+        ).then(function(result) {  
+            console.log("entra en el then");
+            console.log(result);
+            return;
             if(result == "error"){		
-                $("#error_email_reg").html('The email is already in use');
-                $("#error_username_reg").html('The username is already in use');
+                $("#errorMail").html('The email is already in use');
+                $("#errorUsername").html('The username is already in use');
             }else{
-                toastr.options.timeOut = 2000;
-                toastr.success("Email sended");
-                setTimeout('window.location.href = friendlyURL("?module=login&op=view")', 1000);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Email sended',
+                    text: 'Verify your email to activate your account',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    window.location.href = friendlyURL("?module=login");
+                });
             }	
-        }).fail(function() {
-            console.log('Error: Register error');
+        }).catch(function(e) {
+            console.error(e);
         }); 
     }
 }
@@ -411,34 +427,7 @@ function send_new_password(token_email){
         });    
     }
 }
-
-// ------------------- LOAD CONTENT ------------------------ //
-function load_content() {
-    let path = window.location.pathname.split('/');
-    
-    if(path[5] === 'recover'){
-        window.location.href = friendlyURL("?module=login&op=recover_view");
-        localStorage.setItem("token_email", path[6]);
-    }else if (path[5] === 'verify') {
-        ajaxPromise(friendlyURL("?module=login&op=verify_email"), 'POST', 'JSON', {token_email: path[6]})
-        .then(function(data) {
-            toastr.options.timeOut = 3000;
-            toastr.success('Email verified');
-            setTimeout('window.location.href = friendlyURL("?module=home&op=view")', 1000);
-        })
-        .catch(function() {
-            console.log('Error: verify email error');
-        });
-    }else if (path[4] === 'view') {
-        $(".login-wrap").show();
-        $(".forget_html").hide();
-    }else if (path[4] === 'recover_view') {
-        load_form_new_password();
-    }
-}
-
 $(document).ready(function(){
-    load_content();
     click_login();
     click_register();
 });
