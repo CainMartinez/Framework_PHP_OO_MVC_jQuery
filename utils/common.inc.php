@@ -18,7 +18,7 @@
                 require_once (VIEW_PATH_INC . 'bottom_page.html');
                 require_once (VIEW_PATH_INC . 'footer.html');
             }else {
-                self::load_error();
+                // self::load_error();
             }
         }
         

@@ -33,13 +33,8 @@
                 echo json_encode(['status' => 'error', 'message' => "Error in register controller: " . $e->getMessage()]);
             }
         }
-        
-        
-        
-        
-        
-        function verify($token){
-            echo json_encode(common::load_model('login_model', 'get_verify', $token));
+        function verify(){
+            echo json_encode(common::load_model('login_model', 'get_verify', $_POST['token_email']));
         }
     }
 ?>

@@ -38,8 +38,6 @@
             }
         }
         
-        
-        
         public function select_social_login($db, $id){
 
 			$sql = "SELECT * FROM users WHERE id='$id'";
@@ -66,7 +64,7 @@
 
         public function update_verify_email($db, $token_email){
 
-            $sql = "UPDATE users SET active = 1, token= '' WHERE token = '$token_email'";
+            $sql = "UPDATE users SET active = 1 WHERE token = '$token_email'";
 
             $stmt = $db->ejecutar($sql);
             return "update";

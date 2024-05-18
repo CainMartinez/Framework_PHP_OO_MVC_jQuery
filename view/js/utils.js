@@ -176,10 +176,10 @@ function load_content() {
         ajaxPromise( 'POST', 'JSON',friendlyURL("?module=login"), {token_email: path[4],op: 'verify'})
         .then(function(data) {
             Swal.fire({
-                icon: 'success',
+                icon: 'success', 
                 title: 'Email verified',
                 text: "You can now log in",
-                showConfirmButton: false,
+                showConfirmButton: true,
                 timer: 3000
             }).then(() => {
                 window.location.href = friendlyURL("?module=login");

@@ -24,15 +24,21 @@
         }
     
         function __construct() {   
-            if(isset($_GET['module'])){
-                $this -> uriModule = $_GET['module'];
-            }else{
-                $this -> uriModule = 'home';
+            if (isset($_GET['module'])) {
+                $this->uriModule = $_GET['module'];
+            } else {
+                $this->uriModule = 'home';
             }
-            if(isset($_POST['op'])){
-                $this -> uriFunction = ($_POST['op'] === "") ? 'view' : $_POST['op'];
-            }else{
-                if ($_GET['op'] === "verify" | $_GET['op'] === "recover") {
+            if (isset($_POST['op'])) {
+                $this->uriFunction = $_POST['op'];
+            } else {
+                if (isset($_GET['op'])) {
+                    if ($_GET['op'] === "verify" | $_GET['op'] === "recover") {
+                        $this->uriFunction = 'view';
+                    } else {
+                        $this->uriFunction = ($_GET['op'] === "") ? 'view' : $_GET['op'];
+                    }
+                } else {
                     $this->uriFunction = 'view';
                 }
             }
