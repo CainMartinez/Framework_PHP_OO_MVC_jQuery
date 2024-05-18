@@ -23,20 +23,37 @@
         }
         
         public static function load_model($model, $function = null, $args = null) {
-            $dir = explode('_', $model);
-            $path = constant('MODEL_' . strtoupper($dir[0])) .  $model . '.class.singleton.php';
-            if (file_exists($path)) {
-                require_once ($path);
-                if (method_exists($model, $function)) {
-                    $obj = $model::getInstance();
-                    if ($args != null) {
-                        return call_user_func(array($obj, $function), $args);
+            try {
+                $dir = explode('_', $model);
+                $path = constant('MODEL_' . strtoupper($dir[0])) .  $model . '.class.singleton.php';
+                // error_log("Loading model from path: $path", 3, "debug.log");
+
+                if (file_exists($path)) {
+                    require_once ($path);
+                    // error_log("Model file included: $path", 3, "debug.log");
+
+                    if (method_exists($model, $function)) {
+                        // error_log("Function $function exists in model $model", 3, "debug.log");
+                        $obj = $model::getInstance();
+
+                        if ($args != null) {
+                            return call_user_func(array($obj, $function), $args);
+                        }
+                        return call_user_func(array($obj, $function));
+                    } else {
+                        // error_log("Function $function does not exist in model $model", 3, "debug.log");
+                        throw new Exception("Function $function not found in model $model");
                     }
-                    return call_user_func(array($obj, $function));
+                } else {
+                    // error_log("Model file not found: $path", 3, "debug.log");
+                    throw new Exception("Model $model not found");
                 }
+            } catch (Exception $e) {
+                // error_log("Exception in load_model: " . $e->getMessage(), 3, "debug.log");
+                throw $e;
             }
-            throw new Exception();
         }
+
 
         public static function generate_token_secure($longitud){
             if ($longitud < 4) {

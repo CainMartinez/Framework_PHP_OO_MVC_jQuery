@@ -32,7 +32,9 @@
             if(isset($_POST['op'])){
                 $this -> uriFunction = ($_POST['op'] === "") ? 'view' : $_POST['op'];
             }else{
-                $this -> uriFunction = 'view';
+                if ($_GET['op'] === "verify" | $_GET['op'] === "recover") {
+                    $this->uriFunction = 'view';
+                }
             }
         }
     

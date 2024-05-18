@@ -242,13 +242,12 @@ function validate_register(){
 function register(){
     if(validate_register() != 0){
         var data = []
-		var usernameRegister = document.getElementById("usernameRegister").value
-		var emailRegister = document.getElementById("emailRegister").value
-		var passwordRegister = document.getElementById("passwordRegister").value
-		var op = "register"
-		data = {usernameRegister,emailRegister,passwordRegister,op}
-        // console.log(data);
-        // return;
+        var usernameRegister = document.getElementById("usernameRegister").value;
+        var emailRegister = document.getElementById("emailRegister").value;
+        var passwordRegister = document.getElementById("passwordRegister").value;
+        var op = "register";
+        data = {usernameRegister, emailRegister, passwordRegister, op};
+
         ajaxPromise(
             "POST",
             "JSON",
@@ -257,23 +256,27 @@ function register(){
         ).then(function(result) {  
             console.log("entra en el then");
             console.log(result);
-            return;
-            if(result == "error"){		
-                $("#errorMail").html('The email is already in use');
-                $("#errorUsername").html('The username is already in use');
-            }else{
+            if(result.message === "User already exists"){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Email or username already exists',
+                    text: 'Try again with another email or username',
+                    showConfirmButton: true,
+                    timer: 2000
+                });
+            }else {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Email sended',
+                    title: 'Email sent',
                     text: 'Verify your email to activate your account',
-                    showConfirmButton: false,
+                    showConfirmButton: true,
                     timer: 2000
                 }).then(() => {
                     window.location.href = friendlyURL("?module=login");
                 });
-            }	
+            }   
         }).catch(function(e) {
-            console.error(e);
+            console.error("Error en la promesa:", e);
         }); 
     }
 }

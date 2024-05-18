@@ -169,11 +169,11 @@ function friendlyURL(url) {
 function load_content() {
     let path = window.location.pathname.split('/');
     
-    if(path[5] === 'recover'){
+    if(path[3] === 'recover'){
         window.location.href = friendlyURL("?module=login");
         localStorage.setItem("token_email", path[5]);
-    }else if (path[5] === 'verify') {
-        ajaxPromise( 'POST', 'JSON',friendlyURL("?module=login"), {token_email: path[5],op: 'verify'})
+    }else if (path[3] === 'verify') {
+        ajaxPromise( 'POST', 'JSON',friendlyURL("?module=login"), {token_email: path[4],op: 'verify'})
         .then(function(data) {
             Swal.fire({
                 icon: 'success',

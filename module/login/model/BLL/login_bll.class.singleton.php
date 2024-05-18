@@ -16,26 +16,50 @@
 			return self::$_instance;
 		}
 		public function get_register_BLL($args) {
-			// return $args;
-			$hashed_pass = password_hash($args[1], PASSWORD_DEFAULT,['cost' => 12]);
-			// return $hashed_pass;
-			$hashavatar = md5(strtolower(trim($args[2]))); 
-			$avatar = "https://i.pravatar.cc/500?u=$hashavatar";
-			$token_email = common::generate_Token_secure(20);
-
-			if (!empty($this -> dao -> select_user($this->db, $args[0], $args[2]))) {
-				return 'error';
-            } else {
-				$this -> dao -> register($this->db, $args[0], $hashed_pass, $args[2], $avatar, $token_email);
-				$message = [ 
-					'type' => 'validate', 
-					'token' => $token_email, 
-					'toEmail' =>  $args[2]
-				];
-				$email = json_decode(mail::send_email($message), true);
-				if (!empty($email)) {
-					return;  
+			try {
+				// error_log("get_register_BLL called with args: " . json_encode($args), 3, "debug.log");
+		
+				$username = $args[0];
+				$password = $args[1];
+				$email = $args[2];
+		
+				// error_log("Parameters extracted: username=$username, password=$password, email=$email", 3, "debug.log");
+		
+				$hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
+				$hashavatar = md5(strtolower(trim($email))); 
+				$avatar = "https://i.pravatar.cc/500?u=$hashavatar";
+				$token_email = common::generate_Token_secure(20);
+		
+				// error_log("Generated hash and token: hashed_pass=$hashed_pass, avatar=$avatar, token_email=$token_email", 3, "debug.log");
+		
+				$user_exists = $this->dao->select_user($this->db, $username, $email);
+				// error_log("select_user result: " . json_encode($user_exists), 3, "debug.log");
+		
+				if (!empty($user_exists)) {
+					// error_log("User already exists", 3, "debug.log");
+					return ['status' => 'error', 'message' => 'User already exists'];
+				} else {
+					$this->dao->register($this->db, $username, $hashed_pass, $email, $avatar, $token_email);
+					error_log("User registered in database", 3, "debug.log");
+		
+					$message = [ 
+						'type' => 'validate', 
+						'token' => $token_email, 
+						'toEmail' => $email
+					];
+					$email_sent = json_decode(mail::send_email($message), true);
+					error_log("Email sent response: " . json_encode($email_sent), 3, "debug.log");
+		
+					if (!empty($email_sent)) {
+						return ['status' => 'success'];
+					} else {
+						error_log("Email sending failed", 3, "debug.log");
+						return ['status' => 'error', 'message' => 'Email sending failed'];
+					}
 				}
+			} catch (Exception $e) {
+				error_log("Exception in get_register_BLL: " . $e->getMessage(), 3, "debug.log");
+				return ['status' => 'error', 'message' => $e->getMessage()];
 			}
 		}
 		public function get_verify_BLL($token) {
