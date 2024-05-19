@@ -28,7 +28,7 @@
 				$hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
 				$hashavatar = md5(strtolower(trim($email))); 
 				$avatar = "https://i.pravatar.cc/500?u=$hashavatar";
-				$token_email = common::generate_Token_secure(20);
+				$token_email = middleware::create_email_token($email);
 		
 				// error_log("Generated hash and token: hashed_pass=$hashed_pass, avatar=$avatar, token_email=$token_email", 3, "debug.log");
 		
@@ -39,8 +39,8 @@
 					// error_log("User already exists", 3, "debug.log");
 					return ['status' => 'error', 'message' => 'User already exists'];
 				} else {
-					$this->dao->register($this->db, $username, $hashed_pass, $email, $avatar, $token_email);
-					error_log("User registered in database", 3, "debug.log");
+					$this->dao->register($this->db, $username, $hashed_pass, $email, $avatar);
+					// error_log("User registered in database", 3, "debug.log");
 		
 					$message = [ 
 						'type' => 'validate', 
@@ -48,26 +48,32 @@
 						'toEmail' => $email
 					];
 					$email_sent = json_decode(mail::send_email($message), true);
-					error_log("Email sent response: " . json_encode($email_sent), 3, "debug.log");
+					// error_log("Email sent response: " . json_encode($email_sent), 3, "debug.log");
 		
 					if (!empty($email_sent)) {
 						return ['status' => 'success'];
 					} else {
-						error_log("Email sending failed", 3, "debug.log");
+						// error_log("Email sending failed", 3, "debug.log");
 						return ['status' => 'error', 'message' => 'Email sending failed'];
 					}
 				}
 			} catch (Exception $e) {
-				error_log("Exception in get_register_BLL: " . $e->getMessage(), 3, "debug.log");
+				// error_log("Exception in get_register_BLL: " . $e->getMessage(), 3, "debug.log");
 				return ['status' => 'error', 'message' => $e->getMessage()];
 			}
 		}
+		
+		
 		public function get_verify_BLL($token) {
-			if (!empty($this -> dao -> select_verify_email($this->db, $token))) {
-				$this -> dao -> update_verify_email($this->db, $token);
-				return 'verify';
+			$email = middleware::decode_email_token($token);
+			// error_log("get_verify_BLL called with token: $token, decoded email: " . json_encode($email), 3, "debug.log");
+			if ($email['exp'] < time()) {
+				echo json_encode("Invalid token email verification");
+				exit();
 			} else {
-				return 'fail';
+				$this->dao->select_verify_email($this->db, $email['email']);
+				// error_log("Email verified", 3, "debug.log");
+				return 'verify';
 			}
 		}
 	}

@@ -34,6 +34,8 @@
             }
         }
         function verify(){
+            // $token=$_POST['token_email'];
+            // error_log("POST parameters: $token", 3, "debug.log");
             echo json_encode(common::load_model('login_model', 'get_verify', $_POST['token_email']));
         }
     }

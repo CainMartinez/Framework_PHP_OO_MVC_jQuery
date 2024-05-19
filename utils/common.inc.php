@@ -33,12 +33,14 @@
                     // error_log("Model file included: $path", 3, "debug.log");
 
                     if (method_exists($model, $function)) {
-                        // error_log("Function $function exists in model $model", 3, "debug.log");
+                        error_log("Function $function exists in model $model", 3, "debug.log");
                         $obj = $model::getInstance();
 
                         if ($args != null) {
+                            // error_log("Arguments $args[0],$args[1],$args[2], exists in function $function", 3, "debug.log");
                             return call_user_func(array($obj, $function), $args);
                         }
+                        // error_log("Not exists arguments in function $function", 3, "debug.log");
                         return call_user_func(array($obj, $function));
                     } else {
                         // error_log("Function $function does not exist in model $model", 3, "debug.log");
@@ -52,28 +54,6 @@
                 // error_log("Exception in load_model: " . $e->getMessage(), 3, "debug.log");
                 throw $e;
             }
-        }
-
-
-        public static function generate_token_secure($longitud){
-            if ($longitud < 4) {
-                $longitud = 4;
-            }
-            return bin2hex(openssl_random_pseudo_bytes(($longitud - ($longitud % 2)) / 2));
-        }
-
-        function friendlyURL_php($url) {
-            $link = "";
-            if (URL_FRIENDLY) {
-                $url = explode("&", str_replace("?", "", $url));
-                foreach ($url as $key => $value) {
-                    $aux = explode("=", $value);
-                    $link .=  $aux[1]."/";
-                }
-            } else {
-                $link = "index.php?" . $url;
-            }
-            return SITE_PATH . $link;
         }
     }
 ?>
