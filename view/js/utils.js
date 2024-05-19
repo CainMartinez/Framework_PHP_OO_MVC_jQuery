@@ -171,8 +171,9 @@ function load_content() {
     
     if(path[3] === 'recover'){
         window.location.href = friendlyURL("?module=login");
-        localStorage.setItem("token_email", path[5]);
+        localStorage.setItem("token_email", path[4]);
     }else if (path[3] === 'verify') {
+        console.log('verify email');
         ajaxPromise( 'POST', 'JSON',friendlyURL("?module=login"), {token_email: path[4],op: 'verify'})
         .then(function(data) {
             Swal.fire({
@@ -185,8 +186,8 @@ function load_content() {
                 window.location.href = friendlyURL("?module=login");
             });
         })
-        .catch(function() {
-            console.log('Error: verify email error');
+        .catch(function(e) {
+            console.error(e);
         });
     }
 }

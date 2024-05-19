@@ -39,7 +39,7 @@
 					// error_log("User already exists", 3, "debug.log");
 					return ['status' => 'error', 'message' => 'User already exists'];
 				} else {
-					$this->dao->register($this->db, $username, $hashed_pass, $email, $avatar);
+					$this->dao->register($this->db, $username, $hashed_pass, $email, $avatar, $token_email);
 					// error_log("User registered in database", 3, "debug.log");
 		
 					$message = [ 

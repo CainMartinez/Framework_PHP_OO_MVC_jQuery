@@ -33,7 +33,7 @@
                     // error_log("Model file included: $path", 3, "debug.log");
 
                     if (method_exists($model, $function)) {
-                        error_log("Function $function exists in model $model", 3, "debug.log");
+                        // error_log("Function $function exists in model $model", 3, "debug.log");
                         $obj = $model::getInstance();
 
                         if ($args != null) {

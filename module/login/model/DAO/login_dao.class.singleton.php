@@ -11,10 +11,10 @@
             }
             return self::$_instance;
         }
-        public function register($db, $username_reg, $hashed_pass, $email_reg, $avatar) {
+        public function register($db, $username_reg, $hashed_pass, $email_reg, $avatar, $token_email) {
             try {
-                $sql = "INSERT INTO users (username, password, email, avatar, type_user, active)
-                        VALUES ('$username_reg', '$hashed_pass', '$email_reg', '$avatar', 'client', 0,)";
+                $sql = "INSERT INTO users (username, password, email, avatar, type_user, active, token)
+                        VALUES ('$username_reg', '$hashed_pass', '$email_reg', '$avatar', 'client', 0, '$token_email')";
                 // error_log("SQL for register: " . $sql, 3, "debug.log");
                 $stmt = $db->ejecutar($sql);
                 // error_log("SQL execution result: " . json_encode($stmt), 3, "debug.log");
@@ -58,7 +58,7 @@
 
         public function select_verify_email($db, $token_email){
 
-            $sql = "SELECT token FROM users WHERE email = '$token_email'";
+            $sql = "SELECT email FROM users WHERE email = '$token_email'";
             // error_log("SQL for select_verify_email: " . $sql, 3, "debug.log");
 
             $stmt = $db->ejecutar($sql);
