@@ -19,5 +19,8 @@
         public function get_verify($token){
             return $this->bll->get_verify_BLL($token);
         }
+        public function get_recover($email){
+            return $this->bll->get_recover_BLL($email);
+        }
     }
 ?>

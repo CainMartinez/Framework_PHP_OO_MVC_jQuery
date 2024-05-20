@@ -82,6 +82,7 @@
 
         public function select_recover_password($db, $email){
 			$sql = "SELECT `email` FROM `users` WHERE email = '$email' AND password NOT LIKE ('')";
+            // error_log("SQL for select_recover_password: " . $sql, 3, "debug.log");
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }

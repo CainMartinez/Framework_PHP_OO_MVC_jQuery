@@ -61,19 +61,54 @@
 				// error_log("Exception in get_register_BLL: " . $e->getMessage(), 3, "debug.log");
 				return ['status' => 'error', 'message' => $e->getMessage()];
 			}
-		}
-		
-		
+		}		
 		public function get_verify_BLL($token) {
-			$email = middleware::decode_email_token($token);
-			// error_log("get_verify_BLL called with token: $token, decoded email: " . json_encode($email), 3, "debug.log");
-			if ($email['exp'] < time()) {
-				echo json_encode("Invalid token email verification");
-				exit();
-			} else {
-				$this->dao->select_verify_email($this->db, $email['email']);
-				// error_log("Email verified", 3, "debug.log");
-				return 'verify';
+			try {
+				$email = middleware::decode_email_token($token);
+				// error_log("get_verify_BLL called with token: $token, decoded email: " . json_encode($email), 3, "debug.log");
+
+				if ($email['exp'] < time()) {
+					echo json_encode("Invalid token email verification");
+					exit();
+				} else {
+					$this->dao->select_verify_email($this->db, $email['email']);
+					// error_log("Email verified", 3, "debug.log");
+					return 'verify';
+				}
+			} catch (Exception $e) {
+				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
+				return 'error';
+			}
+		}
+		public function get_recover_BLL($email) {
+			try {
+				// error_log("get_recover_BLL called with email: $email", 3, "debug.log");
+				$user = $this -> dao -> select_recover_password($this->db, $email);
+				// error_log("User selected: " . json_encode($user), 3, "debug.log");
+
+				$token = middleware::create_email_token($email);
+				// error_log("Token created: " . $token, 3, "debug.log");
+
+				if (!empty($user)) {
+					$this -> dao -> update_recover_password($this->db, $email, $token);
+					// error_log("Password updated for user: " . $email, 3, "debug.log");
+
+					$message = ['type' => 'recover', 
+								'token' => $token, 
+								'toEmail' => $email];
+					$email = json_decode(mail::send_email($message), true);
+					// error_log("Email sent: " . json_encode($email), 3, "debug.log");
+
+					if (!empty($email)) {
+						return;  
+					}   
+				} else {
+					// error_log("No user found with email: " . $email, 3, "debug.log");
+					return 'error';
+				}
+			} catch (Exception $e) {
+				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
+				return 'error';
 			}
 		}
 	}

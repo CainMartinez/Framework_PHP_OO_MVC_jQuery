@@ -282,15 +282,9 @@ function register(){
 }
 
 // ------------------- RECOVER PASSWORD ------------------------ //
-function load_form_recover_password(){
-    $(".login-wrap").hide();
-    $(".forget_html").show();
-    $('html, body').animate({scrollTop: $(".forget_html")});
-    click_recover_password();
-}
 
 function click_recover_password(){
-    $(".forget_html").keypress(function(e) {
+    $("#recover_button").keypress(function(e) {
         var code = (e.keyCode ? e.keyCode : e.which);
         if(code==13){
         	e.preventDefault();
@@ -298,7 +292,7 @@ function click_recover_password(){
         }
     });
 
-    $('#button_recover').on('click', function(e) {
+    $('#recover_button').on('click', function(e) {
         e.preventDefault();
         send_recover_password();
     }); 
@@ -308,15 +302,15 @@ function validate_recover_password(){
     var mail_exp = /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-\.]+$/;
     var error = false;
 
-    if(document.getElementById('email_forg').value.length === 0){
-		document.getElementById('error_email_forg').innerHTML = "Tienes que escribir un correo";
+    if(document.getElementById('emailRecover').value.length === 0){
+		document.getElementById('errorEmailRecover').innerHTML = "You have to write an email";
 		error = true;
 	}else{
-        if(!mail_exp.test(document.getElementById('email_forg').value)){
-            document.getElementById('error_email_forg').innerHTML = "El formato del mail es invalido"; 
+        if(!mail_exp.test(document.getElementById('emailRecover').value)){
+            document.getElementById('errorEmailRecover').innerHTML = "The email format is invalid"; 
             error = true;
         }else{
-            document.getElementById('error_email_forg').innerHTML = "";
+            document.getElementById('errorEmailRecover').innerHTML = "";
         }
     }
 	
@@ -327,22 +321,37 @@ function validate_recover_password(){
 
 function send_recover_password(){
     if(validate_recover_password() != 0){
-        var data = $('#recover_email_form').serialize();
-        $.ajax({
-            url: friendlyURL('?module=login&op=send_recover_email'),
-            dataType: 'json',
-            type: "POST",
-            data: data,
-        }).done(function(data) {
+        var email = document.getElementById('emailRecover').value;
+        var data = {
+            email : email,
+            op : "recover"
+        };
+        console.log(data);
+        ajaxPromise(
+            'POST',
+            'JSON',
+            friendlyURL('?module=login'),
+            data
+        ).then(function(data) {
+            console.log(data);
+            // return false;
             if(data == "error"){		
                 $("#error_email_forg").html("The email doesn't exist");
             } else{
-                toastr.options.timeOut = 3000;
-                toastr.success("Email sended");
-                setTimeout('window.location.href = friendlyURL("?module=login&op=view")', 1000);
+                Swal.fire({
+                    title: 'Success',
+                    text: 'Email sended',
+                    icon: 'success',
+                    timer: 3000,
+                    showConfirmButton: true
+                }).then((result) => {
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        window.location.href = friendlyURL("?module=login");
+                    }   
+                });
             }
-        }).fail(function( textStatus ) {
-            console.log('Error: Recover password error');
+        }).catch(function(e) {
+            console.error("Error en la promesa:", e);
         });    
     }
 }
@@ -433,4 +442,5 @@ function send_new_password(token_email){
 $(document).ready(function(){
     click_login();
     click_register();
+    click_recover_password();
 });

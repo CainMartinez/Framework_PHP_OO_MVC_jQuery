@@ -12,4 +12,8 @@
         <name>verify</name>
         <uri>verify</uri>
     </function>
+    <function>
+        <name>recover</name>
+        <uri>recover</uri>
+    </function>
 </functions>
