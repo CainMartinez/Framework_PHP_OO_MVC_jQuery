@@ -16,4 +16,16 @@
         <name>recover</name>
         <uri>recover</uri>
     </function>
+    <function>
+        <name>recover_view</name>
+        <uri>recover_view</uri>
+    </function>
+    <function>
+        <name>verify_token</name>
+        <uri>verify_token</uri>
+    </function>
+    <function>
+        <name>new_password</name>
+        <uri>new_password</uri>
+    </function>
 </functions>

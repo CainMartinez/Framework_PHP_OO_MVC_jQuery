@@ -170,7 +170,7 @@ function load_content() {
     let path = window.location.pathname.split('/');
     
     if(path[3] === 'recover'){
-        window.location.href = friendlyURL("?module=login");
+        window.location.href = friendlyURL("?module=login&op=recover_view");
         localStorage.setItem("token_email", path[4]);
     }else if (path[3] === 'verify') {
         console.log('verify email');
@@ -189,7 +189,9 @@ function load_content() {
         .catch(function(e) {
             console.error(e);
         });
-    }
+    }else if (path[3] === "recover_view") {
+		load_form_new_password();
+	}
 }
 $(document).ready(function() {
     load_menu();

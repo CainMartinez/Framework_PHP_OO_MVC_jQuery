@@ -1,3 +1,4 @@
 *.ini
 vendor/
 composer.lock
+debug.log

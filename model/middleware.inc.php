@@ -21,7 +21,7 @@
     
                 $payload = json_encode([
                     'iat' => time(),
-                    'exp' => time() + 6000,
+                    'exp' => time() + 600,
                     'email' => $email
                 ]);
                 // error_log("JWT payload: " . $payload, 3, "debug.log");
@@ -69,7 +69,7 @@
             $jwt = parse_ini_file(UTILS . "credentials.ini");
             $header = $jwt['JWT_HEADER'];
             $secret = $jwt['JWT_SECRET'];
-            $payload = '{"iat":"' . time() . '","exp":"' . time() + (8000) . '","username":"' . $username . '"}';
+            $payload = '{"iat":"' . time() . '","exp":"' . time() + (60000) . '","username":"' . $username . '"}';
             $JWT = new JWT;
             $token = $JWT->encode($header, $payload, $secret);
             return $token;

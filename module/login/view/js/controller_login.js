@@ -25,7 +25,6 @@ function click_login(){
     $('#github').on('click', function(e) {
         social_login('github');
     }); 
-    $(document).ready(function() {
     $("#showRegisterForm").click(function() {
         $("#title_property_login").hide();
         $("#title_property_register").show();
@@ -35,7 +34,6 @@ function click_login(){
         $("#title_property_register").hide();
         $("#title_property_login").show();
     });
-    $(document).ready(function() {
     $("#showRecoverForm").click(function() {
         $("#title_property_login").hide();
         $("#title_property_recover").show();
@@ -45,8 +43,6 @@ function click_login(){
         $("#title_property_recover").hide();
         $("#title_property_login").show();
     });
-});
-});
 }
 
 function validate_login(){
@@ -359,24 +355,25 @@ function send_recover_password(){
 function load_form_new_password(){
     token_email = localStorage.getItem('token_email');
     localStorage.removeItem('token_email');
-    $.ajax({
-        url: friendlyURL('?module=login&op=verify_token'),
-        dataType: 'json',
-        type: "POST",
-        data: {token_email: token_email},
-    }).done(function(data) {
+    data = {token_email: token_email, op: "verify_token"};
+    ajaxPromise(
+        'POST',
+        'JSON',
+        friendlyURL('?module=login'),
+        data
+    ).then(function(data) {
         if(data == "verify"){
             click_new_password(token_email); 
         }else {
             console.log("error");
         }
-    }).fail(function( textStatus ) {
-        console.log("Error: Verify token error");
+    }).catch(function(e) {
+        console.error("Error en la promesa:", e);
     });    
 }
 
 function click_new_password(token_email){
-    $(".recover_html").keypress(function(e) {
+    $("#new_password").keypress(function(e) {
         var code = (e.keyCode ? e.keyCode : e.which);
         if(code==13){
         	e.preventDefault();
@@ -384,7 +381,7 @@ function click_new_password(token_email){
         }
     });
 
-    $('#button_set_pass').on('click', function(e) {
+    $('#new_password').on('click', function(e) {
         e.preventDefault();
         send_new_password(token_email);
     }); 
@@ -393,23 +390,23 @@ function click_new_password(token_email){
 function validate_new_password(){
     var error = false;
 
-    if(document.getElementById('pass_rec').value.length === 0){
-		document.getElementById('error_password_rec').innerHTML = "You have to write a password";
+    if(document.getElementById('newpassword').value.length === 0){
+		document.getElementById('errorNewpassword').innerHTML = "You have to write a password";
 		error = true;
 	}else{
-        if(document.getElementById('pass_rec').value.length < 8){
-            document.getElementById('error_password_rec').innerHTML = "The password must be longer than 8 characters";
+        if(document.getElementById('newpassword').value.length < 8){
+            document.getElementById('errorNewpassword').innerHTML = "The password must be longer than 8 characters";
             error = true;
         }else{
-            document.getElementById('error_password_rec').innerHTML = "";
+            document.getElementById('errorNewpassword').innerHTML = "";
         }
     }
 
-    if(document.getElementById('pass_rec_2').value != document.getElementById('pass_rec').value){
-		document.getElementById('error_password_rec_2').innerHTML = "Passwords don't match";
+    if(document.getElementById('passwordRecoverRepeat').value != document.getElementById('newpassword').value){
+		document.getElementById('errorpasswordRecoverRepeat').innerHTML = "Passwords don't match";
 		error = true;
 	}else{
-        document.getElementById('error_password_rec_2').innerHTML = "";
+        document.getElementById('errorpasswordRecoverRepeat').innerHTML = "";
     }
 
     if(error == true){
@@ -419,23 +416,37 @@ function validate_new_password(){
 
 function send_new_password(token_email){
     if(validate_new_password() != 0){
-        var data = {token_email: token_email, password : $('#pass_rec').val()};
-        $.ajax({
-            url: friendlyURL("?module=login&op=new_password"),
-            type: "POST",
-            dataType: "JSON",
-            data: data,
-        }).done(function(data) {
-            if(data == "done"){
-                toastr.options.timeOut = 3000;
-                toastr.success('New password changed');
-                setTimeout('window.location.href = friendlyURL("?module=login&op=view")', 1000);
+        var data = {
+            token_email: token_email, 
+            op : "new_password",
+            password : $('#newpassword').val()};
+        ajaxPromise(
+            'POST',
+            'JSON',
+            friendlyURL("?module=login"),
+            data
+        ).then(function(data) {
+            if(data == "success"){
+                Swal.fire({
+                    title: 'Success',
+                    text: 'New password changed',
+                    icon: 'success',
+                    timer: 3000,
+                    showConfirmButton: true
+                }).then((result) => {
+                    window.location.href = friendlyURL("?module=login");
+                });
             } else {
-                toastr.options.timeOut = 3000;
-                toastr.error('Error seting new password');
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Error setting new password',
+                    icon: 'error',
+                    timer: 3000,
+                    showConfirmButton: true
+                })
             }
-        }).fail(function(textStatus) {
-            console.log("Error: New password error");
+        }).catch(function(e) {
+            console.error("Error en la promesa:", e);
         });    
     }
 }

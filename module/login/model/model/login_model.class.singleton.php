@@ -22,5 +22,11 @@
         public function get_recover($email){
             return $this->bll->get_recover_BLL($email);
         }
+        public function get_verify_token($token){
+            return $this->bll->get_verify_token_BLL($token);
+        }
+        public function get_new_password($args){
+            return $this->bll->get_new_password_BLL($args);
+        }
     }
 ?>

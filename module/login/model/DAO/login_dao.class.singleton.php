@@ -38,8 +38,6 @@
                 throw $e;
             }
         }
-        
-        
         public function select_social_login($db, $id){
 
 			$sql = "SELECT * FROM users WHERE id='$id'";
@@ -93,8 +91,9 @@
             return "ok";
         }
 
-        public function update_new_passwoord($db, $token_email, $password){
-            $sql = "UPDATE `users` SET `password`= '$password', `token`= '' WHERE `token` = '$token_email'";
+        public function update_new_password($db, $token_email, $password){
+            $sql = "UPDATE `users` SET `password`= '$password' WHERE `email` = '$token_email'";
+            error_log("SQL for update_new_password: " . $sql, 3, "debug.log");
             $stmt = $db->ejecutar($sql);
             return "ok";
         }

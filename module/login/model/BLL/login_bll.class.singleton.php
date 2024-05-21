@@ -111,5 +111,47 @@
 				return 'error';
 			}
 		}
+		public function get_verify_token_BLL($token) {
+			try {
+				$email = middleware::decode_email_token($token);
+				// error_log("get_verify_token_BLL called with token: $token, decoded email: " . json_encode($email), 3, "debug.log");
+
+				if ($email['exp'] < time()) {
+					echo json_encode("Invalid token email verification");
+					exit();
+				} else {
+					$this->dao->select_verify_email($this->db, $email['email']);
+					// error_log("Token verified", 3, "debug.log");
+					return 'verify';
+				}
+			} catch (Exception $e) {
+				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
+				return 'error';
+			}
+		}
+		public function get_new_password_BLL($args) {
+			try {
+				// error_log("get_new_password_BLL called with args: " . json_encode($args), 3, "debug.log");
+				$password = $args[0];
+				$token = $args[1];
+				$email = middleware::decode_email_token($token);
+				// error_log("Parameters extracted: password=$password, token=$token, decoded email: " . json_encode($email), 3, "debug.log");
+
+				if ($email['exp'] < time()) {
+					echo json_encode("Invalid token email verification");
+					exit();
+				} else {
+					$hashed_pass = password_hash($password, PASSWORD_DEFAULT, ['cost' => 12]);
+					// error_log("Password hashed: " . $hashed_pass, 3, "debug.log");
+
+					$this->dao->update_new_password($this->db, $email['email'], $hashed_pass);
+					// error_log("Password updated", 3, "debug.log");
+					return 'success';
+				}
+			} catch (Exception $e) {
+				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
+				return 'error';
+			}
+		}
 	}
 ?>
