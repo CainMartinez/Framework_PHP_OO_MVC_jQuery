@@ -7,10 +7,9 @@ Ofrece una experiencia de usuario intuitiva y funcionalidades avanzadas para fac
 
 ## Tecnologías
 
-| ![JavaScript](https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg) | ![PHP](https://raw.githubusercontent.com/devicons/devicon/master/icons/php/php-original.svg) | ![MySQL](https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg) | ![jQuery](https://raw.githubusercontent.com/devicons/devicon/master/icons/jquery/jquery-original-wordmark.svg) |
-|:---:|:---:|:---:|:---:|
-| ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)  | ![PHP](https://img.shields.io/badge/-PHP-777BB4?style=for-the-badge&logo=php&logoColor=white) | ![MySQL](https://img.shields.io/badge/-MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)  | ![jQuery](https://img.shields.io/badge/-jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white) |
-
+| ![PHP](https://raw.githubusercontent.com/devicons/devicon/master/icons/php/php-original.svg) | ![MySQL](https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg) | ![JWT](https://jwt.io/img/pic_logo.svg) | ![jQuery](https://raw.githubusercontent.com/devicons/devicon/master/icons/jquery/jquery-original-wordmark.svg) | ![JavaScript](https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg) | 
+|:---:|:---:|:---:|:---:|:---:|
+| ![PHP](https://img.shields.io/badge/-PHP-777BB4?style=for-the-badge&logo=php&logoColor=white) | ![MySQL](https://img.shields.io/badge/-MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)  | ![JWT](https://img.shields.io/badge/-JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens) | ![jQuery](https://img.shields.io/badge/-jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white) | ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) | 
 ## Funcionalidades Generales
 
 ### Home 🏨
