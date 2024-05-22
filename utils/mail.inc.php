@@ -8,11 +8,11 @@
                 switch ($email['type']) {
                     case 'validate':
                         $email['inputMatter'] = 'Email verification';
-                        $email['inputMessage'] = "<h2>Email verification.</h2><a href='http://localhost/living_mobility/login/verify/$email[token]'>Click here for verify your email.</a>";
+                        $email['inputMessage'] = "<h2>Email verification.</h2><a href='http://localhost/living_mobility/auth/verify/$email[token]'>Click here for verify your email.</a>";
                         break;
                     case 'recover':
                         $email['inputMatter'] = 'Recover password';
-                        $email['inputMessage'] = "<a href='http://localhost/living_mobility/login/recover/$email[token]'>Click here for recover your password.</a>";
+                        $email['inputMessage'] = "<a href='http://localhost/living_mobility/auth/recover/$email[token]'>Click here for recover your password.</a>";
                         break;
                     default:
                         throw new Exception("Unknown email type: " . $email['type']);

@@ -1,35 +1,28 @@
 // ------------------- LOGIN ------------------------ //
 function click_login(){
-    $("#login_form").keypress(function(e) {
+    $("#loginForm").keypress(function(e) {
         var code = (e.keyCode ? e.keyCode : e.which);
         if(code == 13){
             e.preventDefault();
             login();
         }
     });
-    
-    $('#button_login').on('click', function(e) {
+    $("#loginForm").on('submit', function(e) {
         e.preventDefault();
         login();
-    }); 
-
-    $('#forget_pass').on('click', function(e) {
-        e.preventDefault();
-        load_form_recover_password();
-    }); 
-
+    });
     $('#google').on('click', function(e) {
+        e.preventDefault();
         social_login('google');
     }); 
-
     $('#github').on('click', function(e) {
+        e.preventDefault();
         social_login('github');
     }); 
     $("#showRegisterForm").click(function() {
         $("#title_property_login").hide();
         $("#title_property_register").show();
     });
-
     $("#showLoginForm").click(function() {
         $("#title_property_register").hide();
         $("#title_property_login").show();
@@ -38,7 +31,6 @@ function click_login(){
         $("#title_property_login").hide();
         $("#title_property_recover").show();
     });
-
     $("#showLoginFormFromRecover").click(function() {
         $("#title_property_recover").hide();
         $("#title_property_login").show();
@@ -48,18 +40,18 @@ function click_login(){
 function validate_login(){
     var error = false;
 
-	if(document.getElementById('username').value.length === 0){
-		document.getElementById('error_username').innerHTML = "You have to type the user";
+	if(document.getElementById('usernameLogin').value.length === 0){
+		document.getElementById('errorUsernameLogin').innerHTML = "You have to type the user";
 		error = true;
 	}else{
-        document.getElementById('error_username').innerHTML = "";
+        document.getElementById('errorUsernameLogin').innerHTML = "";
     }
 	
-	if(document.getElementById('pass').value.length === 0){
-		document.getElementById('error_password').innerHTML = "You have to type the password";
+	if(document.getElementById('passwordLogin').value.length === 0){
+		document.getElementById('errorPasswordLogin').innerHTML = "You have to type the password";
 		error = true;
 	}else{
-        document.getElementById('error_password').innerHTML = "";
+        document.getElementById('errorPasswordLogin').innerHTML = "";
     }
 	
     if(error == true){
@@ -69,32 +61,42 @@ function validate_login(){
 
 function login(){
     if(validate_login() != 0){
-        var data = $('#login_form').serialize();
-        $.ajax({
-            url: friendlyURL("?module=login&op=login"),
-            dataType: "JSON",
-            type: "POST",
-            data: data,
-        }).done(function(result) {
+        var username = document.getElementById("usernameLogin").value;
+        var password = document.getElementById("passwordLogin").value; 
+        var data = {username: username, password : password, op: "login"};
+        ajaxPromise(
+            'POST',
+            'JSON',
+            friendlyURL("?module=auth"),
+            data
+        ).then(function(result) {
             if(result == "user error"){		
-                $("#error_username").html("The email or username does't exist");
+                $("#errorUsernameLogin").html("The email or username does't exist");
             } else if (result == "error"){
-                $("#error_password").html('Wrong password');
+                $("#errorPasswordLogin").html('Wrong password');
             } else if (result == "activate error"){
-                toastr.options.timeOut = 3000;
-                toastr.error("Verify the email");            
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Verify the email',
+                    timer: 3000
+                })           
             } else {
                 localStorage.setItem("token", result);
-                toastr.options.timeOut = 3000;
-                toastr.success("Inicio de sesión realizado");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Inicio de sesión realizado',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
                 if(localStorage.getItem('likes') == null) {
-                    setTimeout('window.location.href = friendlyURL("?module=home&op=view")', 1000);
+                    setTimeout('window.location.href = friendlyURL("?module=home")', 1000);
                 } else {
                     console.log(localStorage.getItem('product'));
-                    setTimeout('window.location.href = friendlyURL("?module=shop&op=view")', 1000);
+                    setTimeout('window.location.href = friendlyURL("?module=shop")', 1000);
                 }
             }	
-        }).fail(function() {
+        }).catch(function() {
             console.log('Error: Login error');
         });     
     }
@@ -111,7 +113,7 @@ function social_login(param){
 
         social_user = {id: result.user.uid, username: username[0], email: result.user.email, avatar: result.user.photoURL};
         if (result) {
-            ajaxPromise(friendlyURL("?module=login&op=social_login"), 'POST', 'JSON', social_user)
+            ajaxPromise(friendlyURL("?module=auth&op=social_auth"), 'POST', 'JSON', social_user)
             .then(function(data) {
                 localStorage.setItem("token", data);
                 toastr.options.timeOut = 3000;
@@ -247,7 +249,7 @@ function register(){
         ajaxPromise(
             "POST",
             "JSON",
-            friendlyURL("?module=login"),
+            friendlyURL("?module=auth"),
             data
         ).then(function(result) {  
             console.log("entra en el then");
@@ -268,7 +270,7 @@ function register(){
                     showConfirmButton: true,
                     timer: 2000
                 }).then(() => {
-                    window.location.href = friendlyURL("?module=login");
+                    window.location.href = friendlyURL("?module=auth");
                 });
             }   
         }).catch(function(e) {
@@ -326,13 +328,21 @@ function send_recover_password(){
         ajaxPromise(
             'POST',
             'JSON',
-            friendlyURL('?module=login'),
+            friendlyURL('?module=auth'),
             data
         ).then(function(data) {
             console.log(data);
             // return false;
             if(data == "error"){		
-                $("#error_email_forg").html("The email doesn't exist");
+                $("#errorEmailRecover").html("The email doesn't exist");
+            }else if(data == "fatal error"){
+                Swal.fire({
+                    title: 'Fatal Error',
+                    text: 'Contact with the administrator',
+                    icon: 'error',
+                    timer: 3000,
+                    showConfirmButton: true
+                })
             } else{
                 Swal.fire({
                     title: 'Success',
@@ -342,7 +352,7 @@ function send_recover_password(){
                     showConfirmButton: true
                 }).then((result) => {
                     if (result.dismiss === Swal.DismissReason.timer) {
-                        window.location.href = friendlyURL("?module=login");
+                        window.location.href = friendlyURL("?module=auth");
                     }   
                 });
             }
@@ -359,7 +369,7 @@ function load_form_new_password(){
     ajaxPromise(
         'POST',
         'JSON',
-        friendlyURL('?module=login'),
+        friendlyURL('?module=auth'),
         data
     ).then(function(data) {
         if(data == "verify"){
@@ -423,7 +433,7 @@ function send_new_password(token_email){
         ajaxPromise(
             'POST',
             'JSON',
-            friendlyURL("?module=login"),
+            friendlyURL("?module=auth"),
             data
         ).then(function(data) {
             if(data == "success"){
@@ -434,7 +444,7 @@ function send_new_password(token_email){
                     timer: 3000,
                     showConfirmButton: true
                 }).then((result) => {
-                    window.location.href = friendlyURL("?module=login");
+                    window.location.href = friendlyURL("?module=auth");
                 });
             } else {
                 Swal.fire({

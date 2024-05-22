@@ -17,7 +17,7 @@
                 set_include_path('module/' . $breakClass[0] . '/model/' . $modelName.'/');
                 spl_autoload($className);
             }
-        }else if ($breakClass[0] === 'login') {
+        }else if ($breakClass[0] === 'auth') {
             if (file_exists(SITE_ROOT . 'module/' . $breakClass[0] . '/model/'. $modelName . '/' . $className . '.class.singleton.php')) {
                 set_include_path('module/' . $breakClass[0] . '/model/' . $modelName.'/');
                 spl_autoload($className);

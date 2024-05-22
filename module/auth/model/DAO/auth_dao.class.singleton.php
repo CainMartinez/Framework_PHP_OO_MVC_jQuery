@@ -1,5 +1,5 @@
 <?php
-    class login_dao{
+    class auth_dao{
         static $_instance;
 
         private function __construct() {
@@ -11,10 +11,10 @@
             }
             return self::$_instance;
         }
-        public function register($db, $username_reg, $hashed_pass, $email_reg, $avatar, $token_email) {
+        public function register($db, $username_reg, $hashed_pass, $email_reg, $avatar) {
             try {
-                $sql = "INSERT INTO users (username, password, email, avatar, type_user, active, token)
-                        VALUES ('$username_reg', '$hashed_pass', '$email_reg', '$avatar', 'client', 0, '$token_email')";
+                $sql = "INSERT INTO users (username, password, email, avatar, type_user, active, count_login)
+                        VALUES ('$username_reg', '$hashed_pass', '$email_reg', '$avatar', 'client', 0, 0)";
                 // error_log("SQL for register: " . $sql, 3, "debug.log");
                 $stmt = $db->ejecutar($sql);
                 // error_log("SQL execution result: " . json_encode($stmt), 3, "debug.log");
@@ -83,12 +83,6 @@
             // error_log("SQL for select_recover_password: " . $sql, 3, "debug.log");
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
-        }
-
-        public function update_recover_password($db, $email, $token_email){
-			$sql = "UPDATE `users` SET `token`= '$token_email' WHERE `email` = '$email'";
-            $stmt = $db->ejecutar($sql);
-            return "ok";
         }
 
         public function update_new_password($db, $token_email, $password){

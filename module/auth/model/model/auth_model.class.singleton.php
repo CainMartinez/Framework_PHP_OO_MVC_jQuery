@@ -1,10 +1,10 @@
 <?php
-    class login_model{
+    class auth_model{
         private $bll;
         static $_instance;
 
         function __construct(){
-            $this->bll = login_bll::getInstance();
+            $this->bll = auth_bll::getInstance();
         }
 
         public static function getInstance(){
@@ -27,6 +27,9 @@
         }
         public function get_new_password($args){
             return $this->bll->get_new_password_BLL($args);
+        }
+        public function get_auth($args){
+            return $this->bll->get_auth_BLL($args);
         }
     }
 ?>

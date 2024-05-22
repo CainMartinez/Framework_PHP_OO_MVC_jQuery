@@ -16,7 +16,7 @@ function load_menu() {
     var refresh_token = localStorage.getItem('refresh_token');
     if (refresh_token) {
         console.log(refresh_token);
-        ajaxPromise('POST', 'JSON','module/login/controller/controller_login.php?op=data_user', { 'refresh_token': refresh_token })
+        ajaxPromise('POST', 'JSON','module/auth/controller/controller_auth.php?op=data_user', { 'refresh_token': refresh_token })
         .then(function(data) {
             console.log("Client logged");
             // Ocultar los botones de registro y login
@@ -36,7 +36,7 @@ function load_menu() {
     } else {
         $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=shop") + '" class="rd-nav-link">Shop</a>').prependTo('.rd-navbar-nav');
         $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=home") + '" class="rd-nav-link button_homepage">Home</a>').prependTo('.rd-navbar-nav');
-        $('<a></a>').attr({'id' : 'login_button', 'type' : 'button', 'class' : 'btn btn-success', 'href' : friendlyURL("?module=login")}).html('Login').appendTo('#search_auto');
+        $('<a></a>').attr({'id' : 'login_button', 'type' : 'button', 'class' : 'btn btn-success', 'href' : friendlyURL("?module=auth")}).html('Login').appendTo('#search_auto');
     }
 }
 function click_logout() {
@@ -54,7 +54,7 @@ function click_logout() {
     });
 }
 function logout() {
-    ajaxPromise('POST', 'JSON','module/login/controller/controller_login.php?op=logout')
+    ajaxPromise('POST', 'JSON','module/auth/controller/controller_auth.php?op=logout')
         .then(function(data) {
             localStorage.removeItem('refresh_token');
             localStorage.removeItem('access_token');
@@ -65,7 +65,7 @@ function logout() {
 }
 function protecturl() {
     var refresh_token = localStorage.getItem('refresh_token');
-    ajaxPromise('POST', 'JSON','module/login/controller/controller_login.php?op=controluser', { 'refresh_token': refresh_token })
+    ajaxPromise('POST', 'JSON','module/auth/controller/controller_auth.php?op=controluser', { 'refresh_token': refresh_token })
         .then(function(data) {
             if (data == "Correct_User") {
             } else if (data == "Wrong_User") {
@@ -76,7 +76,7 @@ function protecturl() {
 }
 function checkToken() {
     var refresh_token = localStorage.getItem('refresh_token');
-    ajaxPromise('POST', 'JSON','module/login/controller/controller_login.php?op=check_token', { 'refresh_token': refresh_token })
+    ajaxPromise('POST', 'JSON','module/auth/controller/controller_auth.php?op=check_token', { 'refresh_token': refresh_token })
         .then(function(data) {
             if (data == "Token_Expired") {
                 console.log("Token has expired.");
@@ -90,7 +90,7 @@ function checkToken() {
 function control_activity() {
     var refresh_token = localStorage.getItem('refresh_token');
     if (refresh_token) {
-        ajaxPromise('POST', 'JSON','module/login/controller/controller_login.php?op=activity')
+        ajaxPromise('POST', 'JSON','module/auth/controller/controller_auth.php?op=activity')
             .then(function(response) {
                 if (response == "inactivo") {
                     console.log("usuario INACTIVO");
@@ -106,7 +106,7 @@ function control_activity() {
 function refresh_token() {
     var token = localStorage.getItem('refresh_token');
     if (token) {
-        ajaxPromise('POST', 'JSON','module/login/controller/controller_login.php?op=refresh_token', { 'refresh_token': refresh_token })
+        ajaxPromise('POST', 'JSON','module/auth/controller/controller_auth.php?op=refresh_token', { 'refresh_token': refresh_token })
             .then(function(data_token) {
                 console.log("Refresh token correctly");
                 localStorage.setItem("token", data_token);
@@ -117,7 +117,7 @@ function refresh_token() {
 function check_tokens() {
     let token_refresh = localStorage.getItem('refresh_token');
     let token_large = localStorage.getItem('access_token');
-    ajaxPromise('POST', 'JSON','module/login/controller/controller_login.php?op=check_tokens', { 'access_token': access_token, 'refresh_token': refresh_token })
+    ajaxPromise('POST', 'JSON','module/auth/controller/controller_auth.php?op=check_tokens', { 'access_token': access_token, 'refresh_token': refresh_token })
     .then(function(data) {
         data == "not_exp" ? undefined : ( data == "refresh_token_exp" ? (console.log("Token refresh expired"), refresh_token()) : logout_auto() );
     }).catch(function(e) {
@@ -125,13 +125,13 @@ function check_tokens() {
     });
 }
 function refresh_cookie() {
-    ajaxPromise('POST', 'JSON','module/login/controller/controller_login.php?op=refresh_cookie')
+    ajaxPromise('POST', 'JSON','module/auth/controller/controller_auth.php?op=refresh_cookie')
         .then(function(response) {
             console.log("Refresh cookie correctly");
         });
 }
 function logout_auto() {
-    ajaxPromise('POST', 'JSON','module/login/controller/controller_login.php?op=logout')
+    ajaxPromise('POST', 'JSON','module/auth/controller/controller_auth.php?op=logout')
         .then(function(data) {
             localStorage.removeItem('refresh_token');
             localStorage.removeItem('access_token');
@@ -142,7 +142,7 @@ function logout_auto() {
                 confirmButtonText: 'Log in again',
                 timer: 3000
             }).then(() => {
-                window.location.href = friendlyURL("?module=login");
+                window.location.href = friendlyURL("?module=auth");
             });;
         }).catch(function(d) {
             console.log(d);
@@ -170,11 +170,11 @@ function load_content() {
     let path = window.location.pathname.split('/');
     
     if(path[3] === 'recover'){
-        window.location.href = friendlyURL("?module=login&op=recover_view");
+        window.location.href = friendlyURL("?module=auth&op=recover_view");
         localStorage.setItem("token_email", path[4]);
     }else if (path[3] === 'verify') {
         console.log('verify email');
-        ajaxPromise( 'POST', 'JSON',friendlyURL("?module=login"), {token_email: path[4],op: 'verify'})
+        ajaxPromise( 'POST', 'JSON',friendlyURL("?module=auth"), {token_email: path[4],op: 'verify'})
         .then(function(data) {
             Swal.fire({
                 icon: 'success', 
@@ -183,7 +183,7 @@ function load_content() {
                 showConfirmButton: true,
                 timer: 3000
             }).then(() => {
-                window.location.href = friendlyURL("?module=login");
+                window.location.href = friendlyURL("?module=auth");
             });
         })
         .catch(function(e) {

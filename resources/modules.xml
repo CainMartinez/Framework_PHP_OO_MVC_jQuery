@@ -13,7 +13,7 @@
         <uri>shop</uri>
     </module>
     <module>
-        <name>login</name>
-        <uri>login</uri>
+        <name>auth</name>
+        <uri>auth</uri>
     </module>
 </modules>

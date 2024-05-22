@@ -1,11 +1,11 @@
 <?php
-	class login_bll {
+	class auth_bll {
 		private $dao;
 		private $db;
 		static $_instance;
 
 		function __construct() {
-			$this -> dao = login_dao::getInstance();
+			$this -> dao = auth_dao::getInstance();
 			$this -> db = db::getInstance();
 		}
 
@@ -84,15 +84,12 @@
 			try {
 				// error_log("get_recover_BLL called with email: $email", 3, "debug.log");
 				$user = $this -> dao -> select_recover_password($this->db, $email);
-				// error_log("User selected: " . json_encode($user), 3, "debug.log");
+				error_log("User selected: " . json_encode($user), 3, "debug.log");
 
 				$token = middleware::create_email_token($email);
-				// error_log("Token created: " . $token, 3, "debug.log");
+				error_log("Token created: " . $token, 3, "debug.log");
 
 				if (!empty($user)) {
-					$this -> dao -> update_recover_password($this->db, $email, $token);
-					// error_log("Password updated for user: " . $email, 3, "debug.log");
-
 					$message = ['type' => 'recover', 
 								'token' => $token, 
 								'toEmail' => $email];
@@ -103,12 +100,12 @@
 						return;  
 					}   
 				} else {
-					// error_log("No user found with email: " . $email, 3, "debug.log");
+					error_log("No user found with email: " . $email, 3, "debug.log");
 					return 'error';
 				}
 			} catch (Exception $e) {
-				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
-				return 'error';
+				error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
+				return 'fatal error';
 			}
 		}
 		public function get_verify_token_BLL($token) {
@@ -151,6 +148,44 @@
 			} catch (Exception $e) {
 				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
 				return 'error';
+			}
+		}
+		public function get_auth_BLL($args) {
+			try {
+				// error_log("get_auth_BLL called with args: " . json_encode($args), 3, "debug.log");
+				$username = $args[0];
+				$password = $args[1];
+				// error_log("Parameters extracted: username=$username, password=$password", 3, "debug.log");
+
+				$user = $this->dao->select_user($this->db, $username,$password);
+				// error_log("User selected: " . json_encode($user), 3, "debug.log");
+
+				if (!empty($user)) {
+					$pass = $user[0]['password'];
+					// error_log("Password extracted: " . $pass, 3, "debug.log");
+
+					if (password_verify($password, $pass)) {
+						// error_log("Password verified", 3, "debug.log");
+						$_SESSION['user'] = $user[0]['username'];
+						$_SESSION['avatar'] = $user[0]['avatar'];
+						$_SESSION['email'] = $user[0]['email'];
+						$_SESSION['role'] = $user[0]['role'];
+						$_SESSION['language'] = $user[0]['language'];
+						$_SESSION['token'] = middleware::create_access_token($user[0]['username']);
+						// error_log("Session variables set: user=" . $_SESSION['user'] . ", avatar=" . $_SESSION['avatar'] . ", email=" . $_SESSION['email'] . ", role=" . $_SESSION['role'] . ", language=" . $_SESSION['language'] . ", token=" . $_SESSION['token'], 3, "debug.log");
+
+						return ['status' => 'success', 'message' => 'Login successful'];
+					} else {
+						// error_log("Password incorrect", 3, "debug.log");
+						return ['status' => 'error', 'message' => 'Password incorrect'];
+					}
+				} else {
+					// error_log("User not found", 3, "debug.log");
+					return ['status' => 'error', 'message' => 'User not found'];
+				}
+			} catch (Exception $e) {
+				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
+				return ['status' => 'error', 'message' => $e->getMessage()];
 			}
 		}
 	}
