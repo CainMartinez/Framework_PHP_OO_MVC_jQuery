@@ -13,21 +13,25 @@ function ajaxPromise(sType, sTData, sUrl, sData = undefined) {
     });
 };
 function load_menu() {
-    var refresh_token = localStorage.getItem('refresh_token');
-    if (refresh_token) {
-        console.log(refresh_token);
-        ajaxPromise('POST', 'JSON','module/auth/controller/controller_auth.php?op=data_user', { 'refresh_token': refresh_token })
-        .then(function(data) {
+    var access_token = localStorage.getItem('access_token');
+    if (access_token) {
+        data = { 'access_token': access_token, 'op': 'data_user'};
+        console.log(data);
+        ajaxPromise(
+            'POST',
+            'JSON',
+            friendlyURL("?module=auth"),
+            data
+        ).then(function(data) {
+            console.log(data);
+            // return false;
             console.log("Client logged");
-            // Ocultar los botones de registro y login
-            $('#register_button').hide();
             $('#login_button').hide();
-            // Agregar el nombre de usuario, la imagen y el botón de logout al menú
-            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=home") + '" class="rd-nav-link button_homepage">Home</a>').appendTo('.rd-navbar-nav');
-            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=shop") + '" class="rd-nav-link">Shop</a>').appendTo('.rd-navbar-nav');
+            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=shop") + '" class="rd-nav-link">Shop</a>').prependTo('.rd-navbar-nav');
+            $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=home") + '" class="rd-nav-link button_homepage">Home</a>').prependTo('.rd-navbar-nav');
             $('<li></li>').attr({'id' : 'login_ok', 'class' : 'rd-nav-item'}).html(
-                '<img src="' + data.avatar + '" alt="User Avatar" class="img-thumbnail" style="width:50px; height:50px;">&nbsp;&nbsp;&nbsp;' + 
-                '<span class="username btn btn-info">' + data.username + '</span>&nbsp;&nbsp;&nbsp;' + 
+                '<img src="' + data[0].avatar + '" alt="User Avatar" class="img-thumbnail" style="width:50px; height:50px;">&nbsp;&nbsp;&nbsp;' + 
+                '<span class="username btn btn-info">' + data[0].username + '</span>&nbsp;&nbsp;&nbsp;' + 
                 '<a id="logout" class="btn btn-warning ml-auto">Logout</a>'
             ).appendTo('.rd-navbar-nav');
         }).catch(function(e) {
@@ -54,14 +58,18 @@ function click_logout() {
     });
 }
 function logout() {
-    ajaxPromise('POST', 'JSON','module/auth/controller/controller_auth.php?op=logout')
-        .then(function(data) {
-            localStorage.removeItem('refresh_token');
-            localStorage.removeItem('access_token');
-            window.location.href = "index.php?page=homepage";
-        }).catch(function(d) {
-            console.log(d);
-        });
+    ajaxPromise(
+        'POST',
+        'JSON',
+        friendlyURL('?module=auth'),
+        {op: 'logout'}
+    ).then(function(data) {
+        localStorage.removeItem('refresh_token');
+        localStorage.removeItem('access_token');
+        window.location.href = friendlyURL("?module=home");
+    }).catch(function(e) {
+        console.error(e);
+    });
 }
 function protecturl() {
     var refresh_token = localStorage.getItem('refresh_token');
@@ -196,7 +204,7 @@ function load_content() {
 $(document).ready(function() {
     load_menu();
     load_content();
-    // click_logout();
+    click_logout();
     // setInterval(function() { control_activity() }, 60000); //1min = 60000ms
     // protecturl();
     // setInterval(function() { refresh_token() }, 600000);

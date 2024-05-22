@@ -4,7 +4,6 @@
 
         private function __construct() {
         }
-
         public static function getInstance() {
             if(!(self::$_instance instanceof self)){
                 self::$_instance = new self();
@@ -13,8 +12,8 @@
         }
         public function register($db, $username_reg, $hashed_pass, $email_reg, $avatar) {
             try {
-                $sql = "INSERT INTO users (username, password, email, avatar, type_user, active, count_login)
-                        VALUES ('$username_reg', '$hashed_pass', '$email_reg', '$avatar', 'client', 0, 0)";
+                $sql = "INSERT INTO users (username, password, email, avatar, type_user, active, count_login, phone)
+                        VALUES ('$username_reg', '$hashed_pass', '$email_reg', '$avatar', 'client', 0, 0, '')";
                 // error_log("SQL for register: " . $sql, 3, "debug.log");
                 $stmt = $db->ejecutar($sql);
                 // error_log("SQL execution result: " . json_encode($stmt), 3, "debug.log");
@@ -39,36 +38,25 @@
             }
         }
         public function select_social_login($db, $id){
-
 			$sql = "SELECT * FROM users WHERE id='$id'";
             $stmt = $db->ejecutar($sql);
-
             return $db->listar($stmt);
         }
-
         public function insert_social_login($db, $id, $username, $email, $avatar){
-
-            $sql ="INSERT INTO users (id, username, password, email, type_user, avatar, active)     
+            $sql ="INSERT INTO users (id, username, password, email, type_user, avatar, active, count_login , phone)     
                 VALUES ('$id', '$username', '', '$email', 'client', '$avatar', 1)";
-
             return $stmt = $db->ejecutar($sql);
         }
-
         public function select_verify_email($db, $token_email){
-
             $sql = "SELECT email FROM users WHERE email = '$token_email'";
             // error_log("SQL for select_verify_email: " . $sql, 3, "debug.log");
-
             $stmt = $db->ejecutar($sql);
             $result = $db->listar($stmt);
-
             if (!empty($result)) {
                 $this->update_verify_email($db, $token_email);
             }
-
             return $result;
         }
-
         public function update_verify_email($db, $token_email){
 
             $sql = "UPDATE users SET active = 1 WHERE email = '$token_email'";
@@ -77,29 +65,29 @@
             $stmt = $db->ejecutar($sql);
             return "update";
         }
-
         public function select_recover_password($db, $email){
 			$sql = "SELECT `email` FROM `users` WHERE email = '$email' AND password NOT LIKE ('')";
             // error_log("SQL for select_recover_password: " . $sql, 3, "debug.log");
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
-
         public function update_new_password($db, $token_email, $password){
             $sql = "UPDATE `users` SET `password`= '$password' WHERE `email` = '$token_email'";
             error_log("SQL for update_new_password: " . $sql, 3, "debug.log");
             $stmt = $db->ejecutar($sql);
             return "ok";
         }
-
         public function select_data_user($db, $username){
-
-			$sql = "SELECT id, username, password, email, type_user, avatar, token, active FROM users WHERE username = '$username'";
-            
+			$sql = "SELECT * FROM users WHERE username = '$username'";
+            error_log("SQL for select_data_user: " . $sql, 3, "debug.log");
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
-
+        public function increment_count($db, $username){
+            $sql = "UPDATE users SET count_login = count_login + 1 WHERE username = '$username'";
+            // error_log("SQL for increment_count: " . $sql, 3, "debug.log");
+            $stmt = $db->ejecutar($sql);
+            return "update";
+        }
     }
-
 ?>

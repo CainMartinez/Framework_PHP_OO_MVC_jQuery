@@ -29,7 +29,13 @@
             echo json_encode(common::load_model('auth_model', 'get_new_password', [$_POST['password'], $_POST['token_email']]));
         }
         function login(){
-            echo json_encode(common::load_model('auth_model', 'get_auth', [$_POST['username'], $_POST['password']]));
+            echo json_encode(common::load_model('auth_model', 'get_login', [$_POST['username'], $_POST['password']]));
+        }
+        function data_user(){
+            echo json_encode(common::load_model('auth_model', 'get_data_user', $_POST['access_token']));
+        }
+        function logout(){
+            echo json_encode(common::load_model('auth_model', 'get_logout'));
         }
     }
 ?>

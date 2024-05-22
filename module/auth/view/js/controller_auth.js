@@ -39,21 +39,18 @@ function click_login(){
 
 function validate_login(){
     var error = false;
-
 	if(document.getElementById('usernameLogin').value.length === 0){
-		document.getElementById('errorUsernameLogin').innerHTML = "You have to type the user";
+		document.getElementById('errorUsernameLogin').innerHTML = "Enter your username, please.";
 		error = true;
 	}else{
         document.getElementById('errorUsernameLogin').innerHTML = "";
     }
-	
 	if(document.getElementById('passwordLogin').value.length === 0){
-		document.getElementById('errorPasswordLogin').innerHTML = "You have to type the password";
+		document.getElementById('errorPasswordLogin').innerHTML = "Enter your password, please.";
 		error = true;
 	}else{
         document.getElementById('errorPasswordLogin').innerHTML = "";
     }
-	
     if(error == true){
         return 0;
     }
@@ -63,41 +60,51 @@ function login(){
     if(validate_login() != 0){
         var username = document.getElementById("usernameLogin").value;
         var password = document.getElementById("passwordLogin").value; 
-        var data = {username: username, password : password, op: "login"};
+        var data = {username,password, op: "login"};
         ajaxPromise(
             'POST',
             'JSON',
             friendlyURL("?module=auth"),
             data
         ).then(function(result) {
-            if(result == "user error"){		
-                $("#errorUsernameLogin").html("The email or username does't exist");
-            } else if (result == "error"){
+            if(result == "error_username"){	
+                $("#errorUsernameLogin").html("The username does't exist");
+            } else if (result == "error_password"){
                 $("#errorPasswordLogin").html('Wrong password');
-            } else if (result == "activate error"){
+            } else if (result == "error_active"){
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Verify the email',
+                    text: 'Verify the email, check the spam folder',
+                    showConfirmButton: true,
                     timer: 3000
-                })           
-            } else {
-                localStorage.setItem("token", result);
+                })
+            } else if(result === "error_count"){    
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Account closed for security reasons!',
+                    showConfirmButton: true,
+                    confirmButtonText: 'Please, check your WhatsApp for recover your account',
+                    timer: 3000
+                }).then(() => {
+                    //llamar al OTP
+                });
+
+            }else {
+                var token = JSON.parse(result);
+                localStorage.setItem("access_token", token[0]);
+                localStorage.setItem("refresh_token", token[1]);
                 Swal.fire({
                     icon: 'success',
-                    title: 'Inicio de sesión realizado',
-                    showConfirmButton: false,
+                    title: 'Login success',
+                    showConfirmButton: true,
                     timer: 3000
-                });
-                if(localStorage.getItem('likes') == null) {
+                }).then(() => {
                     setTimeout('window.location.href = friendlyURL("?module=home")', 1000);
-                } else {
-                    console.log(localStorage.getItem('product'));
-                    setTimeout('window.location.href = friendlyURL("?module=shop")', 1000);
-                }
+                });
             }	
-        }).catch(function() {
-            console.log('Error: Login error');
+        }).catch(function(e) {
+            console.error("Error en la promesa:", e);
         });     
     }
 }

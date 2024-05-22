@@ -14,22 +14,28 @@
             return self::$_instance;
         }
         public function get_register($args){
-            return $this->bll->get_register_BLL($args);
+            return $this->bll->register_BLL($args);
         }
         public function get_verify($token){
-            return $this->bll->get_verify_BLL($token);
+            return $this->bll->verify_BLL($token);
         }
         public function get_recover($email){
-            return $this->bll->get_recover_BLL($email);
+            return $this->bll->recover_BLL($email);
         }
         public function get_verify_token($token){
-            return $this->bll->get_verify_token_BLL($token);
+            return $this->bll->verify_token_BLL($token);
         }
         public function get_new_password($args){
-            return $this->bll->get_new_password_BLL($args);
+            return $this->bll->new_password_BLL($args);
         }
-        public function get_auth($args){
-            return $this->bll->get_auth_BLL($args);
+        public function get_login($args){
+            return $this->bll->login_BLL($args);
+        }
+        public function get_data_user($access_token){
+            return $this->bll->data_user_BLL($access_token);
+        }
+        public function get_logout(){
+            return $this->bll->logout_BLL();
         }
     }
 ?>

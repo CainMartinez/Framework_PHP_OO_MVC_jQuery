@@ -37,7 +37,7 @@
                         $obj = $model::getInstance();
 
                         if ($args != null) {
-                            // error_log("Arguments $args[0],$args[1],$args[2], exists in function $function", 3, "debug.log");
+                            // error_log("Arguments $args exists in function $function", 3, "debug.log");
                             return call_user_func(array($obj, $function), $args);
                         }
                         // error_log("Not exists arguments in function $function", 3, "debug.log");
