@@ -37,5 +37,14 @@
         public function get_logout(){
             return $this->bll->logout_BLL();
         }
+        public function get_control_user($args){
+            return $this->bll->control_user_BLL($args);
+        }
+        public function get_activity(){
+            return $this->bll->activity_BLL();
+        }
+        public function get_refresh_cookies(){
+            return $this->bll->refresh_cookies_BLL();
+        }
     }
 ?>

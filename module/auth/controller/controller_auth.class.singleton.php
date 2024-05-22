@@ -37,5 +37,14 @@
         function logout(){
             echo json_encode(common::load_model('auth_model', 'get_logout'));
         }
+        function control_user(){
+            echo json_encode(common::load_model('auth_model', 'get_control_user', [$_POST['access_token'], $_POST['refresh_token']]));
+        }
+        function activity(){
+            echo json_encode(common::load_model('auth_model', 'get_activity'));
+        }
+        function refresh_cookies(){
+            echo json_encode(common::load_model('auth_model', 'get_refresh_cookies'));
+        }
     }
 ?>

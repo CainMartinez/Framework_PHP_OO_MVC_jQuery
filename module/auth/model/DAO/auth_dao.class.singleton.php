@@ -83,9 +83,15 @@
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
-        public function increment_count($db, $username){
-            $sql = "UPDATE users SET count_login = count_login + 1 WHERE username = '$username'";
+        public function increment_count($db, $email){
+            $sql = "UPDATE users SET count_login = count_login + 1 WHERE email = '$email'";
             // error_log("SQL for increment_count: " . $sql, 3, "debug.log");
+            $stmt = $db->ejecutar($sql);
+            return "update";
+        }
+        public function reset_count($db, $email){
+            $sql = "UPDATE users SET count_login = 0 WHERE email = '$email'";
+            // error_log("SQL for reset_count: " . $sql, 3, "debug.log");
             $stmt = $db->ejecutar($sql);
             return "update";
         }

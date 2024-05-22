@@ -9,7 +9,6 @@
 			$this -> dao = auth_dao::getInstance();
 			$this -> db = db::getInstance();
 		}
-
 		public static function getInstance() {
 			if (!(self::$_instance instanceof self)) {
 				self::$_instance = new self();
@@ -166,20 +165,23 @@
 						$_SESSION['time'] = time();
 						// error_log("Access token: " . $access_token, 3, "debug.log");
 						// error_log("Refresh token: " . $refresh_token, 3, "debug.log");
+						$this->dao->reset_count($this->db, $user[0]['email']);
 						return json_encode([$access_token, $refresh_token]);
 					} else if (password_verify($username, $user[0]['password']) && $user[0]['active'] == 0) {
 						// error_log("User not active", 3, "debug.log");
 						return 'error_active';
 					} else {
-						$this->dao->increment_count($this->db, $username);
-						return 'error_password';
+						$this->dao->increment_count($this->db, $user[0]['email']);
+						if ($user[0]['count_login'] >= 3) {
+							return 'error_count';
+						}else{
+							return 'error_password';
+						}
 					}
 				} else {
 					return 'error_username';
 				}
-				if ($user['count_login'] >= 3) {
-					return 'error_count';
-				}
+				
 			} catch (Exception $e) {
 				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
 				return ['status' => 'error', 'message' => $e->getMessage()];
@@ -202,5 +204,56 @@
             //session_destroy();
             return 'logout';
         }
+		public function control_user_BLL($args) {
+			try {
+				$access_token = middleware::decode_token($args[0]);
+        		$refresh_token = middleware::decode_token($args[1]);
+				// error_log("get_control_user_BLL called with args: " . json_encode($args), 3, "debug.log");
+				if ($access_token['exp'] < time()) {
+					if ($refresh_token['exp'] < time()) {
+						echo json_encode("Wrong_User");
+						exit();
+					} else {
+						$old_access_token = middleware::decode_token($access_token);
+						$new_access_token = middleware::create_access_token($old_access_token['username']);
+						echo json_encode($new_access_token);
+						exit();
+					}
+				}
+				if (isset($_SESSION['username']) && ($_SESSION['username']) == $access_token['username']) {
+					echo json_encode("Correct_User");
+					exit();
+				} else {
+					echo json_encode("Wrong_User");
+		
+				}
+			} catch (Exception $e) {
+				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
+				return 'error';
+			}
+		}
+		public function activity_BLL() {
+			try {
+				// error_log("get_activity_BLL called with time: $time", 3, "debug.log");
+				if (!isset($_SESSION['time'])) {
+					echo json_encode("inactivo");
+    				exit();
+				} else {
+					if ((time() - $_SESSION['time']) >= 60) { 
+						echo json_encode("inactivo");
+            			exit();
+					} else {
+						echo json_encode("activo");
+					}
+				}
+			} catch (Exception $e) {
+				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
+				return 'error';
+			}
+		}
+		public function refresh_cookies_BLL(){
+			session_regenerate_id();
+			echo json_encode("Done");
+		}
 	}
 ?>
