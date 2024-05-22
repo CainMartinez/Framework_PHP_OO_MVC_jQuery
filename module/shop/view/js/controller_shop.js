@@ -23,12 +23,22 @@ function loadProperties() {
 function highlight_like(id_property) {
     var token = localStorage.getItem('refresh_token');
     if (token){
-        ajaxPromise('POST', 'JSON','module/login/controller/controller_login.php?op=data_user', { 'refresh_token': token })
-        .then(function(data) {
+        data = {access_token: token, op: 'data_user'};
+        ajaxPromise(
+            'POST',
+            'JSON',
+            friendlyURL('?module=login'),
+            data
+        ).then(function(data) {
             var username = data.username;
             if (username) {
-                ajaxPromise('POST', 'JSON', 'module/shop/controller/controller_shop.php?op=check_like', {id_property, username})
-                .then(function (data) {
+                info = {id_property, username, op: 'check_like'};
+                ajaxPromise(
+                    'POST', 
+                    'JSON', 
+                    friendlyURL('?module=shop'),
+                    info
+                ).then(function (data) {
                     data = JSON.parse(data);
                     if (data == 1) {
                         console.log('liked');
@@ -47,19 +57,34 @@ function likes() {
     $(document).on("click",".like_button",function(){
         var id_property = this.getAttribute('id');
         localStorage.setItem('id_property', id_property);
-        $(this).addClass('like_button_' + id_property); // Add unique class to the like button
+        $(this).addClass('like_button_' + id_property); 
         var token = localStorage.getItem('refresh_token');
+        data = {access_token: token, op: 'data_user'};
         if (token){
-            ajaxPromise('POST', 'JSON','module/login/controller/controller_login.php?op=data_user', { 'refresh_token': token })
-            .then(function(data) {
-                var username = data.username;
+            ajaxPromise(
+                'POST',
+                'JSON',
+                friendlyURL('?module=auth'),
+                data
+            ).then(function(data) {
+                var username = data[0].username;
+                info = {id_property, username, op: 'check_like'};
                 if (username) {
-                    ajaxPromise('POST', 'JSON', 'module/shop/controller/controller_shop.php?op=check_like', {id_property, username})
-                    .then(function (data) {
+                    ajaxPromise(
+                        'POST',
+                        'JSON',
+                        friendlyURL('?module=shop'),
+                        info
+                    ).then(function (data) {
                         data = JSON.parse(data);
                         if (data == 1) {
-                            ajaxPromise('POST', 'JSON', 'module/shop/controller/controller_shop.php?op=dislike_property', {id_property, username})
-                            .then(function (data) {
+                            send = {id_property, username, op: 'dislike'};
+                            ajaxPromise(
+                                'POST', 
+                                'JSON', 
+                                friendlyURL('?module=shop'),
+                                send
+                            ).then(function (data) {
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Success',
@@ -71,8 +96,13 @@ function likes() {
                                 console.error(e);
                             });
                         } else {
-                            ajaxPromise('POST', 'JSON', 'module/shop/controller/controller_shop.php?op=like_property', {id_property, username})
-                            .then(function (data) {
+                            send = {id_property, username, op: 'like'};
+                            ajaxPromise(
+                                'POST', 
+                                'JSON', 
+                                friendlyURL('?module=shop'),
+                                send
+                            ).then(function (data) {
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Success',
@@ -98,7 +128,7 @@ function likes() {
                 title: 'Oops...',
                 text: 'You must be logged in to add a property to favorites',
             }).then((result) => {
-                window.location.href = 'index.php?page=login';
+                window.location.href = friendlyURL('?module=auth');
             });
         }
     });
@@ -922,5 +952,5 @@ $(document).ready(function () {
     print_filters();
     filters_shop();
     clicks_shop();
-    // likes();
+    likes();
 });

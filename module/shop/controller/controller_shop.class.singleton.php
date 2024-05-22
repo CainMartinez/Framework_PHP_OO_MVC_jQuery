@@ -50,5 +50,14 @@ class controller_shop{
     function pagination_filters(){
         echo json_encode(common::load_model('shop_model', 'get_pagination_filters',[$_POST['filters_shop']]));
     }
+    function check_like(){
+        echo json_encode(common::load_model('shop_model', 'get_check_like',[$_POST['id_property'],$_POST['username']]));
+    }
+    function like(){
+        echo json_encode(common::load_model('shop_model', 'set_add_like',[$_POST['id_property'],$_POST['username']]));
+    }
+    function dislike(){
+        echo json_encode(common::load_model('shop_model', 'set_remove_like',[$_POST['id_property'],$_POST['username']]));
+    }
 }
 ?>

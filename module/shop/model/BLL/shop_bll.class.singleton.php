@@ -54,5 +54,14 @@ class shop_bll{
     public function get_pagination_filters_BLL($arrArgument){
         return $this->dao->counting_filters($this->db,$arrArgument[0]);
     }
+    public function get_check_like_BLL($arrArgument){
+        return $this->dao->check_like($this->db,$arrArgument[0],$arrArgument[1]);
+    }
+    public function set_add_like_BLL($arrArgument){
+        return $this->dao->like_property($this->db,$arrArgument[0],$arrArgument[1]);
+    }
+    public function set_add_dislike_BLL($arrArgument){
+        return $this->dao->dislike_property($this->db,$arrArgument[0],$arrArgument[1]);
+    }
 }
 ?>

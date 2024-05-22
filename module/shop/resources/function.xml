@@ -61,4 +61,17 @@
         <name>pagination_filters</name>
         <uri>pagination_filters</uri>
     </function>
+    <!-- Likes -->
+    <function>
+        <name>check_like</name>
+        <uri>check_like</uri>
+    </function>
+    <function>
+        <name>like</name>
+        <uri>like</uri>
+    </function>
+    <function>
+        <name>dislike</name>
+        <uri>dislike</uri>
+    </function>
 </functions>

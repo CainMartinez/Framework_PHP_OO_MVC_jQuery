@@ -52,6 +52,15 @@ class shop_model{
     public function get_pagination_filters($arrArgument){
         return $this->bll->get_pagination_filters_BLL($arrArgument);
     }
+    public function get_check_like($arrArgument){
+        return $this->bll->get_check_like_BLL($arrArgument);
+    }
+    public function set_add_like($arrArgument){
+        return $this->bll->set_add_like_BLL($arrArgument);
+    }
+    public function set_remove_like($arrArgument){
+        return $this->bll->set_add_dislike_BLL($arrArgument);
+    }
 
 }
 ?>
