@@ -21,7 +21,12 @@
                 // self::load_error();
             }
         }
-        
+        public static function generate_token_secure($longitud){
+            if ($longitud < 4) {
+                $longitud = 4;
+            }
+            return bin2hex(openssl_random_pseudo_bytes(($longitud - ($longitud % 2)) / 2));
+        }
         public static function load_model($model, $function = null, $args = null) {
             try {
                 $dir = explode('_', $model);

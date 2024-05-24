@@ -12,8 +12,8 @@
         }
         public function register($db, $username_reg, $hashed_pass, $email_reg, $avatar) {
             try {
-                $sql = "INSERT INTO users (username, password, email, avatar, type_user, active, count_login, phone)
-                        VALUES ('$username_reg', '$hashed_pass', '$email_reg', '$avatar', 'client', 0, 0, '')";
+                $sql = "INSERT INTO users (username, password, email, avatar, type_user, active, count_login, phone, token)
+                        VALUES ('$username_reg', '$hashed_pass', '$email_reg', '$avatar', 'client', 0, 0, '', '')";
                 // error_log("SQL for register: " . $sql, 3, "debug.log");
                 $stmt = $db->ejecutar($sql);
                 // error_log("SQL execution result: " . json_encode($stmt), 3, "debug.log");
@@ -94,6 +94,12 @@
             // error_log("SQL for reset_count: " . $sql, 3, "debug.log");
             $stmt = $db->ejecutar($sql);
             return "update";
+        }
+        public function insert_token_opt($db,$email,$token){
+            $sql = "UPDATE users SET token = '$token' WHERE email = '$email'";
+            // error_log("SQL for insert_token_opt: " . $sql, 3, "debug.log");
+            $stmt = $db->ejecutar($sql);
+            return 'update';
         }
     }
 ?>

@@ -155,32 +155,49 @@
 				$username = $args[0];
 				$password = $args[1];
 				$user = $this->dao->select_user($this->db, $username, $password);
-				// error_log("User selected: " . json_encode($user), 3, "debug.log");
-				// error_log("Password verify: " . $user[0]['password'], 3, "debug.log");
-				if (!empty($user)) {
-					if (password_verify($password, $user[0]['password']) && $user[0]['active'] == 1) {
-						$access_token = middleware::create_access_token($user[0]["username"]);
-						$refresh_token = middleware::create_refresh_token($user[0]["username"]);
-						$_SESSION['username'] = $user[0]['username'];
-						$_SESSION['time'] = time();
-						// error_log("Access token: " . $access_token, 3, "debug.log");
-						// error_log("Refresh token: " . $refresh_token, 3, "debug.log");
-						$this->dao->reset_count($this->db, $user[0]['email']);
-						return json_encode([$access_token, $refresh_token]);
-					} else if (password_verify($username, $user[0]['password']) && $user[0]['active'] == 0) {
-						// error_log("User not active", 3, "debug.log");
-						return 'error_active';
-					} else {
-						$this->dao->increment_count($this->db, $user[0]['email']);
-						if ($user[0]['count_login'] >= 3) {
+				$token = common::generate_token_secure(4);
+				error_log("User selected: " . json_encode($user), 3, "debug.log");
+				error_log("Password verify: " . $user[0]['password'], 3, "debug.log");
+				if ($user[0]['count_login'] >= 3){
+					if ($this->dao->insert_token_opt($this->db, $user[0]['email'], $token)){
+						$message = ['type' => 'activate',
+									'token' => $token];
+						$otp = json_decode(otp::send_message($message));
+						error_log("Email sent: " . json_encode($otp), 3, "debug.log");
+						if (!empty($otp)) {
+							error_log("Email sent", 3, "debug.log");
 							return 'error_count';
 						}else{
+							error_log("Email not sent", 3, "debug.log");
+							return 'error_otp_send';
+						}
+					}else{
+						error_log("Token not inserted", 3, "debug.log");
+						return 'error_otp_insert';
+					}
+				}else{
+					if (!empty($user)) {
+						if (password_verify($password, $user[0]['password']) && $user[0]['active'] == 1) {
+							$access_token = middleware::create_access_token($user[0]["username"]);
+							$refresh_token = middleware::create_refresh_token($user[0]["username"]);
+							$_SESSION['username'] = $user[0]['username'];
+							$_SESSION['time'] = time();
+							// error_log("Access token: " . $access_token, 3, "debug.log");
+							// error_log("Refresh token: " . $refresh_token, 3, "debug.log");
+							$this->dao->reset_count($this->db, $user[0]['email']);
+							return json_encode([$access_token, $refresh_token]);
+						} else if (password_verify($username, $user[0]['password']) && $user[0]['active'] == 0) {
+							// error_log("User not active", 3, "debug.log");
+							return 'error_active';
+						} else {
+							$this->dao->increment_count($this->db, $user[0]['email']);
 							return 'error_password';
 						}
+					} else {
+						return 'error_username';
 					}
-				} else {
-					return 'error_username';
 				}
+				
 				
 			} catch (Exception $e) {
 				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");

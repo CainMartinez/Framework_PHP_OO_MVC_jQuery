@@ -35,6 +35,13 @@ function click_login(){
         $("#title_property_recover").hide();
         $("#title_property_login").show();
     });
+    $("#title_property_otp").show();
+    $("#title_property_recover").hide();
+    var url = window.location.href;
+    if (/recover_view\/.+/g.test(url)) {
+        $("#title_property_recover").show();
+        $("#title_property_otp").hide();
+    }
 }
 
 function validate_login(){
@@ -87,9 +94,22 @@ function login(){
                     confirmButtonText: 'Please, check your WhatsApp for recover your account',
                     timer: 3000
                 }).then(() => {
-                    //llamar al OTP
+                    window.location.href = friendlyURL("?module=auth&op=recover_view");
                 });
-
+            }else if(result === "error_otp_send"){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error sending the OTP',
+                    showConfirmButton: true,
+                    timer: 3000
+                });
+            }else if(result === "error_otp_insert"){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error inserting the OTP',
+                    showConfirmButton: true,
+                    timer: 3000
+                });
             }else {
                 var token = JSON.parse(result);
                 localStorage.setItem("access_token", token[0]);
