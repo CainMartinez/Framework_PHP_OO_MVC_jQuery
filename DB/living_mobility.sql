@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1deb5ubuntu1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: May 07, 2024 at 08:32 PM
--- Server version: 8.0.36-0ubuntu0.22.04.1
--- PHP Version: 8.1.2-1ubuntu2.15
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 24-05-2024 a las 12:57:21
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,43 +18,43 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `living_mobility`
+-- Base de datos: `living_mobility`
 --
 
 DELIMITER $$
 --
--- Procedures
+-- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `like_property` (IN `p_id_property` INT, IN `p_username` VARCHAR(255))  BEGIN
-    DECLARE v_id_user INT;
-
-    SELECT id_user INTO v_id_user FROM users WHERE username = p_username;
-
-    IF v_id_user IS NOT NULL THEN
-        UPDATE likes SET active = 1 WHERE id_property = p_id_property AND id_user = v_id_user;
-        UPDATE property SET likes = likes + 1 WHERE id_property = p_id_property;
-    END IF;
-END$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `LikeProperty` (IN `p_username` VARCHAR(255), IN `p_id_property` INT)   BEGIN
+            DECLARE v_id_user INT;
+        
+            SELECT id_user INTO v_id_user FROM users WHERE username = p_username;
+        
+            IF v_id_user IS NOT NULL THEN
+               INSERT INTO likes (id_property, id_user) VALUES (p_id_property, v_id_user);
+                UPDATE property SET likes = likes + 1 WHERE id_property = p_id_property;
+             END IF;
+         END$$
 
 DELIMITER ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `category`
+-- Estructura de tabla para la tabla `category`
 --
 
 CREATE TABLE `category` (
-  `id_category` int NOT NULL,
+  `id_category` int(11) NOT NULL,
   `name_category` varchar(50) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
   `creation_date` varchar(50) DEFAULT NULL,
   `update_date` varchar(50) DEFAULT NULL,
   `image_category` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `category`
+-- Volcado de datos para la tabla `category`
 --
 
 INSERT INTO `category` (`id_category`, `name_category`, `is_active`, `creation_date`, `update_date`, `image_category`) VALUES
@@ -69,20 +69,20 @@ INSERT INTO `category` (`id_category`, `name_category`, `is_active`, `creation_d
 -- --------------------------------------------------------
 
 --
--- Table structure for table `city`
+-- Estructura de tabla para la tabla `city`
 --
 
 CREATE TABLE `city` (
-  `id_city` int NOT NULL,
+  `id_city` int(11) NOT NULL,
   `name_city` varchar(50) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
   `creation_date` varchar(50) DEFAULT NULL,
   `update_date` varchar(50) DEFAULT NULL,
   `image_city` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `city`
+-- Volcado de datos para la tabla `city`
 --
 
 INSERT INTO `city` (`id_city`, `name_city`, `is_active`, `creation_date`, `update_date`, `image_city`) VALUES
@@ -95,17 +95,17 @@ INSERT INTO `city` (`id_city`, `name_city`, `is_active`, `creation_date`, `updat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `exceptions`
+-- Estructura de tabla para la tabla `exceptions`
 --
 
 CREATE TABLE `exceptions` (
-  `type_error` int NOT NULL,
+  `type_error` int(11) NOT NULL,
   `spot` varchar(100) NOT NULL,
   `current_date_time` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `exceptions`
+-- Volcado de datos para la tabla `exceptions`
 --
 
 INSERT INTO `exceptions` (`type_error`, `spot`, `current_date_time`) VALUES
@@ -118,20 +118,20 @@ INSERT INTO `exceptions` (`type_error`, `spot`, `current_date_time`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `extras`
+-- Estructura de tabla para la tabla `extras`
 --
 
 CREATE TABLE `extras` (
-  `id_extras` int NOT NULL,
+  `id_extras` int(11) NOT NULL,
   `name_extras` varchar(50) NOT NULL,
   `creation_date` varchar(100) NOT NULL,
   `update_date` varchar(100) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `image_extras` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `extras`
+-- Volcado de datos para la tabla `extras`
 --
 
 INSERT INTO `extras` (`id_extras`, `name_extras`, `creation_date`, `update_date`, `is_active`, `image_extras`) VALUES
@@ -145,20 +145,20 @@ INSERT INTO `extras` (`id_extras`, `name_extras`, `creation_date`, `update_date`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `images`
+-- Estructura de tabla para la tabla `images`
 --
 
 CREATE TABLE `images` (
-  `id_images` int NOT NULL,
+  `id_images` int(11) NOT NULL,
   `path_images` varchar(100) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
   `creation_date` varchar(50) DEFAULT NULL,
   `update_date` varchar(50) DEFAULT NULL,
-  `id_property` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_property` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `images`
+-- Volcado de datos para la tabla `images`
 --
 
 INSERT INTO `images` (`id_images`, `path_images`, `is_active`, `creation_date`, `update_date`, `id_property`) VALUES
@@ -241,20 +241,20 @@ INSERT INTO `images` (`id_images`, `path_images`, `is_active`, `creation_date`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `large_people`
+-- Estructura de tabla para la tabla `large_people`
 --
 
 CREATE TABLE `large_people` (
-  `id_large_people` int NOT NULL,
+  `id_large_people` int(11) NOT NULL,
   `name_large_people` varchar(50) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
   `creation_date` varchar(50) DEFAULT NULL,
   `update_date` varchar(50) DEFAULT NULL,
   `image_people` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `large_people`
+-- Volcado de datos para la tabla `large_people`
 --
 
 INSERT INTO `large_people` (`id_large_people`, `name_large_people`, `is_active`, `creation_date`, `update_date`, `image_people`) VALUES
@@ -265,31 +265,38 @@ INSERT INTO `large_people` (`id_large_people`, `name_large_people`, `is_active`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `likes`
+-- Estructura de tabla para la tabla `likes`
 --
 
 CREATE TABLE `likes` (
-  `id_property` int NOT NULL,
-  `id_user` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_property` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Volcado de datos para la tabla `likes`
+--
+
+INSERT INTO `likes` (`id_property`, `id_user`) VALUES
+(1, 15);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `operation`
+-- Estructura de tabla para la tabla `operation`
 --
 
 CREATE TABLE `operation` (
-  `id_operation` int NOT NULL,
+  `id_operation` int(11) NOT NULL,
   `name_operation` varchar(50) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
   `creation_date` varchar(50) DEFAULT NULL,
   `update_date` varchar(50) DEFAULT NULL,
   `image_operation` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `operation`
+-- Volcado de datos para la tabla `operation`
 --
 
 INSERT INTO `operation` (`id_operation`, `name_operation`, `is_active`, `creation_date`, `update_date`, `image_operation`) VALUES
@@ -301,35 +308,35 @@ INSERT INTO `operation` (`id_operation`, `name_operation`, `is_active`, `creatio
 -- --------------------------------------------------------
 
 --
--- Table structure for table `property`
+-- Estructura de tabla para la tabla `property`
 --
 
 CREATE TABLE `property` (
-  `id_property` int NOT NULL,
+  `id_property` int(11) NOT NULL,
   `property_name` varchar(50) NOT NULL,
   `cadastral_reference` varchar(50) DEFAULT NULL,
-  `square_meters` int DEFAULT NULL,
-  `number_of_rooms` int DEFAULT NULL,
+  `square_meters` int(11) DEFAULT NULL,
+  `number_of_rooms` int(11) DEFAULT NULL,
   `description` varchar(150) DEFAULT NULL,
-  `price` int DEFAULT NULL,
-  `id_large_people` int DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `id_large_people` int(11) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
   `creation_date` varchar(50) DEFAULT NULL,
   `update_date` varchar(50) DEFAULT NULL,
-  `id_city` int DEFAULT NULL,
-  `visits` int DEFAULT '0',
-  `likes` int NOT NULL,
+  `id_city` int(11) DEFAULT NULL,
+  `visits` int(11) DEFAULT 0,
+  `likes` int(11) NOT NULL,
   `currently_date` datetime DEFAULT NULL,
   `latitude` float NOT NULL,
   `longitude` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `property`
+-- Volcado de datos para la tabla `property`
 --
 
 INSERT INTO `property` (`id_property`, `property_name`, `cadastral_reference`, `square_meters`, `number_of_rooms`, `description`, `price`, `id_large_people`, `is_active`, `creation_date`, `update_date`, `id_city`, `visits`, `likes`, `currently_date`, `latitude`, `longitude`) VALUES
-(1, 'Garden\'s John', '12345-67890-A', 100, 3, 'Beautiful house with garden', 200000, 1, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1, 38, 21, '2024-04-24 01:51:30', 38.8167, -0.61667),
+(1, 'Garden\'s John', '12345-67890-A', 100, 3, 'Beautiful house with garden', 200000, 1, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1, 38, 22, '2024-04-24 01:51:30', 38.8167, -0.61667),
 (2, 'The Tower', '23456-78901-B', 80, 2, 'Apartment with sea view', 150000, 2, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2, 12, 12, '2024-04-09 19:00:43', 38.9667, -0.18333),
 (3, 'Sunset View Manor', '34567-89012-C', 120, 4, 'Spacious villa with pool', 300000, 3, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3, 15, 13, '2024-03-18 20:38:31', 38.838, -0.51721),
 (4, 'Enchanted Hideaway', '45678-90123-D', 60, 1, 'Cozy studio in the city center', 100000, 2, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4, 7, 0, '2024-03-26 21:31:14', 38.7054, -0.47432),
@@ -348,181 +355,181 @@ INSERT INTO `property` (`id_property`, `property_name`, `cadastral_reference`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `property_category`
+-- Estructura de tabla para la tabla `property_category`
 --
 
 CREATE TABLE `property_category` (
-  `id_property` int NOT NULL,
-  `id_category` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_property` int(11) NOT NULL,
+  `id_category` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `property_category`
+-- Volcado de datos para la tabla `property_category`
 --
 
 INSERT INTO `property_category` (`id_property`, `id_category`) VALUES
 (1, 1),
-(3, 1),
-(4, 1),
-(5, 1),
-(34, 1),
-(38, 1),
-(42, 1),
 (1, 2),
-(4, 2),
-(5, 2),
-(35, 2),
-(39, 2),
-(43, 2),
-(3, 3),
-(36, 3),
-(40, 3),
 (2, 4),
-(3, 4),
-(4, 4),
-(37, 4),
-(41, 4),
 (2, 5),
+(3, 1),
+(3, 3),
+(3, 4),
 (3, 5),
-(4, 5);
+(4, 1),
+(4, 2),
+(4, 4),
+(4, 5),
+(5, 1),
+(5, 2),
+(34, 1),
+(35, 2),
+(36, 3),
+(37, 4),
+(38, 1),
+(39, 2),
+(40, 3),
+(41, 4),
+(42, 1),
+(43, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `property_extras`
+-- Estructura de tabla para la tabla `property_extras`
 --
 
 CREATE TABLE `property_extras` (
-  `id_property` int NOT NULL,
-  `id_extras` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_property` int(11) NOT NULL,
+  `id_extras` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `property_extras`
+-- Volcado de datos para la tabla `property_extras`
 --
 
 INSERT INTO `property_extras` (`id_property`, `id_extras`) VALUES
 (1, 1),
-(3, 1),
-(4, 1),
-(5, 1),
-(34, 1),
-(40, 1),
 (1, 2),
-(4, 2),
-(5, 2),
-(35, 2),
-(41, 2),
-(3, 3),
-(36, 3),
-(42, 3),
 (2, 4),
-(3, 4),
-(4, 4),
-(37, 4),
-(43, 4),
 (2, 5),
+(3, 1),
+(3, 3),
+(3, 4),
 (3, 5),
+(4, 1),
+(4, 2),
+(4, 4),
 (4, 5),
+(5, 1),
+(5, 2),
+(34, 1),
+(35, 2),
+(36, 3),
+(37, 4),
 (38, 5),
-(39, 6);
+(39, 6),
+(40, 1),
+(41, 2),
+(42, 3),
+(43, 4);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `property_operation`
+-- Estructura de tabla para la tabla `property_operation`
 --
 
 CREATE TABLE `property_operation` (
-  `id_property` int NOT NULL,
-  `id_operation` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_property` int(11) NOT NULL,
+  `id_operation` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `property_operation`
+-- Volcado de datos para la tabla `property_operation`
 --
 
 INSERT INTO `property_operation` (`id_property`, `id_operation`) VALUES
 (1, 1),
-(3, 1),
-(4, 1),
-(5, 1),
-(34, 1),
-(38, 1),
-(42, 1),
 (1, 2),
-(4, 2),
-(5, 2),
-(35, 2),
-(39, 2),
-(43, 2),
-(3, 3),
-(36, 3),
-(40, 3),
 (2, 4),
+(3, 1),
+(3, 3),
 (3, 4),
+(4, 1),
+(4, 2),
 (4, 4),
+(5, 1),
+(5, 2),
+(34, 1),
+(35, 2),
+(36, 3),
 (37, 4),
-(41, 4);
+(38, 1),
+(39, 2),
+(40, 3),
+(41, 4),
+(42, 1),
+(43, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `property_type`
+-- Estructura de tabla para la tabla `property_type`
 --
 
 CREATE TABLE `property_type` (
-  `id_property` int NOT NULL,
-  `id_type` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_property` int(11) NOT NULL,
+  `id_type` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `property_type`
+-- Volcado de datos para la tabla `property_type`
 --
 
 INSERT INTO `property_type` (`id_property`, `id_type`) VALUES
 (1, 1),
-(3, 1),
-(4, 1),
-(5, 1),
-(34, 1),
-(38, 1),
-(42, 1),
 (1, 2),
-(4, 2),
-(5, 2),
-(35, 2),
-(39, 2),
-(43, 2),
-(3, 3),
-(36, 3),
-(40, 3),
 (2, 4),
-(3, 4),
-(4, 4),
-(37, 4),
-(41, 4),
 (2, 5),
+(3, 1),
+(3, 3),
+(3, 4),
 (3, 5),
-(4, 5);
+(4, 1),
+(4, 2),
+(4, 4),
+(4, 5),
+(5, 1),
+(5, 2),
+(34, 1),
+(35, 2),
+(36, 3),
+(37, 4),
+(38, 1),
+(39, 2),
+(40, 3),
+(41, 4),
+(42, 1),
+(43, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `type`
+-- Estructura de tabla para la tabla `type`
 --
 
 CREATE TABLE `type` (
-  `id_type` int NOT NULL,
+  `id_type` int(11) NOT NULL,
   `name_type` varchar(50) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT NULL,
   `creation_date` varchar(50) DEFAULT NULL,
   `update_date` varchar(50) DEFAULT NULL,
   `image_type` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `type`
+-- Volcado de datos para la tabla `type`
 --
 
 INSERT INTO `type` (`id_type`, `name_type`, `is_active`, `creation_date`, `update_date`, `image_type`) VALUES
@@ -535,62 +542,68 @@ INSERT INTO `type` (`id_type`, `name_type`, `is_active`, `creation_date`, `updat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Estructura de tabla para la tabla `users`
 --
 
 CREATE TABLE `users` (
-  `id_user` int NOT NULL,
+  `id_user` int(11) NOT NULL,
   `username` varchar(25) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `avatar` varchar(100) DEFAULT NULL,
-  `type_user` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `type_user` varchar(50) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL,
+  `count_login` int(1) NOT NULL,
+  `phone` varchar(30) NOT NULL,
+  `token` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `users`
+-- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `avatar`, `type_user`) VALUES
-(1, 'user1234', '$2y$12$mY7G3WbR/KRdn9oruNP0gu5VXJI1RkFMUyofz32.6AYVh3pnuzNLm', 'user@user.es', 'https://i.pravatar.cc/500?u=305d5031352dd282cd20e3d64af291c5', 'client');
+INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `avatar`, `type_user`, `active`, `count_login`, `phone`, `token`) VALUES
+(13, 'user1234', '$2y$12$sdIeijSJhjVLOZPqij2Qae2sQJBlByCkNZx82UO60jQuWxGf0Zh06', 'cain@cain.es', 'https://i.pravatar.cc/500?u=d8ed98dbd5a4ef00d8ea53f2a7888f31', 'client', 1, 0, '', ''),
+(14, 'olaolaola', '$2y$12$7u0N.d0ERp7pzBCF/.bH9.30smfqj5Mi0EwTkzRDR5MeX5oKrrI4W', 'ola@ola.es', 'https://i.pravatar.cc/500?u=f4c5f142b2319b72110a0934f487d7ee', 'client', 1, 0, '', ''),
+(15, 'pepe1234', '$2y$12$44wMoQd5Xo7y5GX0RWy57ekGLX5s8j7NPeKZNxgdrLl7H5cj4G5yW', 'pepito@pepito.es', 'https://i.pravatar.cc/500?u=c6e97f81bf1b0c2797a9e578df0ce77e', 'client', 1, 0, '', 'bf56');
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `category`
+-- Indices de la tabla `category`
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`id_category`);
 
 --
--- Indexes for table `city`
+-- Indices de la tabla `city`
 --
 ALTER TABLE `city`
   ADD PRIMARY KEY (`id_city`);
 
 --
--- Indexes for table `extras`
+-- Indices de la tabla `extras`
 --
 ALTER TABLE `extras`
   ADD PRIMARY KEY (`id_extras`);
 
 --
--- Indexes for table `images`
+-- Indices de la tabla `images`
 --
 ALTER TABLE `images`
   ADD PRIMARY KEY (`id_images`),
   ADD KEY `fk_property` (`id_property`);
 
 --
--- Indexes for table `large_people`
+-- Indices de la tabla `large_people`
 --
 ALTER TABLE `large_people`
   ADD PRIMARY KEY (`id_large_people`);
 
 --
--- Indexes for table `likes`
+-- Indices de la tabla `likes`
 --
 ALTER TABLE `likes`
   ADD PRIMARY KEY (`id_property`,`id_user`),
@@ -598,13 +611,13 @@ ALTER TABLE `likes`
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `operation`
+-- Indices de la tabla `operation`
 --
 ALTER TABLE `operation`
   ADD PRIMARY KEY (`id_operation`);
 
 --
--- Indexes for table `property`
+-- Indices de la tabla `property`
 --
 ALTER TABLE `property`
   ADD PRIMARY KEY (`id_property`),
@@ -612,41 +625,41 @@ ALTER TABLE `property`
   ADD KEY `fk_large_people` (`id_large_people`);
 
 --
--- Indexes for table `property_category`
+-- Indices de la tabla `property_category`
 --
 ALTER TABLE `property_category`
   ADD PRIMARY KEY (`id_property`,`id_category`),
   ADD KEY `id_category` (`id_category`);
 
 --
--- Indexes for table `property_extras`
+-- Indices de la tabla `property_extras`
 --
 ALTER TABLE `property_extras`
   ADD PRIMARY KEY (`id_property`,`id_extras`),
   ADD KEY `id_extras` (`id_extras`);
 
 --
--- Indexes for table `property_operation`
+-- Indices de la tabla `property_operation`
 --
 ALTER TABLE `property_operation`
   ADD PRIMARY KEY (`id_property`,`id_operation`),
   ADD KEY `id_operation` (`id_operation`);
 
 --
--- Indexes for table `property_type`
+-- Indices de la tabla `property_type`
 --
 ALTER TABLE `property_type`
   ADD PRIMARY KEY (`id_property`,`id_type`),
   ADD KEY `id_type` (`id_type`);
 
 --
--- Indexes for table `type`
+-- Indices de la tabla `type`
 --
 ALTER TABLE `type`
   ADD PRIMARY KEY (`id_type`);
 
 --
--- Indexes for table `users`
+-- Indices de la tabla `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id_user`),
@@ -654,75 +667,75 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `category`
+-- AUTO_INCREMENT de la tabla `category`
 --
 ALTER TABLE `category`
-  MODIFY `id_category` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `city`
+-- AUTO_INCREMENT de la tabla `city`
 --
 ALTER TABLE `city`
-  MODIFY `id_city` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_city` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `extras`
+-- AUTO_INCREMENT de la tabla `extras`
 --
 ALTER TABLE `extras`
-  MODIFY `id_extras` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_extras` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `images`
+-- AUTO_INCREMENT de la tabla `images`
 --
 ALTER TABLE `images`
-  MODIFY `id_images` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id_images` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
--- AUTO_INCREMENT for table `large_people`
+-- AUTO_INCREMENT de la tabla `large_people`
 --
 ALTER TABLE `large_people`
-  MODIFY `id_large_people` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_large_people` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `operation`
+-- AUTO_INCREMENT de la tabla `operation`
 --
 ALTER TABLE `operation`
-  MODIFY `id_operation` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_operation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `property`
+-- AUTO_INCREMENT de la tabla `property`
 --
 ALTER TABLE `property`
-  MODIFY `id_property` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id_property` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
--- AUTO_INCREMENT for table `type`
+-- AUTO_INCREMENT de la tabla `type`
 --
 ALTER TABLE `type`
-  MODIFY `id_type` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_type` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `images`
+-- Filtros para la tabla `images`
 --
 ALTER TABLE `images`
   ADD CONSTRAINT `fk_property` FOREIGN KEY (`id_property`) REFERENCES `property` (`id_property`);
 
 --
--- Constraints for table `likes`
+-- Filtros para la tabla `likes`
 --
 ALTER TABLE `likes`
   ADD CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`id_property`) REFERENCES `property` (`id_property`),
@@ -730,35 +743,35 @@ ALTER TABLE `likes`
   ADD CONSTRAINT `likes_ibfk_3` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 
 --
--- Constraints for table `property`
+-- Filtros para la tabla `property`
 --
 ALTER TABLE `property`
   ADD CONSTRAINT `fk_city` FOREIGN KEY (`id_city`) REFERENCES `city` (`id_city`),
   ADD CONSTRAINT `fk_large_people` FOREIGN KEY (`id_large_people`) REFERENCES `large_people` (`id_large_people`);
 
 --
--- Constraints for table `property_category`
+-- Filtros para la tabla `property_category`
 --
 ALTER TABLE `property_category`
   ADD CONSTRAINT `property_category_ibfk_1` FOREIGN KEY (`id_property`) REFERENCES `property` (`id_property`),
   ADD CONSTRAINT `property_category_ibfk_2` FOREIGN KEY (`id_category`) REFERENCES `category` (`id_category`);
 
 --
--- Constraints for table `property_extras`
+-- Filtros para la tabla `property_extras`
 --
 ALTER TABLE `property_extras`
   ADD CONSTRAINT `property_extras_ibfk_1` FOREIGN KEY (`id_property`) REFERENCES `property` (`id_property`),
   ADD CONSTRAINT `property_extras_ibfk_2` FOREIGN KEY (`id_extras`) REFERENCES `extras` (`id_extras`);
 
 --
--- Constraints for table `property_operation`
+-- Filtros para la tabla `property_operation`
 --
 ALTER TABLE `property_operation`
   ADD CONSTRAINT `property_operation_ibfk_1` FOREIGN KEY (`id_property`) REFERENCES `property` (`id_property`),
   ADD CONSTRAINT `property_operation_ibfk_2` FOREIGN KEY (`id_operation`) REFERENCES `operation` (`id_operation`);
 
 --
--- Constraints for table `property_type`
+-- Filtros para la tabla `property_type`
 --
 ALTER TABLE `property_type`
   ADD CONSTRAINT `property_type_ibfk_1` FOREIGN KEY (`id_property`) REFERENCES `property` (`id_property`),

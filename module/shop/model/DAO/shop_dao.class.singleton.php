@@ -16,46 +16,39 @@ class shop_dao{
         $stmt = $db->ejecutar($sql);
         return $db->listar($stmt);
     }
+    // public function like_property($db, $id_property, $username) {
+    //     $sql = "SELECT id_user FROM users WHERE username = '$username'";
+    //     $stmt = $db->ejecutar($sql);
+    //     $user = $db->listar($stmt);
+
+    //     if ($user) {
+    //         $id_user = $user[0]['id_user'];
+
+    //         $sql = "INSERT INTO likes (id_property, id_user) VALUES ($id_property, $id_user)";
+    //         $db->ejecutar($sql);
+
+    //         $sql = "UPDATE property SET likes = likes + 1 WHERE id_property = $id_property";
+    //         $db->ejecutar($sql);
+    //     }
+    // }
     public function like_property($db, $id_property, $username) {
-        $sql = "SELECT id_user FROM users WHERE username = '$username'";
-        $stmt = $db->ejecutar($sql);
-        $user = $db->listar($stmt);
-
-        if ($user) {
-            $id_user = $user[0]['id_user'];
-
-            $sql = "INSERT INTO likes (id_property, id_user) VALUES ($id_property, $id_user)";
-            $db->ejecutar($sql);
-
-            $sql = "UPDATE property SET likes = likes + 1 WHERE id_property = $id_property";
-            $db->ejecutar($sql);
-        }
+        $sql = "CALL LikeProperty('$username', $id_property)";
+        $db->ejecutar($sql);
+        // Procedure que se llama:
+        // DELIMITER //
+        // CREATE PROCEDURE LikeProperty(IN p_username VARCHAR(255), IN p_id_property INT)
+        // BEGIN
+        //     DECLARE v_id_user INT;
+        
+        //     SELECT id_user INTO v_id_user FROM users WHERE username = p_username;
+        
+        //     IF v_id_user IS NOT NULL THEN
+        //         INSERT INTO likes (id_property, id_user) VALUES (p_id_property, v_id_user);
+        //         UPDATE property SET likes = likes + 1 WHERE id_property = p_id_property;
+        //     END IF;
+        // END //
+        // DELIMITER ;
     }
-        /* Procedure para añadir like, eliminado porque
-        al pasarme a MAC me da error de versiones de MariaDB lo añadiré en el framework*/
-        /* function like_property($id_property, $username) {
-            $conexion = connect::con();
-
-            $sql = "CALL like_property(?, ?)";
-            $stmt = $conexion->prepare($sql);
-            $stmt->bind_param("is", $id_property, $username);
-            $stmt->execute();
-
-            connect::close($conexion);
-            /* DELIMITER //
-            CREATE PROCEDURE like_property(IN p_id_property INT, IN p_username VARCHAR(255))
-            BEGIN
-                DECLARE v_id_user INT;
-
-                SELECT id_user INTO v_id_user FROM users WHERE username = p_username;
-
-                IF v_id_user IS NOT NULL THEN
-                    UPDATE likes SET active = 1 WHERE id_property = p_id_property AND id_user = v_id_user;
-                    UPDATE property SET likes = likes + 1 WHERE id_property = p_id_property;
-                END IF;
-            END //
-            DELIMITER ; 
-        } */
     public function check_like($db, $id_property, $username){
         $sql = "SELECT id_user FROM users WHERE username = '$username'";
         $stmt = $db->ejecutar($sql);
