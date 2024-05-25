@@ -101,5 +101,31 @@
             $stmt = $db->ejecutar($sql);
             return 'update';
         }
+        public function select_token_opt($db,$token){
+            $sql = "SELECT * FROM users WHERE token = '$token'";
+            error_log("SQL for select_token_opt: " . $sql, 3, "debug.log");
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+        public function delete_token_opt($db,$token){
+            $sql = "UPDATE users SET token = '' WHERE token = '$token'";
+            error_log("SQL for update_token_opt: " . $sql, 3, "debug.log");
+            $stmt = $db->ejecutar($sql);
+            return 'update';
+        }
+        public function update_active_true($db,$email){
+            $sql = "UPDATE users SET active = 1 WHERE email = '$email'";
+            error_log("SQL for update_active: " . $sql, 3, "debug.log");
+            $stmt = $db->ejecutar($sql);
+            return 'update';
+        }
+        public function update_active_false($db,$email){
+            $sql = "UPDATE users SET active = 1 WHERE email = '$email'";
+            error_log("SQL for update_active: " . $sql, 3, "debug.log");
+            $stmt = $db->ejecutar($sql);
+            return 'update';
+        }
+
+
     }
 ?>

@@ -46,5 +46,8 @@
         public function get_refresh_cookies(){
             return $this->bll->refresh_cookies_BLL();
         }
+        public function get_otp($otp_code){
+            return $this->bll->otp_BLL($otp_code);
+        }
     }
 ?>

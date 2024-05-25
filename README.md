@@ -43,3 +43,7 @@ Esta sección es la más segura de la aplicación y permite a los usuarios regis
 - Se permite recuperar la contraseña mediante email y cambiarla.
 
 ### Cart (en construcción) 🛒
+
+### Extras
+ - Depuración en PHP mediante error_log redireccionado a un archivo debug.log ubicado en la raiz del proyecto.
+ 

@@ -46,5 +46,8 @@
         function refresh_cookies(){
             echo json_encode(common::load_model('auth_model', 'get_refresh_cookies'));
         }
+        function otp(){
+            echo json_encode(common::load_model('auth_model', 'get_otp',[$_POST['otp_code']]));
+        }
     }
 ?>

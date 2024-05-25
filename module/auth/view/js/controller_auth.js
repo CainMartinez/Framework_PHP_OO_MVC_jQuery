@@ -82,9 +82,9 @@ function login(){
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Verify the email, check the spam folder',
+                    text: 'Your account is not activate. Verify your spam folder or send the email again',
                     showConfirmButton: true,
-                    timer: 3000
+                    timer: 30000
                 })
             } else if(result === "error_count"){    
                 Swal.fire({
@@ -128,7 +128,7 @@ function login(){
         });     
     }
 }
-
+// ------------------ SOCIAL LOGIN ----------------- //
 function social_login(param){
     authService = firebase_config();
     authService.signInWithPopup(provider_config(param))
@@ -487,8 +487,78 @@ function send_new_password(token_email){
         });    
     }
 }
+// --------------------------- OTP --------------------------- //
+function click_otp(){
+    $("#otp_form").keypress(function(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if(code==13){
+        	e.preventDefault();
+            send_otp();
+        }
+    });
+
+    $('#otp_form').on('click', function(e) {
+        e.preventDefault();
+        send_otp();
+    }); 
+}
+function send_otp(){
+    if(validate_otp() != 0){
+        var code1 = document.getElementById('code1').value;
+        var code2 = document.getElementById('code2').value;
+        var code3 = document.getElementById('code3').value;
+        var code4 = document.getElementById('code4').value;
+        var otp_code = code1 + code2 + code3 + code4;
+        var data = {
+            otp_code : otp_code,
+            op : "otp"
+        };
+        console.log(data);
+        ajaxPromise(
+            'POST',
+            'JSON',
+            friendlyURL("?module=auth"),
+            data
+        ).then(function(data) {
+            if(data == "error"){
+                Swal.fire({
+                    title: 'Error',
+                    text: 'The OTP is incorrect',
+                    icon: 'error',
+                    timer: 3000,
+                    showConfirmButton: true
+                })
+            }else {
+                Swal.fire({
+                    title: 'Success',
+                    text: 'OTP correct, account activated successfully but we recommend to change the password in the recover password section',
+                    icon: 'success',
+                    timer: 30000,
+                    showConfirmButton: true
+                }).then((result) => {
+                    window.location.href = friendlyURL("?module=auth");
+                });
+            }
+        }).catch(function(e) {
+            console.error("Error en la promesa:", e);
+        });    
+    }
+}
+function validate_otp(){
+    var error = false;
+    if(document.getElementById('code1').value.length === 0 && document.getElementById('code2').value.length === 0 && document.getElementById('code3').value.length === 0 && document.getElementById('code4').value.length === 0){
+        document.getElementById('errorOtp').innerHTML = "Enter the OTP";
+        error = true;
+    }else{
+        document.getElementById('errorOtp').innerHTML = "";
+    }
+    if(error == true){
+        return 0;
+    }
+}
 $(document).ready(function(){
     click_login();
     click_register();
     click_recover_password();
+    click_otp();
 });
