@@ -125,7 +125,5 @@
             $stmt = $db->ejecutar($sql);
             return 'update';
         }
-
-
     }
 ?>

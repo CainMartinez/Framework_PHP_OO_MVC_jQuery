@@ -49,5 +49,8 @@
         function otp(){
             echo json_encode(common::load_model('auth_model', 'get_otp',[$_POST['otp_code']]));
         }
+        function otp_view(){
+            common::load_view('top_page_auth.html', VIEW_PATH_AUTH . 'otp_view.html');
+        }
     }
 ?>

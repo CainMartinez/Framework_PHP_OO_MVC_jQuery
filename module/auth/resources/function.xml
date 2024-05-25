@@ -56,4 +56,8 @@
         <name>otp</name>
         <uri>otp</uri>
     </function>
+    <function>
+        <name>otp_view</name>
+        <uri>otp_view</uri>
+    </function>
 </functions>
