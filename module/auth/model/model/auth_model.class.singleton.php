@@ -49,5 +49,8 @@
         public function get_otp($otp_code){
             return $this->bll->otp_BLL($otp_code);
         }
+        public function get_social_auth($args){
+            return $this->bll->social_auth_BLL($args);
+        }
     }
 ?>

@@ -55,13 +55,25 @@ class shop_bll{
         return $this->dao->counting_filters($this->db,$arrArgument[0]);
     }
     public function get_check_like_BLL($arrArgument){
-        return $this->dao->check_like($this->db,$arrArgument[0],$arrArgument[1]);
+        if ($arrArgument[2] === '') {
+            return $this->dao->check_like($this->db,$arrArgument[0],$arrArgument[1]);
+        }else{
+            return $this->dao->check_like_social($this->db,$arrArgument[0],$arrArgument[1],$arrArgument[2]);
+        }
     }
     public function set_add_like_BLL($arrArgument){
-        return $this->dao->like_property($this->db,$arrArgument[0],$arrArgument[1]);
+        if ($arrArgument[2] === '') {
+            return $this->dao->like_property($this->db,$arrArgument[0],$arrArgument[1]);
+        }else{
+            return $this->dao->like_property_social($this->db,$arrArgument[0],$arrArgument[1],$arrArgument[2]);
+        }
     }
     public function set_add_dislike_BLL($arrArgument){
-        return $this->dao->dislike_property($this->db,$arrArgument[0],$arrArgument[1]);
+        if ($arrArgument[2] === '') {
+            return $this->dao->dislike_property($this->db,$arrArgument[0],$arrArgument[1]);
+        }else{
+            return $this->dao->dislike_property_social($this->db,$arrArgument[0],$arrArgument[1],$arrArgument[2]);
+        }
     }
 }
 ?>

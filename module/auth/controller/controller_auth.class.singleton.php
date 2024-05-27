@@ -32,7 +32,7 @@
             echo json_encode(common::load_model('auth_model', 'get_login', [$_POST['username'], $_POST['password']]));
         }
         function data_user(){
-            echo json_encode(common::load_model('auth_model', 'get_data_user', $_POST['access_token']));
+            echo json_encode(common::load_model('auth_model', 'get_data_user', [$_POST['access_token'], $_POST['social'], $_POST['username']]));
         }
         function logout(){
             echo json_encode(common::load_model('auth_model', 'get_logout'));
@@ -51,6 +51,9 @@
         }
         function otp_view(){
             common::load_view('top_page_auth.html', VIEW_PATH_AUTH . 'otp_view.html');
+        }
+        function social_auth(){
+            echo json_encode(common::load_model('auth_model', 'get_social_auth', [$_POST['id'], $_POST['username'], $_POST['email'], $_POST['avatar'], $_POST['social']]));
         }
     }
 ?>

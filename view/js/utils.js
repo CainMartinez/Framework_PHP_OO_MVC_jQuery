@@ -15,7 +15,15 @@ function ajaxPromise(sType, sTData, sUrl, sData = undefined) {
 function load_menu() {
     var access_token = localStorage.getItem('access_token');
     if (access_token) {
-        data = { 'access_token': access_token, 'op': 'data_user'};
+        var social = localStorage.getItem('social');
+        if (social === null) {
+            social = "";
+        }
+        var username = localStorage.getItem('username');
+        if (username === null) {
+            username = "";
+        }
+        data = { 'access_token': access_token, 'op': 'data_user', 'social': social, 'username': username};
         console.log(data);
         ajaxPromise(
             'POST',
@@ -66,6 +74,8 @@ function logout() {
     ).then(function(data) {
         localStorage.removeItem('refresh_token');
         localStorage.removeItem('access_token');
+        localStorage.removeItem('username');
+        localStorage.removeItem('social');
         window.location.href = friendlyURL("?module=home");
     }).catch(function(e) {
         console.error(e);

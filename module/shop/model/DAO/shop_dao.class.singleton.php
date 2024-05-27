@@ -57,17 +57,73 @@ class shop_dao{
         if ($user) {
             $id_user = $user[0]['id_user'];
 
-        $sql = "SELECT * FROM likes WHERE id_property = $id_property AND id_user = $id_user";
-        $stmt = $db->ejecutar($sql);
-        $like = $db->listar($stmt);
+            $sql = "SELECT * FROM likes WHERE id_property = $id_property AND id_user = $id_user";
+            $stmt = $db->ejecutar($sql);
+            $like = $db->listar($stmt);
 
-        if ($like) {
-            return "1";
+            if ($like) {
+                return "1";
+            } else {
+                return "0";
+            }
         } else {
             return "0";
         }
+    }
+    public function check_like_social($db, $id_property, $username,$social){
+        $sql = "SELECT id FROM users_$social WHERE username = '$username'";
+        // error_log($sql,3,"debug.log");
+        $stmt = $db->ejecutar($sql);
+        $user = $db->listar($stmt);
+
+        if ($user) {
+            $id = $user[0]['id'];
+
+            $sql = "SELECT * FROM likes_$social WHERE id_property = $id_property AND id = '$id'";
+            $stmt = $db->ejecutar($sql);
+            $like = $db->listar($stmt);
+
+            if ($like) {
+                return "1";
+            } else {
+                return "0";
+            }
         } else {
             return "0";
+        }
+    }
+    public function like_property_social($db, $id_property,$username,$social) {
+        $sql = "SELECT id FROM users_$social WHERE username = '$username'";
+        $stmt = $db->ejecutar($sql);
+        $user = $db->listar($stmt);
+        error_log("user".$user[0]['id'],3,"debug.log");
+        if ($user) {
+            error_log("entro al if del dao",3,"debug.log");
+            $id = $user[0]['id'];
+
+            $sql = "INSERT INTO likes_$social (id,id_property) VALUES ('$id',$id_property)";
+            error_log($sql,3,"debug.log");
+
+            $db->ejecutar($sql);
+            error_log($sql,3,"debug.log");
+            $sql = "UPDATE property SET likes = likes + 1 WHERE id_property = $id_property";
+            $db->ejecutar($sql);
+            error_log($sql,3,"debug.log");
+        }
+    }
+    public function dislike_property_social($db, $id_property, $username, $social) {
+        $sql = "SELECT id FROM users_$social WHERE username = '$username'";
+        $stmt = $db->ejecutar($sql);
+        $user = $db->listar($stmt);
+
+        if ($user) {
+            $id = $user[0]['id'];
+
+            $sql = "DELETE FROM likes_$social WHERE id_property = $id_property AND id = '$id'";
+            $db->ejecutar($sql);
+
+            $sql = "UPDATE property SET likes = likes - 1 WHERE id_property = $id_property";
+            $db->ejecutar($sql);
         }
     }
     public function dislike_property($db, $id_property, $username) {
@@ -395,7 +451,6 @@ class shop_dao{
 		ORDER BY p.$filter $order
 		LIMIT $offset, 3;";
 		
-        error_log($consulta,3,"debug.txt");
         $stmt = $db->ejecutar($consulta);
         $retrArray = $db->listar($stmt);
         foreach ($retrArray as $key => $property) {

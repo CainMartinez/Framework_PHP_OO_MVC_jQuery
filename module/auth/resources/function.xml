@@ -60,4 +60,8 @@
         <name>otp_view</name>
         <uri>otp_view</uri>
     </function>
+    <function>
+        <name>social_auth</name>
+        <uri>social_auth</uri>
+    </function>
 </functions>

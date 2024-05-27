@@ -32,7 +32,7 @@
 		
 				// error_log("Generated hash and token: hashed_pass=$hashed_pass, avatar=$avatar, token_email=$token_email", 3, "debug.log");
 		
-				$user_exists = $this->dao->select_user($this->db, $username, $email);
+				$user_exists = $this->dao->select_user_register($this->db, $username, $email);
 				// error_log("select_user result: " . json_encode($user_exists), 3, "debug.log");
 		
 				if (!empty($user_exists)) {
@@ -84,10 +84,10 @@
 			try {
 				// error_log("get_recover_BLL called with email: $email", 3, "debug.log");
 				$user = $this -> dao -> select_recover_password($this->db, $email);
-				error_log("User selected: " . json_encode($user), 3, "debug.log");
+				// error_log("User selected: " . json_encode($user), 3, "debug.log");
 
 				$token = middleware::create_email_token($email);
-				error_log("Token created: " . $token, 3, "debug.log");
+				// error_log("Token created: " . $token, 3, "debug.log");
 
 				if (!empty($user)) {
 					$message = ['type' => 'recover', 
@@ -100,11 +100,11 @@
 						return;  
 					}   
 				} else {
-					error_log("No user found with email: " . $email, 3, "debug.log");
+					// error_log("No user found with email: " . $email, 3, "debug.log");
 					return 'error';
 				}
 			} catch (Exception $e) {
-				error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
+				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
 				return 'fatal error';
 			}
 		}
@@ -159,24 +159,23 @@
 					return 'error_username'; 
 				}else{
 					$token = common::generate_token_secure(4);
-					error_log("User selected: " . json_encode($user), 3, "debug.log");
-					error_log("Password verify: " . $user[0]['password'], 3, "debug.log");
+					// error_log("User selected: " . json_encode($user), 3, "debug.log");
+					// error_log("Password verify: " . $user[0]['password'], 3, "debug.log");
 					if ($user[0]['count_login'] >= 3){
 						$this->dao->update_active_false($this->db, $user[0]['email']);
 						if ($this->dao->insert_token_opt($this->db, $user[0]['email'], $token)){
 							$message = ['type' => 'activate',
 										'token' => $token];
 							$otp = json_decode(otp::send_message($message));
-							error_log("Email sent: " . json_encode($otp), 3, "debug.log");
 							if (!empty($otp)) {
-								error_log("Email sent", 3, "debug.log");
+								// error_log("Email sent", 3, "debug.log");
 								return 'error_count';
 							}else{
-								error_log("Email not sent", 3, "debug.log");
+								// error_log("Email not sent", 3, "debug.log");
 								return 'error_otp_send';
 							}
 						}else{
-							error_log("Token not inserted", 3, "debug.log");
+							// error_log("Token not inserted", 3, "debug.log");
 							return 'error_otp_insert';
 						}
 					}else{
@@ -203,12 +202,55 @@
 				return ['status' => 'error', 'message' => $e->getMessage()];
 			}
 		}
-		public function data_user_BLL($access_token) {
+		public function social_auth_BLL($args) {
 			try {
-				$username = middleware::decode_token($access_token);
-				// error_log("get_data_user_BLL called with access_token: $access_token, decoded token: " . json_encode($access_token), 3, "debug.log");
-				$user = $this->dao->select_data_user($this->db, $username['username']);
-				return $user;
+				$id = $args[0];
+				$username = $args[1];
+				$email = $args[2];
+				$avatar = $args[3];
+				$social = $args[4];
+				// error_log("get_social_auth_BLL called with args: " . json_encode($args), 3, "debug.log");
+				$user = $this->dao->select_social_login($this->db, $id, $social);
+				// error_log("User selected: " . json_encode($user), 3, "debug.log");
+				if (empty($user)) {
+					$this->dao->insert_social_login($this->db, $id, $username, $email, $avatar, $social);
+					// error_log("User registered", 3, "debug.log");
+					$access_token = middleware::create_access_token($username);
+					$refresh_token = middleware::create_refresh_token($username);
+					$_SESSION['username'] = $username;
+					$_SESSION['time'] = time();
+					// error_log("Access token: " . $access_token, 3, "debug.log");
+					// error_log("Refresh token: " . $refresh_token, 3, "debug.log");
+					return json_encode([$access_token, $refresh_token]);
+				} else {
+					$access_token = middleware::create_access_token($username);
+					$refresh_token = middleware::create_refresh_token($username);
+					$_SESSION['username'] = $username;
+					$_SESSION['time'] = time();
+					// error_log("Access token: " . $access_token, 3, "debug.log");
+					// error_log("Refresh token: " . $refresh_token, 3, "debug.log");
+					return json_encode([$access_token, $refresh_token]);
+				}
+			} catch (Exception $e) {
+				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
+				return 'error';
+			}
+		}
+		public function data_user_BLL($args) {
+			$access_token = $args[0];
+			$social = $args[1];
+			$username = $args[2];
+			// error_log("get_data_user_BLL called with args: " . json_encode($args), 3, "debug.log");
+			try {
+				if ($username == ''){
+					$token_decode = middleware::decode_token($access_token);
+					// error_log("Token decoded: " . json_encode($token_decode), 3, "debug.log");
+					$user = $this->dao->select_data_user($this->db, $token_decode['username'], $social);
+					return $user;
+				}else{
+					$user = $this->dao->select_data_user($this->db, $username, $social);
+					return $user;
+				}
 			} catch (Exception $e) {
 				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
 				return 'error';
@@ -255,7 +297,7 @@
 					echo json_encode("inactivo");
     				exit();
 				} else {
-					if ((time() - $_SESSION['time']) >= 60) { 
+					if ((time() - $_SESSION['time']) >= 600) { 
 						echo json_encode("inactivo");
             			exit();
 					} else {
@@ -273,7 +315,7 @@
 		}
 		public function otp_BLL($args){
 			try {
-				error_log("get_otp_BLL called with args: " . json_encode($args), 3, "debug.log");
+				// error_log("get_otp_BLL called with args: " . json_encode($args), 3, "debug.log");s
 				$otp_code = $args[0];
 				$token = $this->dao->select_token_opt($this->db, $otp_code);
 				if (!empty($token)){
@@ -285,7 +327,7 @@
 					return 'error';
 				}
 			} catch (Exception $e) {
-				error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
+				// error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
 				return 'error';
 			}
 		}

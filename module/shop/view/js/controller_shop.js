@@ -59,7 +59,15 @@ function likes() {
         localStorage.setItem('id_property', id_property);
         $(this).addClass('like_button_' + id_property); 
         var token = localStorage.getItem('refresh_token');
-        data = {access_token: token, op: 'data_user'};
+        var social = localStorage.getItem('social');
+        if (social === null) {
+            social = "";
+        }
+        var username = localStorage.getItem('username');
+        if (username === null) {
+            username = "";
+        }
+        data = {access_token: token, op: 'data_user', social, username};
         if (token){
             ajaxPromise(
                 'POST',
@@ -68,7 +76,7 @@ function likes() {
                 data
             ).then(function(data) {
                 var username = data[0].username;
-                info = {id_property, username, op: 'check_like'};
+                info = {id_property, username, op: 'check_like', social};
                 if (username) {
                     ajaxPromise(
                         'POST',
@@ -77,8 +85,10 @@ function likes() {
                         info
                     ).then(function (data) {
                         data = JSON.parse(data);
+                        console.log(data);
+                        // return false;
                         if (data == 1) {
-                            send = {id_property, username, op: 'dislike'};
+                            send = {id_property, username, op: 'dislike', social};
                             ajaxPromise(
                                 'POST', 
                                 'JSON', 
@@ -96,7 +106,7 @@ function likes() {
                                 console.error(e);
                             });
                         } else {
-                            send = {id_property, username, op: 'like'};
+                            send = {id_property, username, op: 'like',social};
                             ajaxPromise(
                                 'POST', 
                                 'JSON', 

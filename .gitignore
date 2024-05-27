@@ -2,3 +2,4 @@
 vendor/
 composer.lock
 debug.log
+credentials.js

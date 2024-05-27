@@ -37,14 +37,34 @@
                 throw $e;
             }
         }
-        public function select_social_login($db, $id){
-			$sql = "SELECT * FROM users WHERE id='$id'";
+        public function select_user_register($db, $username, $email) {
+            try {
+                $sql = "(SELECT username FROM users WHERE username = '$username' OR email = '$email')
+                    UNION
+                    (SELECT username FROM users_google WHERE username = '$username')
+                    UNION
+                    (SELECT username FROM users_github WHERE username = '$username')";
+                // error_log("SQL for select_user: " . $sql, 3, "debug.log");
+                $stmt = $db->ejecutar($sql);
+                // error_log("SQL execution result: " . json_encode($stmt), 3, "debug.log");
+                $result = $db->listar($stmt);
+                // error_log("select_user result: " . json_encode($result), 3, "debug.log");
+                return $result;
+            } catch (Exception $e) {
+                // error_log("Exception in select_user DAO: " . $e->getMessage(), 3, "debug.log");
+                throw $e;
+            }
+        }
+        public function select_social_login($db, $id, $social){
+            $table = 'users_' . $social;
+			$sql = "SELECT * FROM $table WHERE id='$id'";
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
-        public function insert_social_login($db, $id, $username, $email, $avatar){
-            $sql ="INSERT INTO users (id, username, password, email, type_user, avatar, active, count_login , phone)     
-                VALUES ('$id', '$username', '', '$email', 'client', '$avatar', 1)";
+        public function insert_social_login($db, $id, $username, $email, $avatar, $social){
+            $table = 'users_' . $social;
+            $sql ="INSERT INTO $table (id, username, email, avatar)     
+                VALUES ('$id', '$username', '$email', '$avatar')";
             return $stmt = $db->ejecutar($sql);
         }
         public function select_verify_email($db, $token_email){
@@ -77,9 +97,13 @@
             $stmt = $db->ejecutar($sql);
             return "ok";
         }
-        public function select_data_user($db, $username){
-			$sql = "SELECT * FROM users WHERE username = '$username'";
-            error_log("SQL for select_data_user: " . $sql, 3, "debug.log");
+        public function select_data_user($db, $username, $social){
+            if ($social != '') {
+                $sql = "SELECT * FROM users_$social WHERE username = '$username'";
+            } else{
+                $sql = "SELECT * FROM users WHERE username = '$username'";
+            }
+            // error_log("SQL for select_data_user: " . $sql, 3, "debug.log");
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }

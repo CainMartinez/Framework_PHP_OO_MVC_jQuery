@@ -84,7 +84,7 @@ function login(){
                     icon: 'error',
                     title: 'Account closed for security reasons!',
                     showConfirmButton: true,
-                    confirmButtonText: 'Please, check your WhatsApp for recover your account',
+                    confirmButtonText: 'Please, check WhatsApp for recover your account',
                     timer: 3000
                 }).then(() => {
                     window.location.href = friendlyURL("?module=auth&op=otp_view");
@@ -131,18 +131,28 @@ function social_login(param){
         let username = email_name.split('@');
         console.log(username[0]);
 
-        social_user = {id: result.user.uid, username: username[0], email: result.user.email, avatar: result.user.photoURL};
+        data = {id: result.user.uid, username: username[0], email: result.user.email, avatar: result.user.photoURL, op: "social_auth", social: param};
+        console.log(data);
         if (result) {
-            ajaxPromise(friendlyURL("?module=auth&op=social_auth"), 'POST', 'JSON', social_user)
-            .then(function(data) {
-                localStorage.setItem("token", data);
-                toastr.options.timeOut = 3000;
-                toastr.success("Inicio de sesión realizado");
-                if(localStorage.getItem('likes') == null) {
-                    setTimeout('window.location.href = friendlyURL("?module=home&op=view")', 1000);
-                } else {
-                    setTimeout('window.location.href = friendlyURL("?module=shop&op=view")', 1000);
-                }
+            localStorage.setItem("social", param);
+            localStorage.setItem("username", username[0])
+            ajaxPromise(
+                'POST',
+                'JSON',
+                friendlyURL("?module=auth"),
+                data
+            ).then(function(data) {
+                var token = JSON.parse(data);
+                localStorage.setItem("access_token", token[0]);
+                localStorage.setItem("refresh_token", token[1]);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login success',
+                    showConfirmButton: true,
+                    timer: 3000
+                }).then(() => {
+                    setTimeout('window.location.href = friendlyURL("?module=home")', 1000);
+                });
             })
             .catch(function() {
                 console.log('Error: Social login error');
@@ -162,15 +172,8 @@ function social_login(param){
 }
 
 function firebase_config(){
-    var config = {
-        apiKey: "AIzaSyBOo5emMZXMi0T411OPKgoDGcvDl_IKSno",
-        authDomain: "test-php-js-7fc12.firebaseapp.com",
-        projectId: "test-php-js-7fc12",
-        storageBucket: "test-php-js-7fc12.appspot.com",
-        messagingSenderId: "495514694215",
-        appId: "1:495514694215:web:b183cd7f513ce8b0d6f762",
-        measurementId: "G-JXEGLTGLTC"
-    };
+
+    var config = window.firebaseConfig;
     if(!firebase.apps.length){
         firebase.initializeApp(config);
     }else{
