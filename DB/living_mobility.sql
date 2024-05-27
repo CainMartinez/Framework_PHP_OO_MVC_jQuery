@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-05-2024 a las 12:57:21
+-- Tiempo de generación: 27-05-2024 a las 05:45:34
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -283,6 +283,37 @@ INSERT INTO `likes` (`id_property`, `id_user`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `likes_github`
+--
+
+CREATE TABLE `likes_github` (
+  `id` varchar(255) NOT NULL,
+  `id_property` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `likes_google`
+--
+
+CREATE TABLE `likes_google` (
+  `id` varchar(255) NOT NULL,
+  `id_property` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `likes_google`
+--
+
+INSERT INTO `likes_google` (`id`, `id_property`) VALUES
+('LQFEsaAb7iUbcWfTHEL7eNbDKa13', 1),
+('LQFEsaAb7iUbcWfTHEL7eNbDKa13', 2),
+('LQFEsaAb7iUbcWfTHEL7eNbDKa13', 4);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `operation`
 --
 
@@ -336,10 +367,10 @@ CREATE TABLE `property` (
 --
 
 INSERT INTO `property` (`id_property`, `property_name`, `cadastral_reference`, `square_meters`, `number_of_rooms`, `description`, `price`, `id_large_people`, `is_active`, `creation_date`, `update_date`, `id_city`, `visits`, `likes`, `currently_date`, `latitude`, `longitude`) VALUES
-(1, 'Garden\'s John', '12345-67890-A', 100, 3, 'Beautiful house with garden', 200000, 1, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1, 38, 22, '2024-04-24 01:51:30', 38.8167, -0.61667),
-(2, 'The Tower', '23456-78901-B', 80, 2, 'Apartment with sea view', 150000, 2, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2, 12, 12, '2024-04-09 19:00:43', 38.9667, -0.18333),
+(1, 'Garden\'s John', '12345-67890-A', 100, 3, 'Beautiful house with garden', 200000, 1, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1, 38, 25, '2024-04-24 01:51:30', 38.8167, -0.61667),
+(2, 'The Tower', '23456-78901-B', 80, 2, 'Apartment with sea view', 150000, 2, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2, 12, 15, '2024-04-09 19:00:43', 38.9667, -0.18333),
 (3, 'Sunset View Manor', '34567-89012-C', 120, 4, 'Spacious villa with pool', 300000, 3, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3, 15, 13, '2024-03-18 20:38:31', 38.838, -0.51721),
-(4, 'Enchanted Hideaway', '45678-90123-D', 60, 1, 'Cozy studio in the city center', 100000, 2, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4, 7, 0, '2024-03-26 21:31:14', 38.7054, -0.47432),
+(4, 'Enchanted Hideaway', '45678-90123-D', 60, 1, 'Cozy studio in the city center', 100000, 2, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4, 7, 2, '2024-03-26 21:31:14', 38.7054, -0.47432),
 (5, 'Harmony Homestead', '56789-01234-E', 90, 2, 'Modern loft with industrial design', 180000, 1, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 5, 36, 0, '2024-04-19 17:28:45', 38.9833, -0.51667),
 (34, 'Sunny Villa', 'CR1', 200, 4, 'A beautiful villa with a sunny garden', 300000, 1, 1, '2022-01-01', '2022-01-01', 1, 0, 0, '2024-03-24 00:11:52', 38.8276, -0.61876),
 (35, 'Modern Loft', 'CR2', 100, 2, 'A modern loft in the city center', 250000, 2, 1, '2022-01-02', '2022-01-02', 2, 2, 1, '2024-04-24 01:29:36', 34.0522, -118.244),
@@ -563,9 +594,48 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `avatar`, `type_user`, `active`, `count_login`, `phone`, `token`) VALUES
-(13, 'user1234', '$2y$12$sdIeijSJhjVLOZPqij2Qae2sQJBlByCkNZx82UO60jQuWxGf0Zh06', 'cain@cain.es', 'https://i.pravatar.cc/500?u=d8ed98dbd5a4ef00d8ea53f2a7888f31', 'client', 1, 0, '', ''),
-(14, 'olaolaola', '$2y$12$7u0N.d0ERp7pzBCF/.bH9.30smfqj5Mi0EwTkzRDR5MeX5oKrrI4W', 'ola@ola.es', 'https://i.pravatar.cc/500?u=f4c5f142b2319b72110a0934f487d7ee', 'client', 1, 0, '', ''),
-(15, 'pepe1234', '$2y$12$44wMoQd5Xo7y5GX0RWy57ekGLX5s8j7NPeKZNxgdrLl7H5cj4G5yW', 'pepito@pepito.es', 'https://i.pravatar.cc/500?u=c6e97f81bf1b0c2797a9e578df0ce77e', 'client', 1, 0, '', 'bf56');
+(15, 'pepe1234', '$2y$12$44wMoQd5Xo7y5GX0RWy57ekGLX5s8j7NPeKZNxgdrLl7H5cj4G5yW', 'pepito@pepito.es', 'https://i.pravatar.cc/500?u=c6e97f81bf1b0c2797a9e578df0ce77e', 'client', 1, 0, '', 'bf56'),
+(16, 'user1234', '$2y$12$4qBK/0qcf7G1UPG.M.ICOuv8U9Gi0jtth.gnG2y7dV0VuLu/Kyy6C', 'cain@cain.es', 'https://i.pravatar.cc/500?u=d8ed98dbd5a4ef00d8ea53f2a7888f31', 'client', 1, 0, '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users_github`
+--
+
+CREATE TABLE `users_github` (
+  `id` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `avatar` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `users_github`
+--
+
+INSERT INTO `users_github` (`id`, `username`, `email`, `avatar`) VALUES
+('aiGKC4xj9wa9rI9Uej54NZ4nBoO2', 'c.martinezbernabeu', 'c.martinezbernabeu@hotmail.com', 'https://avatars.githubusercontent.com/u/58273708?v=4');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users_google`
+--
+
+CREATE TABLE `users_google` (
+  `id` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `avatar` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `users_google`
+--
+
+INSERT INTO `users_google` (`id`, `username`, `email`, `avatar`) VALUES
+('LQFEsaAb7iUbcWfTHEL7eNbDKa13', 'cainmartinez3', 'cainmartinez3@gmail.com', 'https://lh3.googleusercontent.com/a/ACg8ocKcPUkUzK388y8A17yvme3G2NAprKQYNP4-aeW1WDAOyP5T4g=s96-c');
 
 --
 -- Índices para tablas volcadas
@@ -609,6 +679,18 @@ ALTER TABLE `likes`
   ADD PRIMARY KEY (`id_property`,`id_user`),
   ADD KEY `id_property` (`id_property`),
   ADD KEY `id_user` (`id_user`);
+
+--
+-- Indices de la tabla `likes_github`
+--
+ALTER TABLE `likes_github`
+  ADD PRIMARY KEY (`id`,`id_property`);
+
+--
+-- Indices de la tabla `likes_google`
+--
+ALTER TABLE `likes_google`
+  ADD PRIMARY KEY (`id`,`id_property`);
 
 --
 -- Indices de la tabla `operation`
@@ -667,6 +749,18 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indices de la tabla `users_github`
+--
+ALTER TABLE `users_github`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `users_google`
+--
+ALTER TABLE `users_google`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -722,7 +816,7 @@ ALTER TABLE `type`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Restricciones para tablas volcadas
