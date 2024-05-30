@@ -25,6 +25,10 @@ html.lt-ie-10 .ie-panel {
 	
 
 }
+.button:hover {
+	background-color: #ddd; /* Cambia el color de fondo al pasar el mouse */
+	color: black; /* Cambia el color del texto al pasar el mouse */
+}
 .social-login i {
 	font-size: 4em; /* Esto hará que los iconos sean más grandes */
 }

@@ -39,11 +39,11 @@
         }
         public function select_user_register($db, $username, $email) {
             try {
-                $sql = "(SELECT username FROM users WHERE username = '$username' OR email = '$email')
+                $sql = "(SELECT username,email FROM users WHERE username = '$username' OR email = '$email')
                     UNION
-                    (SELECT username FROM users_google WHERE username = '$username')
+                    (SELECT username,email FROM users_google WHERE username = '$username' OR email = '$email')
                     UNION
-                    (SELECT username FROM users_github WHERE username = '$username')";
+                    (SELECT username,email FROM users_github WHERE username = '$username' OR email = '$email')";
                 // error_log("SQL for select_user: " . $sql, 3, "debug.log");
                 $stmt = $db->ejecutar($sql);
                 // error_log("SQL execution result: " . json_encode($stmt), 3, "debug.log");
@@ -57,13 +57,13 @@
         }
         public function select_social_login($db, $id, $social){
             $table = 'users_' . $social;
-			$sql = "SELECT * FROM $table WHERE id='$id'";
+			$sql = "SELECT * FROM $table WHERE id_user='$id'";
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
         public function insert_social_login($db, $id, $username, $email, $avatar, $social){
             $table = 'users_' . $social;
-            $sql ="INSERT INTO $table (id, username, email, avatar)     
+            $sql ="INSERT INTO $table (id_user, username, email, avatar)     
                 VALUES ('$id', '$username', '$email', '$avatar')";
             return $stmt = $db->ejecutar($sql);
         }

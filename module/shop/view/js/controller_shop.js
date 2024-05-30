@@ -207,8 +207,13 @@ function ajaxForSearch(url,op,order,filters_shop) {
                                 <table id='table-shop'> 
                                     <tr>
                                         <td>
-                                            <button id='${property.id_property}' class='more_info_list button button-primary button-winona button-md'>More Info</button><br>
+                                            <button id='${property.id_property}' class='more_info_list button button-primary button-winona button-md'>Details</button><br>
                                         </td>
+                                        <td>
+                                            <button id='${property.id_property}_cart' class='more_secondary_list button button-secondary button-winona button-md cart_shop'>
+                                                <i class="fas fa-shopping-cart fa-lg"></i>
+                                            </button><br>  
+                                        </td>                                      
                                         <td>
                                             <button id='${property.id_property}' class="like_button">
                                                 <i class='fas fa-heart'></i>&nbsp;${property.likes}                                            
@@ -291,6 +296,26 @@ function clicks_shop() {
     $(document).on("click", ".button_homepage", function () {
         remove_pagination();
     });
+    $(document).on("click", ".cart_shop", function () {
+        id = this.getAttribute('id');
+        data = { 'id': id, 'op': 'add_cart' };
+        ajaxPromise(
+            'POST', 
+            'JSON', 
+            friendlyURL('?module=cart'),
+            data
+        ).then(function (data) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Correctly added the quotation for property ' + id + ' to the cart'
+            }).then(function() {
+                location.reload();
+            });
+        }).catch(function (e) {
+            console.error(e);
+        });
+    });
 }
 function loadDetails(id_property) {
     ajaxPromise('POST', 'JSON', friendlyURL('?module=shop'),{'op':'details_property','id': id_property})
@@ -371,6 +396,7 @@ function loadDetails(id_property) {
             var row = $("<tr></tr>").appendTo(table);
             var cell1 = $("<td></td>").appendTo(row);
             var cell2 = $("<td></td>").appendTo(row);
+            var cell3 = $("<td></td>").appendTo(row);
 
             var likeButton = $("<button></button>")
                 .addClass("like_button")
@@ -385,9 +411,14 @@ function loadDetails(id_property) {
                     'height': '50px',
                     'text-align': 'center'
                 });
+            var buttonCart = $("<button></button>")
+                .addClass("more_secondary_list button button-secondary button-winona button-md cart_shop")
+                .attr('id', data[0].id_property + '_cart')
+                .html("<i class='fas fa-shopping-cart fa-lg'></i>");
 
             cell1.append(likeButton);
-            cell2.append(backButton);
+            cell2.append(buttonCart);
+            cell3.append(backButton);
             $('<br>').appendTo(table);
 
             propertyDetailsDiv.append(table);

@@ -31,17 +31,24 @@ function load_menu() {
             friendlyURL("?module=auth"),
             data
         ).then(function(data) {
+            if (data[0].count_cart == null || data[0].count_cart == 0) {
+                data[0].count_cart = "";
+            }
             console.log(data);
             // return false;
+            localStorage.setItem('username_profile', data[0].username);
             console.log("Client logged");
             $('#login_button').hide();
             $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=shop") + '" class="rd-nav-link">Shop</a>').prependTo('.rd-navbar-nav');
             $('<li></li>').attr({'class' : 'rd-nav-item'}).html('<a href="' + friendlyURL("?module=home") + '" class="rd-nav-link button_homepage">Home</a>').prependTo('.rd-navbar-nav');
             $('<li></li>').attr({'id' : 'login_ok', 'class' : 'rd-nav-item'}).html(
-                '<img src="' + data[0].avatar + '" alt="User Avatar" class="img-thumbnail" style="width:50px; height:50px;">&nbsp;&nbsp;&nbsp;' + 
-                '<span class="username btn btn-info">' + data[0].username + '</span>&nbsp;&nbsp;&nbsp;' + 
-                '<a id="logout" class="btn btn-warning ml-auto">Logout</a>'
+                '<img id="profile" src="' + data[0].avatar + '" alt="User Avatar" class="img-thumbnail" style="width:50px; height:50px;">&nbsp;&nbsp' + 
+                '</span>&nbsp;&nbsp;&nbsp;' + 
+                '<a id="cart_menu" class="btn btn-info ml-auto"><i class="fas fa-shopping-cart"></i>&nbsp;'+ data[0].count_cart+'</a>&nbsp;&nbsp;&nbsp;'+
+                '<a id="logout" class="btn btn-warning ml-auto">Logout</a>&nbsp;&nbsp;'
+                
             ).appendTo('.rd-navbar-nav');
+            // '<span class="username btn btn-info">' + data[0].username + 
         }).catch(function(e) {
             console.error(e);
         });
@@ -51,6 +58,34 @@ function load_menu() {
         $('<a></a>').attr({'id' : 'login_button', 'type' : 'button', 'class' : 'btn btn-success', 'href' : friendlyURL("?module=auth")}).html('Login').appendTo('#search_auto');
     }
 }
+function click_profile() {
+    username = localStorage.getItem('username_profile');
+    social = localStorage.getItem('social');
+    $(document).on('click', '#profile', function() {
+        data = {'username': username, 'social': social};
+        ajaxPromise(
+            'POST',
+            'JSON',
+            friendlyURL("?module=profile"),
+            data
+        ).then(function(data) {
+            
+        }).catch(function(e) {
+            console.error(e);
+        });
+    });
+    // Cuando el usuario hace clic en el elemento con la clase 'close', cierra el modal
+    $(document).on('click', '.close', function() {
+        $('#profileModal').hide();
+    });
+
+    // Cuando el usuario hace clic en 'changePassword' o 'changeAvatar', realiza la acción correspondiente
+    $(document).on('click', '#changePassword, #changeAvatar', function() {
+        // Aquí puedes agregar el código para cambiar la contraseña o el avatar
+    });
+}
+
+
 function click_logout() {
     $(document).on('click', '#logout', function() {
         Swal.fire({
@@ -205,6 +240,7 @@ $(document).ready(function() {
     load_content();
     click_logout();
     protecturl();
+    click_profile();
     setInterval(function () { control_activity() }, 6000); 
     setInterval(function () { refresh_cookie() }, 6000);
 });
