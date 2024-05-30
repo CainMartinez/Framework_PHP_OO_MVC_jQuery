@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+    <function>
+        <name>view</name>
+        <uri>view</uri>
+    </function>
+    <function>
+        <name>delete</name>
+        <uri>delete</uri>
+    </function>
+    <function>
+        <name>update</name>
+        <uri>update</uri>
+    </function>
+    <function>
+        <name>create</name>
+        <uri>create</uri>
+    </function>
+</functions>

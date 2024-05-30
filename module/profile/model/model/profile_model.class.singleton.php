@@ -1,14 +1,17 @@
 <?php
-    class controller_cart{
+    class profile_model{
+        private $bll;
         static $_instance;
-        public static function getInstance(){ 
+
+        function __construct(){
+            $this->bll = profile_bll::getInstance();
+        }
+
+        public static function getInstance(){
             if (!(self::$_instance instanceof self)) {
                 self::$_instance = new self();
             }
             return self::$_instance;
-        }
-        function view(){
-            common::load_view('top_page_cart.html', VIEW_PATH_CART . 'cart.html');
         }
     }
 ?>

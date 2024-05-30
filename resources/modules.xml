@@ -20,4 +20,8 @@
         <name>cart</name>
         <uri>cart</uri>
     </module>
+    <module>
+        <name>profile</name>
+        <uri>profile</uri>
+    </module>
 </modules>
