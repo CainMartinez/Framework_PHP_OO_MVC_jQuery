@@ -210,7 +210,7 @@ function ajaxForSearch(url,op,order,filters_shop) {
                                             <button id='${property.id_property}' class='more_info_list button button-primary button-winona button-md'>Details</button><br>
                                         </td>
                                         <td>
-                                            <button id='${property.id_property}_cart' class='more_secondary_list button button-secondary button-winona button-md cart_shop'>
+                                            <button id='${property.id_property}' class='more_secondary_list button button-secondary button-winona button-md cart_shop'>
                                                 <i class="fas fa-shopping-cart fa-lg"></i>
                                             </button><br>  
                                         </td>                                      
@@ -297,24 +297,41 @@ function clicks_shop() {
         remove_pagination();
     });
     $(document).on("click", ".cart_shop", function () {
-        id = this.getAttribute('id');
-        data = { 'id': id, 'op': 'add_cart' };
-        ajaxPromise(
-            'POST', 
-            'JSON', 
-            friendlyURL('?module=cart'),
-            data
-        ).then(function (data) {
+        if (!localStorage.getItem('access_token')) {
             Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Correctly added the quotation for property ' + id + ' to the cart'
-            }).then(function() {
-                location.reload();
+                icon: 'error',
+                title: 'Oops...',
+                text: 'You must be logged in to add a property to the cart',
+            }).then((result) => {
+                window.location.href = friendlyURL('?module=auth');
             });
-        }).catch(function (e) {
-            console.error(e);
-        });
+        }else{
+            var token = localStorage.getItem('access_token');
+            var id = this.getAttribute('id');
+            var social = localStorage.getItem('social');
+            if (social === null) {
+                social = "";
+            }
+            // console.log(id);
+            // return false;
+            data = { 'id': id,'token':token,'social':social, 'op': 'cart_add' };
+            ajaxPromise(
+                'POST', 
+                'JSON', 
+                friendlyURL('?module=cart'),
+                data
+            ).then(function (data) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Correctly added the quotation for property ' + id + ' to the cart'
+                }).then(function() {
+                    location.reload();
+                });
+            }).catch(function (e) {
+                console.error(e);
+            });
+        }
     });
 }
 function loadDetails(id_property) {

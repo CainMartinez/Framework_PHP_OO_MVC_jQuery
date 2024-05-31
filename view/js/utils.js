@@ -31,8 +31,8 @@ function load_menu() {
             friendlyURL("?module=auth"),
             data
         ).then(function(data) {
-            if (data[0].count_cart == null || data[0].count_cart == 0) {
-                data[0].count_cart = "";
+            if (data[0].cart_count == null || data[0].cart_count == 0) {
+                data[0].cart_count = "0";
             }
             console.log(data);
             // return false;
@@ -44,9 +44,8 @@ function load_menu() {
             $('<li></li>').attr({'id' : 'login_ok', 'class' : 'rd-nav-item'}).html(
                 '<img id="profile" src="' + data[0].avatar + '" alt="User Avatar" class="img-thumbnail" style="width:50px; height:50px;">&nbsp;&nbsp' + 
                 '</span>&nbsp;&nbsp;&nbsp;' + 
-                '<a id="cart_menu" class="btn btn-info ml-auto"><i class="fas fa-shopping-cart"></i>&nbsp;'+ data[0].count_cart+'</a>&nbsp;&nbsp;&nbsp;'+
+                '<a id="cart_menu" class="btn btn-info ml-auto"><i class="fas fa-shopping-cart"></i>&nbsp;'+ data[0].cart_count+'</a>&nbsp;&nbsp;&nbsp;'+
                 '<a id="logout" class="btn btn-warning ml-auto">Logout</a>&nbsp;&nbsp;'
-                
             ).appendTo('.rd-navbar-nav');
             // '<span class="username btn btn-info">' + data[0].username + 
         }).catch(function(e) {
@@ -62,26 +61,10 @@ function click_profile() {
     username = localStorage.getItem('username_profile');
     social = localStorage.getItem('social');
     $(document).on('click', '#profile', function() {
-        data = {'username': username, 'social': social};
-        ajaxPromise(
-            'POST',
-            'JSON',
-            friendlyURL("?module=profile"),
-            data
-        ).then(function(data) {
-            
-        }).catch(function(e) {
-            console.error(e);
-        });
+        window.location.href = friendlyURL("?module=profile");
     });
-    // Cuando el usuario hace clic en el elemento con la clase 'close', cierra el modal
-    $(document).on('click', '.close', function() {
-        $('#profileModal').hide();
-    });
-
-    // Cuando el usuario hace clic en 'changePassword' o 'changeAvatar', realiza la acción correspondiente
-    $(document).on('click', '#changePassword, #changeAvatar', function() {
-        // Aquí puedes agregar el código para cambiar la contraseña o el avatar
+    $(document).on('click', '#cart_menu', function() {
+        window.location.href = friendlyURL("?module=cart");
     });
 }
 

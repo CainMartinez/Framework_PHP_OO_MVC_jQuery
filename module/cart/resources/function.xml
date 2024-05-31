@@ -4,4 +4,16 @@
         <name>view</name>
         <uri>view</uri>
     </function>
+    <function>
+        <name>services</name>
+        <uri>services</uri>
+    </function>
+    <function>
+        <name>cart_user</name>
+        <uri>cart_user</uri>
+    </function>
+    <function>
+        <name>cart_add</name>
+        <uri>cart_add</uri>
+    </function>
 </functions>

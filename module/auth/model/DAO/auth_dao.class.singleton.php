@@ -105,6 +105,18 @@
             }
             // error_log("SQL for select_data_user: " . $sql, 3, "debug.log");
             $stmt = $db->ejecutar($sql);
+            $user_data = $db->listar($stmt);
+
+            if ($user_data) {
+                $id_user = $user_data[0]['id_user'];
+                $cart_count = $this->cart_count_menu($db, $id_user);
+                $user_data[0]['cart_count'] = $cart_count[0]['total'];
+            }
+            return $user_data;
+        }
+        public function cart_count_menu($db,$id_user){
+            $sql = "SELECT COUNT(*) total FROM orders WHERE id_user = '$id_user'";
+            $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
         public function increment_count($db, $email){
