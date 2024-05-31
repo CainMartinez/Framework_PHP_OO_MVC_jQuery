@@ -12,15 +12,17 @@
             }
             return self::$_instance;
         }
-        function services(){
+        public function services(){
             return $this->bll->services_BLL();
         }
-        function cart_user($args){
+        public function cart_user($args){
             return $this->bll->cart_user_BLL($args);
         }
-        function cart_add($args){
-            // error_log("entro al model",3,"debug.log");
+        public function cart_add($args){
             return $this->bll->cart_add_BLL($args);
+        }
+        public function cart_add_service($args){
+            return $this->bll->cart_add_service_BLL($args);
         }
     }
 ?>

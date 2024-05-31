@@ -7,18 +7,20 @@
             }
             return self::$_instance;
         }
-        function view(){
+        public function view(){
             common::load_view('top_page_cart.html', VIEW_PATH_CART . 'cart.html');
         }
-        function services(){
+        public function services(){
             echo json_encode(common::load_model('cart_model', 'services'));
         }
-        function cart_user(){
+        public function cart_user(){
             echo json_encode(common::load_model('cart_model', 'cart_user', [$_POST['token'],$_POST['social']]));
         }
-        function cart_add(){
-            // error_log("entro al controller",3,"debug.log");
-            echo json_encode(common::load_model('cart_model', 'cart_add', [$_POST['id'], $_POST['token'], $_POST['social']]));
+        public function cart_add(){
+            echo json_encode(common::load_model('cart_model', 'cart_add', [$_POST['service'], $_POST['token'], $_POST['social']]));
+        }
+        public function cart_add_service(){
+            echo json_encode(common::load_model('cart_model', 'cart_add_service', [$_POST['service'],$_POST['price'], $_POST['token'], $_POST['social']]));
         }
     }
 ?>

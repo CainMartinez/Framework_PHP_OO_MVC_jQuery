@@ -16,27 +16,33 @@
             return $db->listar($stmt);
         }
         public function cart_user_DAO($db,$id){
-            $sql = "SELECT COUNT(*) quantity FROM orders WHERE id_user = '$id' GROUP BY service";
+            $sql = "SELECT service,COUNT(*) quantity,price FROM orders WHERE id_user = '$id' GROUP BY service";
             $stmt = $db->ejecutar($sql);
+            error_log($sql,3,'debug.log');
             return $db->listar($stmt);
         }
-        public function cart_add_DAO($db,$id_property,$id_user){
-            $service = "Appointment to see the property " . $id_property;
+        public function cart_add_DAO($db,$service,$id_user){
             $sql = "INSERT INTO orders (price,service,id_user) VALUES (50,'$service','$id_user')";
             $stmt = $db->ejecutar($sql);
             return $stmt;
         }
         public function select_id($db,$username){
             $sql = "SELECT id_user FROM users WHERE username = '$username'";
-            error_log($sql,3,'debug.log');
+            // error_log($sql,3,'debug.log');
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
         public function select_id_social($db,$username,$social){
             $sql = "SELECT id_user FROM users_$social WHERE username = '$username'";
-            error_log($sql,3,'debug.log');
+            // error_log($sql,3,'debug.log');
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
+        }
+        public function cart_add_service_DAO($db,$service,$price,$id_user){
+            $sql = "INSERT INTO orders (price,service,id_user) VALUES ($price,'$service','$id_user')";
+            error_log($sql,3,'debug.log');
+            $stmt = $db->ejecutar($sql);
+            return $stmt;
         }
     }
 ?>

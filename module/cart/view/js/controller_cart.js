@@ -5,30 +5,60 @@ function select_services(){
         friendlyURL("?module=cart"),
         { 'op': 'services'}
     ).then(function(data) {
-        // console.log(data);
         var html = '';
         for (var row in data) {
             html += '<tr>';
-            html += '<td>' + data[row].service + '</td>';
-            html += '<td>' + data[row].price + '€</td>';
-            html += '<td><button id="'+ data[row].id +'"class="btn btn-primary">Add to Cart</button></td>';
+            html += '<td class="service">' + data[row].service + '</td>';
+            html += '<td class="price">' + data[row].price + '€</td>';
+            html += '<td><button id="'+ data[row].id +'"class="btn btn-primary cart_service">Add to Cart</button></td>';
             html += '</tr>';
         }
         $('.servicesTable').html(html);
+        $(document).on('click', '.cart_service', function(){
+            var token = localStorage.getItem('access_token');
+            var social = localStorage.getItem('social');
+            if (social === null) {
+                social = "";
+            }
+            var service = $(this).closest('tr').find('.service').text();
+            var price = $(this).closest('tr').find('.price').text().replace('€', '');
+            data = { 'service': service,'price':price,'token':token,'social':social, 'op': 'cart_add_service' };
+            console.log(data);
+            ajaxPromise(
+                'POST', 
+                'JSON', 
+                friendlyURL('?module=cart'),
+                data
+            ).then(function (data) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Service added correctly to the cart'
+                }).then(function() {
+                    location.reload();
+                });
+            }).catch(function (e) {
+                console.error(e);
+            });
+        });
     }).catch(function(e) {
         console.error(e);
     });
 }
 function cart_user(){
     token = localStorage.getItem('access_token');
+    social = localStorage.getItem('social');
+    if (social === null) {
+        social = "";
+    }
     ajaxPromise(
         'POST',
         'JSON',
         friendlyURL("?module=cart"),
-        { 'op': 'cart_user', token}
+        { 'op': 'cart_user', 'token':token,'social':social}
     ).then(function(data) {
         console.log(data);
-        return false;
+        // return false;
         var html = '';
         var total = 0;
         for (var row in data) {
@@ -57,7 +87,11 @@ function cart_user(){
         $('.cartTable').html(html);
     });
 }
+function click_cart(){
+    
+}
 $(document).ready(function(){
     select_services();
     cart_user();
+    click_cart();
 });

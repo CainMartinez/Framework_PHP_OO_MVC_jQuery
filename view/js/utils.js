@@ -24,7 +24,7 @@ function load_menu() {
             username = "";
         }
         data = { 'access_token': access_token, 'op': 'data_user', 'social': social, 'username': username};
-        console.log(data);
+        // console.log(data);
         ajaxPromise(
             'POST',
             'JSON',
@@ -34,7 +34,7 @@ function load_menu() {
             if (data[0].cart_count == null || data[0].cart_count == 0) {
                 data[0].cart_count = "0";
             }
-            console.log(data);
+            // console.log(data);
             // return false;
             localStorage.setItem('username_profile', data[0].username);
             console.log("Client logged");

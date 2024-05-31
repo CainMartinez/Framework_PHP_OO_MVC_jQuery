@@ -306,15 +306,17 @@ function clicks_shop() {
                 window.location.href = friendlyURL('?module=auth');
             });
         }else{
+            
             var token = localStorage.getItem('access_token');
             var id = this.getAttribute('id');
             var social = localStorage.getItem('social');
+            var service = "Appointment to see the property " + id;
             if (social === null) {
                 social = "";
             }
             // console.log(id);
             // return false;
-            data = { 'id': id,'token':token,'social':social, 'op': 'cart_add' };
+            data = { 'service': service,'token':token,'social':social, 'op': 'cart_add' };
             ajaxPromise(
                 'POST', 
                 'JSON', 
@@ -430,7 +432,7 @@ function loadDetails(id_property) {
                 });
             var buttonCart = $("<button></button>")
                 .addClass("more_secondary_list button button-secondary button-winona button-md cart_shop")
-                .attr('id', data[0].id_property + '_cart')
+                .attr('id', data[0].id_property)
                 .html("<i class='fas fa-shopping-cart fa-lg'></i>");
 
             cell1.append(likeButton);
