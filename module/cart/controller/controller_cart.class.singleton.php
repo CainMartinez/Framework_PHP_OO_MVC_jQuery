@@ -22,5 +22,14 @@
         public function cart_add_service(){
             echo json_encode(common::load_model('cart_model', 'cart_add_service', [$_POST['service'],$_POST['price'], $_POST['token'], $_POST['social']]));
         }
+        public function cart_delete(){
+            echo json_encode(common::load_model('cart_model', 'cart_delete', [$_POST['service'], $_POST['token'], $_POST['social']]));
+        }
+        public function cart_plus(){
+            echo json_encode(common::load_model('cart_model', 'cart_plus', [$_POST['service'], $_POST['token'], $_POST['social']]));
+        }
+        public function cart_minus(){
+            echo json_encode(common::load_model('cart_model', 'cart_minus', [$_POST['service'], $_POST['token'], $_POST['social']]));
+        }
     }
 ?>

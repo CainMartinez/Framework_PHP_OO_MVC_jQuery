@@ -1,7 +1,4 @@
 <?php
-
-use function PHPSTORM_META\type;
-
 	class cart_bll {
 		private $dao;
 		private $db;
@@ -61,9 +58,28 @@ use function PHPSTORM_META\type;
 					$id_user = $this -> dao -> select_id_social($this -> db,$decode_token['username'],$args[3]);
 				}
 				// error_log("El id del usuario es ". $id_user[0]['id_user'],3,'debug.log');
-				return $this -> dao -> cart_add_service_DAO($this -> db,$service,$price,$id_user[0]['id_user']);
+				$stock = $this -> dao -> select_stock($this -> db,$service);
+				// error_log("El stock es ". $stock[0]['stock'],3,'debug.log');
+				if ($stock[0]['stock'] == 0) {
+					return 'error_stock';
+				}else {
+					return $this -> dao -> cart_add_service_DAO($this -> db,$service,$price,$id_user[0]['id_user']);
+				}
 			}catch (Exception $e){
 				error_log("Error en cart_add_BLL ".$e,3,'debug.log');
+			}
+		}
+		public function cart_delete_BLL($args) {
+			try{
+				$decode_token = middleware::decode_token($args[1]);
+				if ($args[2] === ''){
+					$id_user = $this -> dao -> select_id($this -> db,$decode_token['username']);
+				}else {
+					$id_user = $this -> dao -> select_id_social($this -> db,$decode_token['username'],$args[2]);
+				}
+				return $this -> dao -> cart_delete_DAO($this -> db,$args[0],$id_user[0]['id_user']);
+			}catch (Exception $e){
+				error_log("Error en cart_delete_BLL ".$e,3,'debug.log');
 			}
 		}
     }

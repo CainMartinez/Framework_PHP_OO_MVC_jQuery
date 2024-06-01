@@ -24,5 +24,14 @@
         public function cart_add_service($args){
             return $this->bll->cart_add_service_BLL($args);
         }
+        public function cart_delete($args){
+            return $this->bll->cart_delete_BLL($args);
+        }
+        public function cart_plus($args){
+            return $this->bll->cart_plus_BLL($args);
+        }
+        public function cart_minus($args){
+            return $this->bll->cart_minus_BLL($args);
+        }
     }
 ?>

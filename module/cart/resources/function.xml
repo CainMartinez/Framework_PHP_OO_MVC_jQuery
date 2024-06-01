@@ -20,4 +20,16 @@
         <name>cart_add_service</name>
         <uri>cart_add_service</uri>
     </function>
+    <function>
+        <name>cart_minus</name>
+        <uri>cart_minus</uri>
+    </function>
+    <function>
+        <name>cart_plus</name>
+        <uri>cart_plus</uri>
+    </function>
+    <function>
+        <name>cart_delete</name>
+        <uri>cart_delete</uri>
+    </function>
 </functions>

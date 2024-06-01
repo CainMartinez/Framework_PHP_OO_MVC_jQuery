@@ -30,13 +30,23 @@ function select_services(){
                 friendlyURL('?module=cart'),
                 data
             ).then(function (data) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Service added correctly to the cart'
-                }).then(function() {
-                    location.reload();
-                });
+                // console.log(data);
+                // return false;
+                if (data === 'error_stock') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Service out of stock'
+                    });
+                }else{
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Service added correctly to the cart'
+                    }).then(function() {
+                        location.reload();
+                    });
+                }
             }).catch(function (e) {
                 console.error(e);
             });
@@ -71,9 +81,9 @@ function cart_user(){
             html += '<td>' + price.toFixed(2) + '€</td>';
             html += '<td>' + quantity + '</td>';
             html += '<td>' +
-                        '<button id="'+ data[row].id+'_min" class="btn btn-secondary">-1</button>'+
-                        '<button id="'+ data[row].id +'_plus" class="btn btn-success">+1</button>'+
-                        '<button id="'+ data[row].id +'_del"class="btn btn-danger">Delete</button>'+
+                        '<button id="'+ data[row].id+'_min" class="btn btn-secondary substract">-1</button>'+
+                        '<button id="'+ data[row].id +'_plus" class="btn btn-success plus">+1</button>'+
+                        '<button id="'+ data[row].id +'_del"class="btn btn-danger delete">Delete</button>'+
                     '</td>';
             html += '</tr>';
         }
@@ -88,7 +98,65 @@ function cart_user(){
     });
 }
 function click_cart(){
-    
+    $(document).on('click', '.substract', function(){
+        var id = $(this).attr('id').split('_')[0];
+        var token = localStorage.getItem('access_token');
+        var social = localStorage.getItem('social');
+        if (social === null) {
+            social = "";
+        }
+        data = { 'id': id,'token':token,'social':social, 'op': 'cart_minus' };
+        ajaxPromise(
+            'POST', 
+            'JSON', 
+            friendlyURL('?module=cart'),
+            data
+        ).then(function (data) {
+            location.reload();
+        }).catch(function (e) {
+            console.error(e);
+        });
+    });
+    $(document).on('click', '.plus', function(){
+        var id = $(this).attr('id').split('_')[0];
+        var token = localStorage.getItem('access_token');
+        var social = localStorage.getItem('social');
+        if (social === null) {
+            social = "";
+        }
+        data = { 'id': id,'token':token,'social':social, 'op': 'cart_plus' };
+        ajaxPromise(
+            'POST', 
+            'JSON', 
+            friendlyURL('?module=cart'),
+            data
+        ).then(function (data) {
+            location.reload();
+        }).catch(function (e) {
+            console.error(e);
+        });
+    });
+    $(document).on('click', '.delete', function(){
+        var service = $(this).closest('tr').find('td').eq(0).text();
+        var token = localStorage.getItem('access_token');
+        var social = localStorage.getItem('social');
+        if (social === null) {
+            social = "";
+        }
+        data = { 'service': service,'token':token,'social':social, 'op': 'cart_delete' };
+        // console.log(data);
+        // return false;
+        ajaxPromise(
+            'POST', 
+            'JSON', 
+            friendlyURL('?module=cart'),
+            data
+        ).then(function (data) {
+            location.reload();
+        }).catch(function (e) {
+            console.error(e);
+        });
+    });
 }
 $(document).ready(function(){
     select_services();
