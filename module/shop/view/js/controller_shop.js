@@ -323,15 +323,29 @@ function clicks_shop() {
                 friendlyURL('?module=cart'),
                 data
             ).then(function (data) {
+                if (data === 'error') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Only one appointment may be requested per property'
+                    });
+                }else{
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Correctly added the appointment for property ' + id + ' to the cart'
+                    }).then(function() {
+                        location.reload();
+                    });
+                }
+            }).catch(function () {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
-                    text: 'Correctly added the quotation for property ' + id + ' to the cart'
+                    text: 'Correctly added the appointment for property ' + id + ' to the cart'
                 }).then(function() {
                     location.reload();
                 });
-            }).catch(function (e) {
-                console.error(e);
             });
         }
     });

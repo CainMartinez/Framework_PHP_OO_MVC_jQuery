@@ -297,7 +297,7 @@
 					echo json_encode("inactivo");
     				exit();
 				} else {
-					if ((time() - $_SESSION['time']) >= 600) { 
+					if ((time() - $_SESSION['time']) >= 6000) { 
 						echo json_encode("inactivo");
             			exit();
 					} else {

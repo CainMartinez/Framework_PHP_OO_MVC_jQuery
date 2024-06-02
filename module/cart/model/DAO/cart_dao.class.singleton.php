@@ -15,13 +15,18 @@
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
+        public function select_orders($db,$service,$id_user){
+            $sql = "SELECT service FROM orders WHERE service = '$service' AND id_user = '$id_user'";
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
         public function select_stock($db,$service){
             $sql = "SELECT stock FROM services WHERE service = '$service'";
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
         public function cart_user_DAO($db,$id){
-            $sql = "SELECT service,COUNT(*) quantity,price FROM orders WHERE id_user = '$id' GROUP BY service";
+            $sql = "SELECT service,COUNT(*) quantity,price FROM orders WHERE id_user = '$id' GROUP BY service ORDER BY service ASC";
             $stmt = $db->ejecutar($sql);
             // error_log($sql,3,'debug.log');
             return $db->listar($stmt);
@@ -51,6 +56,18 @@
         }
         public function cart_delete_DAO($db,$service,$id_user){
             $sql = "DELETE FROM orders WHERE service = '$service' AND id_user = '$id_user'";
+            // error_log($sql,3,'debug.log');
+            $stmt = $db->ejecutar($sql);
+            return $stmt;
+        }
+        public function cart_plus_DAO($db,$service,$id_user){
+            $sql = "INSERT INTO orders (price,service,id_user) VALUES (50,'$service','$id_user')";
+            // error_log($sql,3,'debug.log');
+            $stmt = $db->ejecutar($sql);
+            return $stmt;
+        }
+        public function cart_delete_one($db,$service,$id_user){
+            $sql = "DELETE FROM orders WHERE service = '$service' AND id_user = '$id_user' LIMIT 1";
             // error_log($sql,3,'debug.log');
             $stmt = $db->ejecutar($sql);
             return $stmt;

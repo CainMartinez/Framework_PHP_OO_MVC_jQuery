@@ -160,6 +160,8 @@ function logout_auto() {
     ).then(function(data) {
         localStorage.removeItem('refresh_token');
         localStorage.removeItem('access_token');
+        localStorage.removeItem('username');
+        localStorage.removeItem('social');
         Swal.fire({
             icon: 'warning',
             title: 'Account closed for security reasons!',

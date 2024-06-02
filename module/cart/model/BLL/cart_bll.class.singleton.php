@@ -41,7 +41,15 @@
 					$id_user = $this -> dao -> select_id_social($this -> db,$decode_token['username'],$args[2]);
 				}
 				// error_log("El id del usuario es ". $id_user[0]['id_user'],3,'debug.log');
-				return $this -> dao -> cart_add_DAO($this -> db,$service,$id_user[0]['id_user']);
+				// si este servicio ya esta en el carrito, no permitir añadir otro
+				$cart = $this -> dao -> select_orders($this -> db,$service,$id_user[0]['id_user']);
+				if ($cart[0]['service'] == $service) {
+					error_log("Servicio encontrado, no añadido " . $cart[0]['service'], 3, 'debug.log');
+					return 'error';
+				}else{
+					// error_log("No matching service found, adding to cart: " . $service, 3, 'debug.log');
+					return $this -> dao -> cart_add_DAO($this -> db,$service,$id_user[0]['id_user']);
+				}
 			}catch (Exception $e){
 				error_log("Error en cart_add_BLL ".$e,3,'debug.log');
 			}
@@ -80,6 +88,36 @@
 				return $this -> dao -> cart_delete_DAO($this -> db,$args[0],$id_user[0]['id_user']);
 			}catch (Exception $e){
 				error_log("Error en cart_delete_BLL ".$e,3,'debug.log');
+			}
+		}
+		public function cart_plus_BLL($args) {
+			try{
+				$decode_token = middleware::decode_token($args[1]);
+				if ($args[2] === ''){
+					$id_user = $this -> dao -> select_id($this -> db,$decode_token['username']);
+				}else {
+					$id_user = $this -> dao -> select_id_social($this -> db,$decode_token['username'],$args[2]);
+				}
+				if (strpos($args[0], 'Appointment') !== false) {
+					return 'error';
+				}else {
+					return $this -> dao -> cart_add_service_DAO($this -> db,$args[0],$args[3],$id_user[0]['id_user']);
+				}
+			}catch (Exception $e){
+				error_log("Error en cart_plus_BLL ".$e,3,'debug.log');
+			}
+		}
+		public function cart_minus_BLL($args) {
+			try{
+				$decode_token = middleware::decode_token($args[1]);
+				if ($args[2] === ''){
+					$id_user = $this -> dao -> select_id($this -> db,$decode_token['username']);
+				}else {
+					$id_user = $this -> dao -> select_id_social($this -> db,$decode_token['username'],$args[2]);
+				}
+				return $this -> dao -> cart_delete_one($this -> db,$args[0],$id_user[0]['id_user']);
+			}catch (Exception $e){
+				error_log("Error en cart_minus_BLL ".$e,3,'debug.log');
 			}
 		}
     }

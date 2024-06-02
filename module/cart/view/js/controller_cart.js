@@ -99,13 +99,14 @@ function cart_user(){
 }
 function click_cart(){
     $(document).on('click', '.substract', function(){
-        var id = $(this).attr('id').split('_')[0];
+        var service = $(this).closest('tr').find('td').eq(0).text();
+        var price = $(this).closest('tr').find('td').eq(1).text().replace('€', '');
         var token = localStorage.getItem('access_token');
         var social = localStorage.getItem('social');
         if (social === null) {
             social = "";
         }
-        data = { 'id': id,'token':token,'social':social, 'op': 'cart_minus' };
+        data = { 'service': service,'token':token,'social':social,'price': price, 'op': 'cart_minus' };
         ajaxPromise(
             'POST', 
             'JSON', 
@@ -118,20 +119,30 @@ function click_cart(){
         });
     });
     $(document).on('click', '.plus', function(){
-        var id = $(this).attr('id').split('_')[0];
+        var service = $(this).closest('tr').find('td').eq(0).text();
+        var price = $(this).closest('tr').find('td').eq(1).text().replace('€', '');
         var token = localStorage.getItem('access_token');
         var social = localStorage.getItem('social');
         if (social === null) {
             social = "";
         }
-        data = { 'id': id,'token':token,'social':social, 'op': 'cart_plus' };
+        data = { 'service': service,'token':token,'social':social,'price': price, 'op': 'cart_plus' };
+        console.log(data);
         ajaxPromise(
             'POST', 
             'JSON', 
             friendlyURL('?module=cart'),
             data
         ).then(function (data) {
-            location.reload();
+            if (data === 'error') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Only one appointment may be requested per property'
+                });
+            }else{
+                location.reload();
+            }
         }).catch(function (e) {
             console.error(e);
         });
