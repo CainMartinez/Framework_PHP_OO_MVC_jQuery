@@ -10,5 +10,27 @@
             }
             return self::$_instance;
         }
+        public function select_id($db,$username){
+            $sql = "SELECT id_user FROM users WHERE username = '$username'";
+            // error_log($sql,3,'debug.log');
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+        public function select_id_social($db,$username,$social){
+            $sql = "SELECT id_user FROM users_$social WHERE username = '$username'";
+            // error_log($sql,3,'debug.log');
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+        public function profile_data_DAO($db,$id){
+            $sql = "SELECT * FROM users WHERE id_user = '$id'";
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+        public function profile_data_social_DAO($db,$id,$social){
+            $sql = "SELECT * FROM users_$social WHERE id_user = '$id'";
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
     }
 ?>

@@ -16,4 +16,8 @@
         <name>create</name>
         <uri>create</uri>
     </function>
+    <function>
+        <name>profile_data</name>
+        <uri>profile_data</uri>
+    </function>
 </functions>
