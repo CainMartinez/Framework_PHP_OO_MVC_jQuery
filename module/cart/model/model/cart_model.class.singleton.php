@@ -33,5 +33,11 @@
         public function cart_minus($args){
             return $this->bll->cart_minus_BLL($args);
         }
+        public function purchase($args){
+            return $this->bll->purchase_BLL($args);
+        }
+        public function check_cart($args){
+            return $this->bll->check_cart_BLL($args);
+        }
     }
 ?>

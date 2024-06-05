@@ -120,5 +120,51 @@
 				error_log("Error en cart_minus_BLL ".$e,3,'debug.log');
 			}
 		}
+		public function purchase_BLL($args) {
+			try {
+				$decode_token = middleware::decode_token($args[0]);
+
+				if ($args[1] === ''){
+					$id_user = $this -> dao -> select_id($this -> db,$decode_token['username']);
+				} else {
+					$id_user = $this -> dao -> select_id_social($this -> db,$decode_token['username'],$args[1]);
+				}
+				error_log("Hay servicios en el carrito",3,'debug.log');
+				$id_user = $id_user[0]['id_user'];
+				$form_data = $args[2];
+				$name = $form_data['name'];
+				$surname = $form_data['surname'];
+				$address = $form_data['address'];
+				$city = $form_data['city'];
+				$zip = $form_data['zip'];
+				$country = $form_data['country'];
+				$pay_method = $form_data['pay_method'];
+				$total = $form_data['total'];
+				// error_log("Name: " . $name, 3, 'debug.log');
+				$result = $this -> dao -> insert_data($this -> db, $name, $surname, $address, $city, $zip, $country, $pay_method,$id_user,$total);
+				$this -> dao -> delete_data($this -> db, $id_user);
+				return $result;
+			} catch (Exception $e) {
+				error_log("Error en invoice_data_BLL ".$e,3,'debug.log');
+			}
+		}
+		public function check_cart_BLL($args) {
+			try{
+				$decode_token = middleware::decode_token($args[0]);
+				if ($args[1] === ''){
+					$id_user = $this -> dao -> select_id($this -> db,$decode_token['username']);
+				}else {
+					$id_user = $this -> dao -> select_id_social($this -> db,$decode_token['username'],$args[1]);
+				}
+				$result = $this -> dao -> cart_user_DAO($this -> db,$id_user[0]['id_user']);
+				if(empty($result)){
+					return 'error';
+				}else{
+					return $result;
+				}
+			}catch (Exception $e){
+				error_log("Error en check_cart_BLL ".$e,3,'debug.log');
+			}
+		}
     }
 ?>

@@ -32,4 +32,16 @@
         <name>cart_delete</name>
         <uri>cart_delete</uri>
     </function>
+    <function>
+        <name>invoice_view</name>
+        <uri>invoice_view</uri>
+    </function>
+    <function>
+        <name>purchase</name>
+        <uri>purchase</uri>
+    </function>
+    <function>
+        <name>check_cart</name>
+        <uri>check_cart</uri>
+    </function>
 </functions>

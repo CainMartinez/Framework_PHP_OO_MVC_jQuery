@@ -1,0 +1,99 @@
+<section class="section novi-background section-1 bg-primary-darker text-center" id="invoice" style="display: none;">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-sm-10 col-lg-7 col-xl-6"><br><br>
+                <h3 class="wow-outer"><span class="wow slideInDown text-uppercase">- - - - - - - - - - - - - - - -</span></h3>
+                <h2 class="wow-outer"><span class="wow slideInDown text-uppercase">Invoice</span><i class="fas fa-shopping-cart" style="font-size: 1.5em;"></i></h2>
+                <h3 class="wow-outer"><span class="wow slideInDown text-uppercase">- - - - - - - - - - - - - - - -</span></h3>
+                <br>
+            <div class="container">
+                <!-- Billing Information -->
+                <div class="card">
+                    <div class="card-header"><h3 style="color: black;">Billing Information</h3></div>
+                    <div class="card-body" id="billing-info">
+                        <p id="name_inv"><strong>Name:</strong></p>
+                        <p id="surname_inv"><strong>Surname:</strong></p>
+                        <p id="address_inv"><strong>Address:</strong></p>
+                        <p id="city_inv"><strong>City:</strong></p>
+                        <p id="zip_inv"><strong>Zip:</strong></p>
+                    </div>
+                </div>
+                <br>
+
+                <!-- Purchased Services -->
+                <div class="card">
+                    <div class="card-header"><h3 style="color: black;">Purchased Services</h3></div>
+                    <div class="card-body">
+                        <table class="table" id="services-table">
+                            <thead>
+                                <tr>
+                                    <th>Service</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- The rows will be added here by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <br>
+
+                <!-- Total Price -->
+                <div class="card">
+                    <div class="card-header"><h3 style="color: black;">Total Price</h3></div>
+                    <div class="card-body">
+                        <h3 id="total-price" style="color: black;">600€</h3>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section novi-background section-1 bg-primary-darker text-center" id="form_inv">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-sm-10 col-lg-7 col-xl-6"><br><br>
+                <h3 class="wow-outer"><span class="wow slideInDown text-uppercase">- - - - - - - - - - - - - - - -</span></h3>
+                <h2 class="wow-outer"><span class="wow slideInDown text-uppercase">Invoicement data</span><i class="fas fa-shopping-cart" style="font-size: 1.5em;"></i></h2>
+                <h3 class="wow-outer"><span class="wow slideInDown text-uppercase">- - - - - - - - - - - - - - - -</span></h3>
+                <br>
+                <form id="form_invoice" class="form-horizontal" method="post" action="javascript:void(0)">
+                    <div class="form-group">
+                        
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
+                        <span id="nameError" class="text-danger"></span><hr>
+
+                        <label for="surname">Surname:</label>
+                        <input type="text" class="form-control" id="surname" placeholder="Enter surname" name="surname">
+                        <span id="surnameError" class="text-danger"></span><hr>
+
+                        <label for="address">Address:</label>
+                        <input type="text" class="form-control" id="address" placeholder="Enter address" name="address">
+                        <span id="addressError" class="text-danger"></span><hr>
+
+                        <label for="city">City:</label>
+                        <input type="text" class="form-control" id="city" placeholder="Enter city" name="city">
+                        <span id="cityError" class="text-danger"></span><hr>
+
+                        <label for="zip">Zip:</label>
+                        <input type="text" class="form-control" id="zip" placeholder="Enter zip" name="zip">
+                        <span id="zipError" class="text-danger"></span><hr>
+
+                        <label for="country">Country:</label>
+                        <input type="text" class="form-control" id="country" placeholder="Enter country" name="country">
+                        <span id="countryError" class="text-danger"></span><hr>
+                    
+                        <label for="pay_method">Credit Card:</label>
+                        <input type="text" class="form-control" id="pay_method" placeholder="Enter your pay method" name="pay_method">
+                        <span id="pay_methodError" class="text-danger"></span><hr>
+                    </div>
+                    <button id="form_inv_button" type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

@@ -36,7 +36,10 @@
                         <tbody class="cartTable">
                         </tbody>
                     </table>
-                    <button type="button" class="btn btn-warning">PURCHASE</button>
+                    <form id="hiddenForm" action="cart" method="POST" style="display: none;">
+                        <input type="hidden" name="op" value="invoice_view">
+                    </form>
+                    <button id="purchase" type="button" class="btn btn-warning">PURCHASE</button>
             </div>
         </div>
     </div>

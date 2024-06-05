@@ -87,7 +87,9 @@ function cart_user(){
                     '</td>';
             html += '</tr>';
         }
-        html += '<tr class="table-secondary"><td colspan="3">Total</td><td>' + total.toFixed(2) + '€</td></tr>';
+        let totalup = total.toFixed(2);
+        localStorage.setItem('total', totalup);
+        html += '<tr class="table-secondary"><td colspan="3">Total</td><td>' + totalup + '€</td></tr>';        
         $('.cartTable').html(html);
     }).catch(function(e) {
         var html = '';
@@ -167,6 +169,173 @@ function click_cart(){
         }).catch(function (e) {
             console.error(e);
         });
+    });
+    $(document).on('click', '#purchase', function(){
+        check_cart();
+    });
+    click_form_inv();
+}
+function validate_invoicement_form() {
+    var error = false;
+
+    if(document.getElementById('name').value.length === 0){
+        document.getElementById('nameError').innerHTML = "Enter your name";
+        error = true;
+    } else {
+        document.getElementById('nameError').innerHTML = "";
+    }
+
+    if(document.getElementById('surname').value.length === 0){
+        document.getElementById('surnameError').innerHTML = "Enter your surname";
+        error = true;
+    } else {
+        document.getElementById('surnameError').innerHTML = "";
+    }
+
+    if(document.getElementById('address').value.length === 0){
+        document.getElementById('addressError').innerHTML = "Enter your address";
+        error = true;
+    } else {
+        document.getElementById('addressError').innerHTML = "";
+    }
+
+    if(document.getElementById('city').value.length === 0){
+        document.getElementById('cityError').innerHTML = "Enter your city";
+        error = true;
+    } else {
+        document.getElementById('cityError').innerHTML = "";
+    }
+
+    if(document.getElementById('zip').value.length === 0){
+        document.getElementById('zipError').innerHTML = "Enter your zip code";
+        error = true;
+    } else {
+        document.getElementById('zipError').innerHTML = "";
+    }
+
+    if(document.getElementById('country').value.length === 0){
+        document.getElementById('countryError').innerHTML = "Enter your country";
+        error = true;
+    } else {
+        document.getElementById('countryError').innerHTML = "";
+    }
+
+    if(document.getElementById('pay_method').value.length === 0){
+        document.getElementById('pay_methodError').innerHTML = "Enter your pay method";
+        error = true;
+    } else { 
+        document.getElementById('pay_methodError').innerHTML = "";
+    }
+
+    if(error == true){
+        return 0;
+    }
+}
+function click_form_inv(){
+    $("#form_inv_button").keypress(function(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if(code==13){
+        	e.preventDefault();
+            purchase();
+        }
+    });
+    $('#form_inv_button').on('click', function(e) {
+        e.preventDefault();
+        purchase();
+    }); 
+}
+function purchase(){
+    var token = localStorage.getItem('access_token');
+    var social = localStorage.getItem('social');
+    if (social === null) {
+        social = "";
+    }
+    if(validate_invoicement_form() != 0){
+        var name = $('#name').val();
+        var surname = $('#surname').val();
+        var address = $('#address').val();
+        var city = $('#city').val();
+        var zip = $('#zip').val();
+        var country = $('#country').val();
+        var pay_method = $('#pay_method').val();
+        var total = localStorage.getItem('total');
+        var form = { 'name':name, 'surname':surname, 'address':address, 'city':city, 'zip':zip, 'country':country, 'pay_method':pay_method, 'total':total};
+        var data = { 'token':token,'social':social, 'op': 'purchase', form };
+        ajaxPromise(
+            'POST',
+            'JSON',
+            friendlyURL("?module=cart"),
+            data
+        ).then(function(data) {
+            console.log(data);
+            if (data === 'error') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'You must add a service to the cart'
+                });
+                return false;
+            }else{
+                localStorage.removeItem('total');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Congrats',
+                    text: 'Your order has been processed, here you can see a preview. You will be redirected to your profile in 15 seconds where you can download it in pdf.',
+                    showConfirmButton: true,
+                    timer: 30000
+                }).then(function() {
+                    $('#form_inv').hide();
+                    $('#name_inv').html('<strong>Name:</strong> ' + data.purchases[0].name);
+                    $('#surname_inv').html('<strong>Surname:</strong> ' + data.purchases[0].surname);
+                    $('#address_inv').html('<strong>Address:</strong> ' + data.purchases[0].address);
+                    $('#city_inv').html('<strong>City:</strong> ' + data.purchases[0].city);
+                    $('#zip_inv').html('<strong>Zip:</strong> ' + data.purchases[0].zip);
+                    var servicesHtml = '';
+                    data.orders.forEach(function(order) {
+                        servicesHtml += '<tr><td>' + order.service + '</td><td>' + order.quantity + '</td><td>' + order.price + '€</td></tr>';
+                    });
+                    $('#services-table tbody').html(servicesHtml);
+                    $('#total-price').html(data.purchases[0].total + '€');
+
+                    $('#invoice').show();
+                    $('html, body').animate({
+                        scrollTop: $('#invoice').offset().top
+                    }, 0);
+                    setTimeout(function() {
+                        window.location.href = friendlyURL('?module=profile');
+                    }, 15000);
+                });
+            }
+        }).catch(function(e) {
+            console.error(e);
+        });
+    }
+}
+function check_cart(){
+    var token = localStorage.getItem('access_token');
+    var social = localStorage.getItem('social');
+    if (social === null) {
+        social = "";
+    }
+    ajaxPromise(
+        'POST',
+        'JSON',
+        friendlyURL("?module=cart"),
+        { 'op': 'check_cart', 'token':token,'social':social}
+    ).then(function(data) {
+        if (data === 'error') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'You must add a service to the cart'
+            });
+            return false;
+        }else{
+            console.log(data);
+            $('#hiddenForm').submit();
+        }
+    }).catch(function(e) {
+        console.error(e);
     });
 }
 $(document).ready(function(){

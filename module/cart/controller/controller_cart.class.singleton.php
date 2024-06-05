@@ -31,5 +31,14 @@
         public function cart_minus(){
             echo json_encode(common::load_model('cart_model', 'cart_minus', [$_POST['service'], $_POST['token'], $_POST['social'], $_POST['price']]));
         }
+        public function invoice_view(){
+            common::load_view('top_page_cart.html', VIEW_PATH_CART . 'invoice.html');
+        }
+        public function purchase(){
+            echo json_encode(common::load_model('cart_model', 'purchase', [$_POST['token'], $_POST['social'],$_POST['form']]));
+        }
+        public function check_cart(){
+            echo json_encode(common::load_model('cart_model', 'check_cart', [$_POST['token'], $_POST['social']]));
+        }
     }
 ?>

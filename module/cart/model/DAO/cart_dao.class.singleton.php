@@ -1,7 +1,6 @@
 <?php
     class cart_dao{
         static $_instance;
-
         private function __construct() {
         }
         public static function getInstance() {
@@ -70,6 +69,29 @@
             $sql = "DELETE FROM orders WHERE service = '$service' AND id_user = '$id_user' LIMIT 1";
             // error_log($sql,3,'debug.log');
             $stmt = $db->ejecutar($sql);
+            return $stmt;
+        }
+        public function insert_data($db, $name, $surname, $address, $city, $zip, $country, $pay_method, $id_user, $total) {
+            $sql_insert = "INSERT INTO purchases (name, surname, address, city, zip, country, id_user, pay_method, time, total) VALUES ('$name', '$surname', '$address', '$city', '$zip', '$country', '$id_user', '$pay_method', NOW(), '$total')";
+            $db->ejecutar($sql_insert);
+            $result = $this->select_data($db, $id_user);
+            return $result;
+        }
+        public function select_data($db, $id_user) {
+            $sql_select_orders = "SELECT service, COUNT(*) quantity, price FROM orders WHERE id_user = '$id_user' GROUP BY service ORDER BY service ASC";
+            $stmt_orders = $db->ejecutar($sql_select_orders);
+            $orders = $db->listar($stmt_orders);
+
+            $sql_select_purchases = "SELECT * FROM purchases WHERE id_user = '$id_user' ORDER BY time DESC LIMIT 1";
+            $stmt_purchases = $db->ejecutar($sql_select_purchases);
+            $purchases = $db->listar($stmt_purchases);
+
+            $result = array('orders' => $orders, 'purchases' => $purchases);
+            return $result;
+        }
+        public function delete_data($db, $id_user) {
+            $sql_delete_orders = "DELETE FROM orders WHERE id_user = '$id_user'";
+            $stmt = $db->ejecutar($sql_delete_orders);
             return $stmt;
         }
     }
