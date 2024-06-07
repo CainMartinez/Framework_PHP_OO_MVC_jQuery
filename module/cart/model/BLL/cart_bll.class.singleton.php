@@ -25,7 +25,12 @@
 				}else {
 					$id_user = $this -> dao -> select_id_social($this -> db,$decode_token['username'],$args[1]);
 				}
-				return $this -> dao -> cart_user_DAO($this -> db,$id_user[0]['id_user']);
+				$result = $this -> dao -> cart_user_DAO($this -> db,$id_user[0]['id_user']);
+				if(empty($result)){
+					return 'error';
+				}else{
+					return $result;
+				}
 			}catch (Exception $e){
 				error_log("Error en cart_user_BLL ".$e,3,'debug.log');
 			}
@@ -123,13 +128,12 @@
 		public function purchase_BLL($args) {
 			try {
 				$decode_token = middleware::decode_token($args[0]);
-
 				if ($args[1] === ''){
 					$id_user = $this -> dao -> select_id($this -> db,$decode_token['username']);
 				} else {
 					$id_user = $this -> dao -> select_id_social($this -> db,$decode_token['username'],$args[1]);
 				}
-				error_log("Hay servicios en el carrito",3,'debug.log');
+				// error_log("Hay servicios en el carrito",3,'debug.log');
 				$id_user = $id_user[0]['id_user'];
 				$form_data = $args[2];
 				$name = $form_data['name'];
@@ -142,6 +146,8 @@
 				$total = $form_data['total'];
 				// error_log("Name: " . $name, 3, 'debug.log');
 				$result = $this -> dao -> insert_data($this -> db, $name, $surname, $address, $city, $zip, $country, $pay_method,$id_user,$total);
+				$id_purchase = $this -> dao -> select_id_purchase($this -> db,$id_user);
+				$this -> dao -> lines_invoices_DAO($this -> db,$id_user,$id_purchase[0]['id']);
 				$this -> dao -> delete_data($this -> db, $id_user);
 				return $result;
 			} catch (Exception $e) {

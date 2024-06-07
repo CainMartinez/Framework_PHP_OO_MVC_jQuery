@@ -30,6 +30,17 @@
             // error_log($sql,3,'debug.log');
             return $db->listar($stmt);
         }
+        public function lines_invoices_DAO($db,$id,$id_purchase){
+            $sql = "INSERT INTO lines_invoice (service, quantity, price, id_user, id_purchase) 
+                    SELECT service, COUNT(*), price, id_user, '$id_purchase' 
+                    FROM orders 
+                    WHERE id_user = '$id' 
+                    GROUP BY service 
+                    ORDER BY service ASC";
+            $stmt = $db->ejecutar($sql);
+            error_log($sql,3,'debug.log');
+            return $stmt;
+        }
         public function cart_add_DAO($db,$service,$id_user){
             $sql = "INSERT INTO orders (price,service,id_user) VALUES (50,'$service','$id_user')";
             $stmt = $db->ejecutar($sql);
@@ -93,6 +104,11 @@
             $sql_delete_orders = "DELETE FROM orders WHERE id_user = '$id_user'";
             $stmt = $db->ejecutar($sql_delete_orders);
             return $stmt;
+        }
+        public function select_id_purchase($db, $id_user) {
+            $sql = "SELECT id FROM purchases WHERE id_user = '$id_user' ORDER BY time DESC LIMIT 1";
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
         }
     }
 ?>

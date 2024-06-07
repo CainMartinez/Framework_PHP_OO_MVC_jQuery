@@ -33,7 +33,7 @@ El Shop es el componente más crucial de la aplicación, donde los usuarios pued
 - Scroll que va listando inmuebles recomendados dentro del details.
 - Añadir tu favorita a la lista mediante likes.
 
-### Login/Register 🚪
+### Auth 🚪
 
 Esta sección es la más segura de la aplicación y permite a los usuarios registrarse o iniciar sesión:
 
@@ -42,8 +42,39 @@ Esta sección es la más segura de la aplicación y permite a los usuarios regis
 - Social login con acceso desde github, google y linkedin.
 - Se permite recuperar la contraseña mediante email y cambiarla.
 
-### Cart (en construcción) 🛒
+### Cart 🛒
+
+Esta sección permite a los usuarios ver los productos que han agregado a su carrito de compras:
+
+- Los usuarios pueden agregar citas para las viviendas a su carrito.
+- Desde el carrito se pueden añadir servicios, sumarle y restarle cantidades o simplemente eliminarl cualquier producto de la cesta.
+- Al pulsar en comprar se mostrará un formulario con los datos de facturación y método de pago.
+- Al finalizar el pago se mostrará una vista previa de la factura.
+
+### Profile 👤
+
+Esta sección permite a los usuarios ver y editar su perfil, consultar sus facturas o ver la lista de viviendas deseadas:
+
+- Los usuarios pueden ver su información de perfil, incluyendo username, correo electrónico y foto de perfil.
+- Se puede editar la contraseña e imagen de perfil.
+- O ver el historial de compras y facturas detalladas.
+- Posibilidad de descargarse las facturas en pdf o escanearlas mediante un código QR.
+- En la sección Wish List se muestran las viviendas que previamente se le ha dado like, con posibilidad de entrar a los detalles o eliminarlas de esa lista.
+
+## Perfil Administrador (Próximamente)
+
+- Los usuarios administradores no se pueden crear mediante el register o social sign in.
+- Tienen los permisos para borrar usuarios tipo client o propiedades (is_active = 0).
+- Pueden enviar email de verificación para que los usuarios puedan recuperar su contraseña si han olvidado sus credenciales.
+
+### Properties 🏡 (Próximamente)
+
+Esta sección permite a los usuarios crear, ver y gestionar las propiedades:
+
+- Los usuarios pueden crear propiedades desde el botón en menú superior, con posibilidad de subir hasta 5 imágenes.
+- Pueden ver una lista de todas sus propiedades subidas.
+- Desde esa vista tienen la posibilidad de borrarlas o entrar a editarlas.
+- Si alguien compra una cita para una vivienda pasará al estado de reservada automáticamente pero el usuario podrá quitar ese estado.
 
 ### Extras
  - Depuración en PHP mediante error_log redireccionado a un archivo debug.log ubicado en la raiz del proyecto.
- 

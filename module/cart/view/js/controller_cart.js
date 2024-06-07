@@ -67,30 +67,38 @@ function cart_user(){
         friendlyURL("?module=cart"),
         { 'op': 'cart_user', 'token':token,'social':social}
     ).then(function(data) {
-        console.log(data);
-        // return false;
-        var html = '';
-        var total = 0;
-        for (var row in data) {
-            var price = parseFloat(data[row].price);
-            var quantity = parseInt(data[row].quantity);
-            total += price * quantity;
-
+        if (data === 'error') {
+            var html = '';
             html += '<tr>';
-            html += '<td>' + data[row].service + '</td>';
-            html += '<td>' + price.toFixed(2) + '€</td>';
-            html += '<td>' + quantity + '</td>';
-            html += '<td>' +
-                        '<button id="'+ data[row].id+'_min" class="btn btn-secondary substract">-1</button>'+
-                        '<button id="'+ data[row].id +'_plus" class="btn btn-success plus">+1</button>'+
-                        '<button id="'+ data[row].id +'_del"class="btn btn-danger delete">Delete</button>'+
-                    '</td>';
+            html += '<td colspan="4">Empty Cart</td>';
             html += '</tr>';
+            $('.cartTable').html(html);}
+        else{
+            console.log(data);
+            // return false;
+            var html = '';
+            var total = 0;
+            for (var row in data) {
+                var price = parseFloat(data[row].price);
+                var quantity = parseInt(data[row].quantity);
+                total += price * quantity;
+
+                html += '<tr>';
+                html += '<td>' + data[row].service + '</td>';
+                html += '<td>' + price.toFixed(2) + '€</td>';
+                html += '<td>' + quantity + '</td>';
+                html += '<td>' +
+                            '<button id="'+ data[row].id+'_min" class="btn btn-secondary substract">-1</button>'+
+                            '<button id="'+ data[row].id +'_plus" class="btn btn-success plus">+1</button>'+
+                            '<button id="'+ data[row].id +'_del"class="btn btn-danger delete">Delete</button>'+
+                        '</td>';
+                html += '</tr>';
+            }
+            let totalup = total.toFixed(2);
+            localStorage.setItem('total', totalup);
+            html += '<tr class="table-secondary"><td colspan="3">Total</td><td>' + totalup + '€</td></tr>';        
+            $('.cartTable').html(html);
         }
-        let totalup = total.toFixed(2);
-        localStorage.setItem('total', totalup);
-        html += '<tr class="table-secondary"><td colspan="3">Total</td><td>' + totalup + '€</td></tr>';        
-        $('.cartTable').html(html);
     }).catch(function(e) {
         var html = '';
         html += '<tr>';
@@ -280,7 +288,7 @@ function purchase(){
                 Swal.fire({
                     icon: 'success',
                     title: 'Congrats',
-                    text: 'Your order has been processed, here you can see a preview. You will be redirected to your profile in 15 seconds where you can download it in pdf.',
+                    text: 'Your order has been processed, here you can see a preview. In the profile section you can download it in pdf or view with QR.',
                     showConfirmButton: true,
                     timer: 30000
                 }).then(function() {
@@ -301,9 +309,6 @@ function purchase(){
                     $('html, body').animate({
                         scrollTop: $('#invoice').offset().top
                     }, 0);
-                    setTimeout(function() {
-                        window.location.href = friendlyURL('?module=profile');
-                    }, 15000);
                 });
             }
         }).catch(function(e) {
@@ -331,7 +336,7 @@ function check_cart(){
             });
             return false;
         }else{
-            console.log(data);
+            // console.log(data);
             $('#hiddenForm').submit();
         }
     }).catch(function(e) {

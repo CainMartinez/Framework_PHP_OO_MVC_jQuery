@@ -14,5 +14,11 @@
         public function profile_data($args){
             return $this->bll->profile_data_BLL($args);
         }
+        public function profile_orders($args){
+            return $this->bll->profile_orders_BLL($args);
+        }
+        public function order_detail($args){
+            return $this->bll->order_detail_BLL($args);
+        }
     }
 ?>

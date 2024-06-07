@@ -5,16 +5,16 @@
         <uri>view</uri>
     </function>
     <function>
-        <name>delete</name>
-        <uri>delete</uri>
+        <name>profile_orders</name>
+        <uri>profile_orders</uri>
     </function>
     <function>
-        <name>update</name>
-        <uri>update</uri>
+        <name>order_detail</name>
+        <uri>order_detail</uri>
     </function>
     <function>
-        <name>create</name>
-        <uri>create</uri>
+        <name>wish_list</name>
+        <uri>wish_list</uri>
     </function>
     <function>
         <name>profile_data</name>

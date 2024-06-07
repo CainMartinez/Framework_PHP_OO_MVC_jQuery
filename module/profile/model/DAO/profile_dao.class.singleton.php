@@ -32,5 +32,15 @@
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
+        public function profile_orders_DAO($db,$id){
+            $sql = "SELECT * FROM purchases WHERE id_user = '$id'";
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
+        public function order_detail_DAO($db,$id,$order){
+            $sql = "SELECT * FROM purchases WHERE id_user = '$id' AND id = '$order'";
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
     }
 ?>
