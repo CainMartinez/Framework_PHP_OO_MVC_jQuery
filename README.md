@@ -61,7 +61,7 @@ Esta sección permite a los usuarios ver y editar su perfil, consultar sus factu
 - Posibilidad de descargarse las facturas en pdf o escanearlas mediante un código QR.
 - En la sección Wish List se muestran las viviendas que previamente se le ha dado like, con posibilidad de entrar a los detalles o eliminarlas de esa lista.
 
-## Perfil Administrador (Próximamente)
+#### Perfil Administrador (Próximamente)
 
 - Los usuarios administradores no se pueden crear mediante el register o social sign in.
 - Tienen los permisos para borrar usuarios tipo client o propiedades (is_active = 0).
