@@ -24,4 +24,8 @@
         <name>like</name>
         <uri>like</uri>
     </function>
+    <function>
+        <name>change_pass</name>
+        <uri>change_pass</uri>
+    </function>
 </functions>

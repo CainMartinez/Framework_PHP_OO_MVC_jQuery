@@ -23,5 +23,8 @@
         public function like($args){
             return $this->bll->like_BLL($args);
         }
+        public function change_pass($args){
+            return $this->bll->change_pass_BLL($args);
+        }
     }
 ?>

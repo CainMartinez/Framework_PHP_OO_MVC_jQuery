@@ -58,7 +58,77 @@ function clicks_profile() {
         localStorage.setItem('id_property_profile', id_property);
         window.location.href = friendlyURL('?module=shop');
     });
-    $(".cart_shop").click(function() {
+    $(document).on("click", ".cart_shop", function () {
+        if (!localStorage.getItem('access_token')) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'You must be logged in to add a property to the cart',
+            }).then((result) => {
+                window.location.href = friendlyURL('?module=auth');
+            });
+        }else{
+            
+            var token = localStorage.getItem('access_token');
+            var id = this.getAttribute('id');
+            var social = localStorage.getItem('social');
+            var service = "Appointment to see the property " + id;
+            if (social === null) {
+                social = "";
+            }
+            // console.log(id);
+            // return false;
+            data = { 'service': service,'token':token,'social':social, 'op': 'cart_add' };
+            ajaxPromise(
+                'POST', 
+                'JSON', 
+                friendlyURL('?module=cart'),
+                data
+            ).then(function (data) {
+                if (data === 'error') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Only one appointment may be requested per property'
+                    });
+                }else{
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Correctly added the appointment for property ' + id + ' to the cart'
+                    }).then(function() {
+                        location.reload();
+                    });
+                }
+            }).catch(function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Correctly added the appointment for property ' + id + ' to the cart'
+                }).then(function() {
+                    location.reload();
+                });
+            });
+        }
+    });
+    $(document).on('click', '#change_pass', function() {
+        var new_pass = $('#new_pass').val();
+        var new_pass2 = $('#new_pass2').val();
+        if (new_pass === '' || new_pass2 === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'All fields are required'
+            });
+        } else if (new_pass !== new_pass2) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'The new passwords do not match'
+            });
+        } else {
+            change_pass(new_pass);
+        }
     });
 }
 function wish_list() {
@@ -246,6 +316,41 @@ function loadOrderView(order_id) {
         console.error(e);
     });
 }
+function change_pass(new_pass) {
+    // console.log('carga settings_profile');
+    social = localStorage.getItem("social");
+    if (social) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Only registered members without a social network can change the password.'
+        }).then(function() {
+            location.reload();
+        });
+    }else{
+        token = localStorage.getItem("access_token");
+        data = { 'token': token, 'op': 'change_pass', 'new_pass': new_pass}
+        ajaxPromise(
+            'POST',
+            'JSON',
+            friendlyURL('?module=profile'),
+            data
+        ).then(function(data) {
+            // console.log(data);
+            // return false;
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Password changed correctly.'
+            }).then(function() {
+                location.reload();
+            });
+        }).catch(function(e) {
+            console.log(e);
+        });
+    }
+}
+
 $(document).ready(function () {
     profile_data();
     clicks_profile();

@@ -22,5 +22,8 @@
         public function like(){
             echo json_encode(common::load_model('profile_model', 'like',[$_POST['token'],$_POST['social'],$_POST['id_property'],$_POST['id']]));
         }
+        public function change_pass(){
+            echo json_encode(common::load_model('profile_model', 'change_pass',[$_POST['token'],$_POST['new_pass']]));
+        }
     }
 ?>

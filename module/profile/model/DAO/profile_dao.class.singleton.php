@@ -66,5 +66,11 @@
 
             return $stmt;
         }
+        public function change_pass_DAO($db,$username,$new_pass){
+            $sql = "UPDATE users SET password = '$new_pass' WHERE username = '$username'";
+            error_log($sql,3,'debug.log');
+            $stmt = $db->ejecutar($sql);
+            return $stmt;
+        }
     }
 ?>

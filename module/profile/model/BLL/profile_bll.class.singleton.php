@@ -77,5 +77,15 @@
 				error_log("Error en like_BLL ".$e,3,'debug.log');
 			}
 		}
+		public function change_pass_BLL($args) {
+			try {
+				$decode_token = middleware::decode_token($args[0]);
+				// return $decode_token;
+				$hashed_pass = password_hash($args[1], PASSWORD_DEFAULT, ['cost' => 12]);
+				$this -> dao -> change_pass_DAO($this -> db,$decode_token['username'],$hashed_pass);
+			} catch (Exception $e) {
+				error_log("Error en change_pass_BLL ".$e,3,'debug.log');
+			}
+		}
     }
 ?>
