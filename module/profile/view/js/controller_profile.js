@@ -106,34 +106,30 @@ function loadOrderView(order_id) {
         data
     ).then(function(data) {
         console.log(data);
-        // var orderView = document.getElementById('order_view');
-        // orderView.innerHTML = '';
-        // var order = data[0];
-        // var orderTable = document.createElement('table');
-        // orderTable.className = 'order-table';
-        // orderTable.innerHTML = `
-        //     <tr>
-        //         <th>Product</th>
-        //         <th>Quantity</th>
-        //         <th>Price</th>
-        //     </tr>
-        // `;
-        // order.products.forEach(function(product) {
-        //     var row = document.createElement('tr');
-        //     row.innerHTML = `
-        //         <td>${product.name}</td>
-        //         <td>${product.quantity}</td>
-        //         <td>${product.price}</td>
-        //     `;
-        //     orderTable.appendChild(row);
-        // });
-        // var totalRow = document.createElement('tr');
-        // totalRow.innerHTML = `
-        //     <td colspan="2">Total:</td>
-        //     <td>${order.total}</td>
-        // `;
-        // orderTable.appendChild(totalRow);
-        // orderView.appendChild(orderTable);
+        $("#profile_info").hide();
+        $("#profile_settings").hide();
+        $("#profile_likes").hide();
+        $("#profile_orders").hide();
+        $("#invoice_profile").show();
+        // Fill billing information
+        document.getElementById('name_inv').innerHTML = "<strong>Name:</strong> " + data.billing[0].name;
+        document.getElementById('surname_inv').innerHTML = "<strong>Surname:</strong> " + data.billing[0].surname;
+        document.getElementById('address_inv').innerHTML = "<strong>Address:</strong> " + data.billing[0].address;
+        document.getElementById('city_inv').innerHTML = "<strong>City:</strong> " + data.billing[0].city;
+        document.getElementById('zip_inv').innerHTML = "<strong>Zip:</strong> " + data.billing[0].zip;
+
+        // Fill purchased services
+        var servicesTable = document.getElementById('services-table').getElementsByTagName('tbody')[0];
+        data.lines.forEach(function(line) {
+            var newRow = servicesTable.insertRow();
+            newRow.insertCell(0).innerHTML = line.service;
+            newRow.insertCell(1).innerHTML = line.quantity;
+            newRow.insertCell(2).innerHTML = line.price;
+        });
+
+        // Fill total price
+        document.getElementById('total-price').innerHTML = "<strong>Total Price:</strong> " + data.billing[0].total;
+
     }).catch(function(e) {
         console.error(e);
     });

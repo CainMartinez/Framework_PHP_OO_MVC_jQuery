@@ -42,5 +42,10 @@
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
+        public function select_lines($db,$id_user,$id_purchase){
+            $sql = "SELECT service, quantity, price FROM lines_invoice WHERE id_purchase = '$id_purchase' AND id_user = '$id_user'";
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
+        }
     }
 ?>

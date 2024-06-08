@@ -55,7 +55,9 @@
 				} else {
 					$id_user = $this -> dao -> select_id_social($this -> db,$decode_token['username'],$args[1]);
 				}
-				$result = $this -> dao -> order_detail_DAO($this -> db,$id_user[0]['id_user'],$args[2]);
+				$billing = $this -> dao -> order_detail_DAO($this -> db,$id_user[0]['id_user'],$args[2]);
+				$lines = $this -> dao -> select_lines($this -> db,$id_user[0]['id_user'],$args[2]);
+				$result = array('billing' => $billing,'lines' => $lines);
 				return $result;
 			} catch (Exception $e) {
 				error_log("Error en order_detail_BLL ".$e,3,'debug.log');
