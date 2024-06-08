@@ -58,11 +58,12 @@ function likes() {
         var id_property = this.getAttribute('id');
         localStorage.setItem('id_property', id_property);
         $(this).addClass('like_button_' + id_property); 
-        var token = localStorage.getItem('refresh_token');
+        var token = localStorage.getItem('access_token');
         var social = localStorage.getItem('social');
         if (social === null) {
             social = "";
         }
+        console.log(social);
         var username = localStorage.getItem('username');
         if (username === null) {
             username = "";

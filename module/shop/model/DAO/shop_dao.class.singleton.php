@@ -71,15 +71,17 @@ class shop_dao{
         }
     }
     public function check_like_social($db, $id_property, $username,$social){
-        $sql = "SELECT id FROM users_$social WHERE username = '$username'";
+        $sql = "SELECT id_user FROM users_$social WHERE username = '$username'";
         // error_log($sql,3,"debug.log");
         $stmt = $db->ejecutar($sql);
         $user = $db->listar($stmt);
-
+        // error_log($user[0]['id_user'],3,"debug.log");
         if ($user) {
-            $id = $user[0]['id'];
+            $id = $user[0]['id_user'];
 
             $sql = "SELECT * FROM likes_$social WHERE id_property = $id_property AND id = '$id'";
+            
+            // error_log($sql,3,"debug.log");
             $stmt = $db->ejecutar($sql);
             $like = $db->listar($stmt);
 
@@ -93,31 +95,31 @@ class shop_dao{
         }
     }
     public function like_property_social($db, $id_property,$username,$social) {
-        $sql = "SELECT id FROM users_$social WHERE username = '$username'";
+        $sql = "SELECT id_user FROM users_$social WHERE username = '$username'";
         $stmt = $db->ejecutar($sql);
         $user = $db->listar($stmt);
-        error_log("user".$user[0]['id'],3,"debug.log");
+        // error_log("user".$user[0]['id'],3,"debug.log");
         if ($user) {
-            error_log("entro al if del dao",3,"debug.log");
-            $id = $user[0]['id'];
+            // error_log("entro al if del dao",3,"debug.log");
+            $id = $user[0]['id_user'];
 
             $sql = "INSERT INTO likes_$social (id,id_property) VALUES ('$id',$id_property)";
-            error_log($sql,3,"debug.log");
+            // error_log($sql,3,"debug.log");
 
             $db->ejecutar($sql);
-            error_log($sql,3,"debug.log");
+            // error_log($sql,3,"debug.log");
             $sql = "UPDATE property SET likes = likes + 1 WHERE id_property = $id_property";
             $db->ejecutar($sql);
-            error_log($sql,3,"debug.log");
+            // error_log($sql,3,"debug.log");
         }
     }
     public function dislike_property_social($db, $id_property, $username, $social) {
-        $sql = "SELECT id FROM users_$social WHERE username = '$username'";
+        $sql = "SELECT id_user FROM users_$social WHERE username = '$username'";
         $stmt = $db->ejecutar($sql);
         $user = $db->listar($stmt);
 
         if ($user) {
-            $id = $user[0]['id'];
+            $id = $user[0]['id_user'];
 
             $sql = "DELETE FROM likes_$social WHERE id_property = $id_property AND id = '$id'";
             $db->ejecutar($sql);

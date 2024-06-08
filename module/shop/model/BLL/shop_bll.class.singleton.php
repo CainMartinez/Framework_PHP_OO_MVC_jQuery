@@ -55,6 +55,7 @@ class shop_bll{
         return $this->dao->counting_filters($this->db,$arrArgument[0]);
     }
     public function get_check_like_BLL($arrArgument){
+        // error_log("social: ".$arrArgument[2],3,'debug.log');
         if ($arrArgument[2] === '') {
             return $this->dao->check_like($this->db,$arrArgument[0],$arrArgument[1]);
         }else{
@@ -69,6 +70,7 @@ class shop_bll{
         }
     }
     public function set_add_dislike_BLL($arrArgument){
+        // error_log("social: ".$arrArgument[2],3,'debug.log');
         if ($arrArgument[2] === '') {
             return $this->dao->dislike_property($this->db,$arrArgument[0],$arrArgument[1]);
         }else{
