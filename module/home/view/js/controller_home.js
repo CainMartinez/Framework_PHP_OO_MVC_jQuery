@@ -342,7 +342,7 @@ function clicks_home() {
     // console.log('click_OK_Recomendation');
     localStorage.setItem('details_home', this.getAttribute('id'));
       setTimeout(function(){
-        window.location.href = '?module=shop';
+        window.location.href = friendlyURL('?module=shop');
       }, 1000);
   });
   $(document).on("click",'article.thumbnail-light', function (){
@@ -354,7 +354,7 @@ function clicks_home() {
       localStorage.setItem('selectedCategory', selectedCategory);
     }
     setTimeout(function(){ 
-      window.location.href = '?module=shop';
+      window.location.href = friendlyURL('?module=shop');
     }, 1000);
   });
   $(document).on("click",'div.carrousel_home', function (){
@@ -366,7 +366,7 @@ function clicks_home() {
       localStorage.setItem('selectedLargePeople', selectedPeople);
     }
     setTimeout(function(){ 
-      window.location.href = '?module=shop';
+      window.location.href = friendlyURL('?module=shop');
     }, 1000);
   });
   $(document).on("click",'div.type_home', function (){
@@ -378,7 +378,7 @@ function clicks_home() {
       localStorage.setItem('selectedType', selectedType);
     }
     setTimeout(function(){ 
-      window.location.href = '?module=shop';
+      window.location.href = friendlyURL('?module=shop');
     }, 1000);
   });
   $(document).on("click",'td.link-operation', function (){
@@ -390,7 +390,7 @@ function clicks_home() {
       localStorage.setItem('selectedOperation', selectedOperation);
     }
     setTimeout(function(){ 
-      window.location.href = '?module=shop';
+      window.location.href = friendlyURL('?module=shop');
     }, 1000);
   });
   $(document).on("click",'div.city_home', function (){
@@ -402,7 +402,7 @@ function clicks_home() {
       localStorage.setItem('selectedCity', selectedCity);
     }
     setTimeout(function(){ 
-      window.location.href = '?module=shop';
+      window.location.href = friendlyURL('?module=shop');
     }, 1000);
   });
   $(document).on("click",'div.extras_home', function (){
@@ -414,7 +414,7 @@ function clicks_home() {
     localStorage.setItem('selectedExtras', selectedExtras);
 
     setTimeout(function(){ 
-      window.location.href = '?module=shop';
+      window.location.href = friendlyURL('?module=shop');
     }, 1000);
   });
   $(document).on("click", '#filter_price_submit', function() {
@@ -439,7 +439,7 @@ function clicks_home() {
         localStorage.setItem('filters_shop', JSON.stringify(filters_shop));
     }
     setTimeout(function(){ 
-      window.location.href = '?module=shop';
+      window.location.href = friendlyURL('?module=shop');
     }, 1000);
   });
 }
