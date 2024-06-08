@@ -533,5 +533,49 @@ class shop_dao{
         $retrArray = $db->listar($stmt);
 		return $retrArray;
 	}
+    public function select_id($db,$username){
+        $sql = "SELECT id_user FROM users WHERE username = '$username'";
+        // error_log($sql,3,'debug.log');
+        $stmt = $db->ejecutar($sql);
+        return $db->listar($stmt);
+    }
+    public function select_id_social($db,$username,$social){
+        $sql = "SELECT id_user FROM users_$social WHERE username = '$username'";
+        // error_log($sql,3,'debug.log');
+        $stmt = $db->ejecutar($sql);
+        return $db->listar($stmt);
+    }
+    public function check_fav_social($db,$id_user,$social){
+        $sql = "SELECT * FROM likes_$social WHERE id = '$id_user'";
+        // error_log($sql,3,"debug.log");
+        $stmt = $db->ejecutar($sql);
+        return $db->listar($stmt);
+    }
+    public function check_fav($db,$id_user){
+        $sql = "SELECT * FROM likes WHERE id_user = '$id_user'";
+        // error_log($sql,3,"debug.log");
+        $stmt = $db->ejecutar($sql);
+        return $db->listar($stmt);
+    }
+    public function list_wish($db,$id_property){
+        $sql = "SELECT DISTINCT p.*,c.*
+        FROM property p
+        INNER JOIN city c ON p.id_city = c.id_city
+        WHERE p.id_property = $id_property
+        GROUP BY p.id_property";
+        // error_log($sql,3,"debug.log");
+
+        $stmt = $db->ejecutar($sql);
+        $properties = $db->listar($stmt);
+
+        foreach ($properties as $key => $property) {
+            $sql = "SELECT * FROM images WHERE id_property = '{$property['id_property']}'";
+            $stmt = $db->ejecutar($sql);
+            $images = $db->listar($stmt);
+            $properties[$key]['images'] = $images;
+        }
+
+        return $properties;
+    }
 }
 ?>

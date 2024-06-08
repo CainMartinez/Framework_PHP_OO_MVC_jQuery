@@ -74,4 +74,8 @@
         <name>dislike</name>
         <uri>dislike</uri>
     </function>
+    <function>
+        <name>check_fav</name>
+        <uri>check_fav</uri>
+    </function>
 </functions>

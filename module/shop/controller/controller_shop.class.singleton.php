@@ -59,5 +59,8 @@ class controller_shop{
     function dislike(){
         echo json_encode(common::load_model('shop_model', 'set_remove_like',[$_POST['id_property'],$_POST['username'],$_POST['social']]));
     }
+    function check_fav(){
+        echo json_encode(common::load_model('shop_model', 'get_check_fav',[$_POST['token'],$_POST['social']]));
+    }
 }
 ?>

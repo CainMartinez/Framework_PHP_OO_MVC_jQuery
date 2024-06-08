@@ -16,6 +16,7 @@ function clicks_profile() {
         $('html, body').animate({
             scrollTop: $('.page-header').offset().top
         }, 0);
+        profile_orders();
     });
     $(".likes").click(function() {
         $("#profile_settings").hide();
@@ -25,6 +26,83 @@ function clicks_profile() {
         $('html, body').animate({
             scrollTop: $('.page-header').offset().top
         }, 0);
+        wish_list();
+    });
+}
+function wish_list() {
+    token = localStorage.getItem("access_token");
+    social = localStorage.getItem("social");
+    data = { 'token': token, 'social': social, 'op': 'check_fav'}
+    ajaxPromise(
+        'POST', 
+        'JSON', 
+        friendlyURL('?module=shop'), 
+        data
+    ).then(function (data) {
+        console.log(data);
+        if (data === 'error') {
+            $('#wish_list_properties').html('<h3>No properties found in your wish list</h3>');
+        } else {
+            $('#images_properties').empty();
+            for (let row in data) {
+                let property = data[row][0]; // Accede al primer elemento del array
+                let propertyDiv = $('<div></div>').attr({ 'class': 'col-md-6 wow-outer carrousel_list' }).appendTo('#wish_list_properties');
+                let owlCarouselDiv = $('<div></div>').addClass('owl-carousel owl-theme carrousel_details').appendTo(propertyDiv);
+                for (let image of property.images) {
+                    $("<div></div>").addClass("item").appendTo(owlCarouselDiv).html(
+                        "<article class='thumbnail-light'>" +
+                        "<a class='thumbnail-light-media' href='#'><img class='thumbnail-light-image' src='" +
+                        image.path_images + // Asegúrate de que estás accediendo a la propiedad correcta del objeto image
+                        "' alt='Image " + (parseInt(row) + 1) + "' width='100%' heiht='100%'/></a>" +
+                        "</article>"
+                    );
+                }
+                owlCarouselDiv.owlCarousel({
+                    loop: true,
+                    margin: 100,
+                    nav: true,
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                    }
+                });
+                propertyDiv.append(`
+                    <article class='post-modern wow slideInLeft '><br>
+                        <h4 class='post-modern-title'>
+                            <a class='post-modern-title' href='#'>${property.property_name}</a>
+                        </h4>
+                        <ul class='post-modern-meta'>
+                            <li><a class='button-winona' href='#'>${property.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")} €</a></li>
+                            <li>City: ${property.name_city}</li>
+                            <li>Square meters: ${property.square_meters}</li>
+                        </ul>
+                        <p>${property.description}</p><br>
+                        <div class='buttons'>
+                            <table id='table-shop'> 
+                                <tr>
+                                    <td>
+                                        <button id='${property.id}' class='more_info_list button button-primary button-winona button-md'>Details</button><br>
+                                    </td>
+                                    <td>
+                                        <button id='${property.id}' class='more_secondary_list button button-secondary button-winona button-md cart_shop'>
+                                            <i class="fas fa-shopping-cart fa-lg"></i>
+                                        </button><br>  
+                                    </td>                                      
+                                    <td>
+                                        <button id='${property.id}' class="like_button">
+                                            <i class='fas fa-heart'></i>&nbsp;${property.likes}                                            
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </article><hr>
+                `);
+            }
+        }
+    }).catch(function (error) {
+        console.error(error);
     });
 }
 function profile_data() {
@@ -136,6 +214,5 @@ function loadOrderView(order_id) {
 }
 $(document).ready(function () {
     profile_data();
-    profile_orders();
     clicks_profile();
 });

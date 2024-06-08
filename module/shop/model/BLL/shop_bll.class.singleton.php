@@ -77,5 +77,25 @@ class shop_bll{
             return $this->dao->dislike_property_social($this->db,$arrArgument[0],$arrArgument[1],$arrArgument[2]);
         }
     }
+    public function get_check_fav_BLL($args){
+        try {
+            $decode_token = middleware::decode_token($args[0]);
+            if ($args[1] === ''){
+                $id_user = $this -> dao -> select_id($this -> db,$decode_token['username']);
+                $id_properties = $this -> dao -> check_fav($this -> db,$id_user[0]['id_user']);
+            } else {
+                $id_user = $this -> dao -> select_id_social($this -> db,$decode_token['username'],$args[1]);
+                $id_properties = $this -> dao -> check_fav_social($this -> db,$id_user[0]['id_user'], $args[1]);
+            }
+            $wish_list = array();
+            foreach ($id_properties as $id_property) {
+                $wish = $this -> dao -> list_wish($this -> db, $id_property['id_property']);
+                array_push($wish_list, $wish);
+            }
+            return $wish_list;
+        } catch (Exception $e) {
+            error_log("Error occurred: " . $e->getMessage(), 3, "debug.log");
+        }
+    }
 }
 ?>

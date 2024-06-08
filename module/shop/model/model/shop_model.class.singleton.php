@@ -61,6 +61,8 @@ class shop_model{
     public function set_remove_like($arrArgument){
         return $this->bll->set_add_dislike_BLL($arrArgument);
     }
-
+    public function get_check_fav($arrArgument){
+        return $this->bll->get_check_fav_BLL($arrArgument);
+    }
 }
 ?>
