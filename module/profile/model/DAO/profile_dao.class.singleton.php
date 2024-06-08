@@ -47,5 +47,24 @@
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
         }
+        public function like_DAO($db,$id_user,$id_property){
+            $sql = "DELETE FROM likes WHERE id_user = '$id_user' AND id_property = $id_property";
+            $stmt = $db->ejecutar($sql);
+
+            $sql = "UPDATE property SET likes = likes - 1 WHERE id_property = $id_property";
+            $stmt = $db->ejecutar($sql);
+
+            return $stmt;
+        }
+
+        public function like_social_DAO($db,$id_user,$id_property,$social){
+            $sql = "DELETE FROM likes_$social WHERE id = '$id_user' AND id_property = $id_property";
+            $stmt = $db->ejecutar($sql);
+
+            $sql = "UPDATE property SET likes = likes - 1 WHERE id_property = $id_property";
+            $stmt = $db->ejecutar($sql);
+
+            return $stmt;
+        }
     }
 ?>

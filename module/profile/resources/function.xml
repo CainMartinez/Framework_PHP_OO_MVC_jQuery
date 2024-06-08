@@ -20,4 +20,8 @@
         <name>profile_data</name>
         <uri>profile_data</uri>
     </function>
+    <function>
+        <name>like</name>
+        <uri>like</uri>
+    </function>
 </functions>

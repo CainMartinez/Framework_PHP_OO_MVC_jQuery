@@ -63,5 +63,19 @@
 				error_log("Error en order_detail_BLL ".$e,3,'debug.log');
 			}
 		}
+		public function like_BLL($args) {
+			try {
+				$decode_token = middleware::decode_token($args[0]);
+				if ($args[1] === ''){
+					$id_user = $this -> dao -> select_id($this -> db,$decode_token['username']);
+					$this -> dao -> like_DAO($this -> db,$id_user[0]['id_user'],$args[2]);
+				} else {
+					$id_user = $this -> dao -> select_id_social($this -> db,$decode_token['username'],$args[1]);
+					$this -> dao -> like_social_DAO($this -> db,$id_user[0]['id_user'],$args[2], $args[1]);
+				}
+			} catch (Exception $e) {
+				error_log("Error en like_BLL ".$e,3,'debug.log');
+			}
+		}
     }
 ?>

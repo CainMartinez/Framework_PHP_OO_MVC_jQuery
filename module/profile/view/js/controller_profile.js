@@ -26,7 +26,39 @@ function clicks_profile() {
         $('html, body').animate({
             scrollTop: $('.page-header').offset().top
         }, 0);
+        $("#wish_list_properties").empty();
         wish_list();
+    });
+    $(document).on('click', '.like_button', function() {
+        var id_property = $(this).attr('id');
+        token = localStorage.getItem("access_token");
+        social = localStorage.getItem("social");
+        data = { 'token': token, 'social': social, 'op': 'like', 'id_property': id_property}
+        ajaxPromise(
+            'POST',
+            'JSON',
+            friendlyURL('?module=profile'),
+            data
+        ).then(function(data) {
+            console.log(data);
+        }).catch(function(e) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'The property has been removed from your wish list.',
+                showConfirmButton: true,
+                timer: 30000
+            }).then(function() {
+                location.reload();
+            });
+        });
+    });
+    $(document).on('click', '.details_profile', function() {
+        var id_property = $(this).attr('id');
+        localStorage.setItem('id_property_profile', id_property);
+        window.location.href = friendlyURL('?module=shop');
+    });
+    $(".cart_shop").click(function() {
     });
 }
 function wish_list() {
@@ -40,19 +72,21 @@ function wish_list() {
         data
     ).then(function (data) {
         console.log(data);
-        if (data === 'error') {
-            $('#wish_list_properties').html('<h3>No properties found in your wish list</h3>');
+        if (data.length === 0) {
+            // console.log('No properties found in your wish list');
+            $('<div></div>').attr({ 'class': 'col wow-outer carrousel_list' }).appendTo('#wish_list_properties');
+            $('#wish_list_properties').html('<h4 style="color: black;">No properties found in your wish list</h4>').appendTo('#wish_list_properties');
         } else {
             $('#images_properties').empty();
             for (let row in data) {
-                let property = data[row][0]; // Accede al primer elemento del array
-                let propertyDiv = $('<div></div>').attr({ 'class': 'col-md-6 wow-outer carrousel_list' }).appendTo('#wish_list_properties');
+                let property = data[row][0];
+                let propertyDiv = $('<div></div>').attr({ 'class': 'col wow-outer carrousel_list' }).appendTo('#wish_list_properties');
                 let owlCarouselDiv = $('<div></div>').addClass('owl-carousel owl-theme carrousel_details').appendTo(propertyDiv);
                 for (let image of property.images) {
                     $("<div></div>").addClass("item").appendTo(owlCarouselDiv).html(
                         "<article class='thumbnail-light'>" +
                         "<a class='thumbnail-light-media' href='#'><img class='thumbnail-light-image' src='" +
-                        image.path_images + // Asegúrate de que estás accediendo a la propiedad correcta del objeto image
+                        image.path_images +
                         "' alt='Image " + (parseInt(row) + 1) + "' width='100%' heiht='100%'/></a>" +
                         "</article>"
                     );
@@ -82,15 +116,15 @@ function wish_list() {
                             <table id='table-shop'> 
                                 <tr>
                                     <td>
-                                        <button id='${property.id}' class='more_info_list button button-primary button-winona button-md'>Details</button><br>
+                                        <button id='${property.id_property}' class='details_profile button button-primary button-winona button-md'>Details</button><br>
                                     </td>
                                     <td>
-                                        <button id='${property.id}' class='more_secondary_list button button-secondary button-winona button-md cart_shop'>
+                                        <button id='${property.id_property}' class='cart_shop button button-secondary button-winona button-md cart_shop'>
                                             <i class="fas fa-shopping-cart fa-lg"></i>
                                         </button><br>  
                                     </td>                                      
                                     <td>
-                                        <button id='${property.id}' class="like_button">
+                                        <button id='${property.id_property}' class="like_button">
                                             <i class='fas fa-heart'></i>&nbsp;${property.likes}                                            
                                         </button>
                                     </td>

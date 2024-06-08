@@ -63,7 +63,7 @@ function likes() {
         if (social === null) {
             social = "";
         }
-        console.log(social);
+        // console.log(social);
         var username = localStorage.getItem('username');
         if (username === null) {
             username = "";
@@ -287,6 +287,11 @@ function load_map(data) {
     }
 }
 function clicks_shop() {
+    var id_property = localStorage.getItem('id_property_profile');
+    if (id_property) {
+        loadDetails(id_property);
+        localStorage.removeItem('id_property_profile');
+    }
     $(document).on("click", ".more_info_list", function () {
         var id_property = this.getAttribute('id');
         $('html, body').animate({
@@ -352,6 +357,7 @@ function clicks_shop() {
     });
 }
 function loadDetails(id_property) {
+    console.log(id_property);
     ajaxPromise('POST', 'JSON', friendlyURL('?module=shop'),{'op':'details_property','id': id_property})
         .then(function (data) {
         

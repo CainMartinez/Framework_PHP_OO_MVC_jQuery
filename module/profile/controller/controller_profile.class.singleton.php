@@ -7,17 +7,20 @@
             }
             return self::$_instance;
         }
-        function view(){
+        public function view(){
             common::load_view('top_page_profile.html', VIEW_PATH_PROFILE . 'profile.html');
         }
-        function profile_data(){
+        public function profile_data(){
             echo json_encode(common::load_model('profile_model', 'profile_data',[$_POST['token'],$_POST['social']]));
         }
-        function profile_orders(){
+        public function profile_orders(){
             echo json_encode(common::load_model('profile_model', 'profile_orders',[$_POST['token'],$_POST['social']]));
         }
-        function order_detail(){
+        public function order_detail(){
             echo json_encode(common::load_model('profile_model', 'order_detail',[$_POST['token'],$_POST['social'],$_POST['order_id']]));
+        }
+        public function like(){
+            echo json_encode(common::load_model('profile_model', 'like',[$_POST['token'],$_POST['social'],$_POST['id_property'],$_POST['id']]));
         }
     }
 ?>

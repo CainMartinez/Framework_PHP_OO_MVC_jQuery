@@ -20,5 +20,8 @@
         public function order_detail($args){
             return $this->bll->order_detail_BLL($args);
         }
+        public function like($args){
+            return $this->bll->like_BLL($args);
+        }
     }
 ?>
