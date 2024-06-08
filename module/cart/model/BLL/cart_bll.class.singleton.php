@@ -148,6 +148,13 @@
 				$result = $this -> dao -> insert_data($this -> db, $name, $surname, $address, $city, $zip, $country, $pay_method,$id_user,$total);
 				$id_purchase = $this -> dao -> select_id_purchase($this -> db,$id_user);
 				$this -> dao -> lines_invoices_DAO($this -> db,$id_user,$id_purchase[0]['id']);
+				$lines_invoice = $this -> dao -> select_lines_invoice($this -> db,$id_user,$id_purchase[0]['id']);
+				foreach ($lines_invoice as $line) {
+					$service = $line['service'];
+					$quantity = $line['quantity'];
+					// error_log("Service: " . $service . " Quantity: " . $quantity, 3, 'debug.log');
+					$this -> dao -> update_stock($this -> db,$service,$quantity);
+				}
 				$this -> dao -> delete_data($this -> db, $id_user);
 				return $result;
 			} catch (Exception $e) {

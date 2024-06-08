@@ -38,8 +38,13 @@
                     GROUP BY service 
                     ORDER BY service ASC";
             $stmt = $db->ejecutar($sql);
-            error_log($sql,3,'debug.log');
+            // error_log($sql,3,'debug.log');
             return $stmt;
+        }
+        public function select_lines_invoice($db,$id_user,$id_purchase){
+            $sql = "SELECT service, quantity, price FROM lines_invoice WHERE id_purchase = '$id_purchase' AND id_user = '$id_user'";
+            $stmt = $db->ejecutar($sql);
+            return $db->listar($stmt);
         }
         public function cart_add_DAO($db,$service,$id_user){
             $sql = "INSERT INTO orders (price,service,id_user) VALUES (50,'$service','$id_user')";
@@ -109,6 +114,11 @@
             $sql = "SELECT id FROM purchases WHERE id_user = '$id_user' ORDER BY time DESC LIMIT 1";
             $stmt = $db->ejecutar($sql);
             return $db->listar($stmt);
+        }
+        public function update_stock($db, $service, $quantity) {
+            $sql = "UPDATE services SET stock = stock - $quantity WHERE service = '$service'";
+            $stmt = $db->ejecutar($sql);
+            return $stmt;
         }
     }
 ?>
