@@ -28,4 +28,8 @@
         <name>change_pass</name>
         <uri>change_pass</uri>
     </function>
+    <function>
+        <name>download_pdf</name>
+        <uri>download_pdf</uri>
+    </function>
 </functions>

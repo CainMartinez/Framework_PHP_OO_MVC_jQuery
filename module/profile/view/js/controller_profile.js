@@ -277,6 +277,7 @@ function profile_orders() {
 }
 function loadOrderView(order_id) {
     // console.log('carga loadOrderView');
+    // localStorage.setItem('order_id', order_id);
     token = localStorage.getItem("access_token");
     social = localStorage.getItem("social");
     console.log(order_id);
@@ -287,7 +288,10 @@ function loadOrderView(order_id) {
         friendlyURL('?module=profile'),
         data
     ).then(function(data) {
-        console.log(data);
+        id_user = data.billing[0].id_user;
+        console.log(id_user);
+        localStorage.setItem('id_user', id_user);
+        // console.log(data);
         $("#profile_info").hide();
         $("#profile_settings").hide();
         $("#profile_likes").hide();
@@ -314,6 +318,26 @@ function loadOrderView(order_id) {
 
     }).catch(function(e) {
         console.error(e);
+    });
+    $(document).on('click', '#download_pdf', function() {
+        id_user = localStorage.getItem('id_user');
+        console.log(id_user);
+        data = { 'id_user': id_user, 'op': 'download_pdf', 'order_id': order_id};
+        ajaxPromise(
+            'POST',
+            'JSON',
+            friendlyURL('?module=profile'),
+            data
+        ).then(function(data) {
+            console.log(data);
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'The invoice has been downloaded correctly'
+            });
+        }).catch(function(e) {
+            console.error(e);
+        });
     });
 }
 function change_pass(new_pass) {

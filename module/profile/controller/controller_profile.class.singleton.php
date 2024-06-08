@@ -25,5 +25,11 @@
         public function change_pass(){
             echo json_encode(common::load_model('profile_model', 'change_pass',[$_POST['token'],$_POST['new_pass']]));
         }
+        public function download_pdf(){
+            $invoice_order = $_POST['order_id'];
+            $id_user = $_POST['id_user'];
+        
+            echo json_encode(PDF::create_invoice($invoice_order, $id_user));
+        }
     }
 ?>
