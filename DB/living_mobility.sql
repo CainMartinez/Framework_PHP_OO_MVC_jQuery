@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-05-2024 a las 05:45:34
+-- Tiempo de generación: 09-06-2024 a las 04:57:57
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -37,6 +37,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `LikeProperty` (IN `p_username` VARC
          END$$
 
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cart`
+--
+
+CREATE TABLE `cart` (
+  `id` int(11) NOT NULL,
+  `service` varchar(255) NOT NULL,
+  `price` int(6) NOT NULL,
+  `quantity` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -278,7 +291,10 @@ CREATE TABLE `likes` (
 --
 
 INSERT INTO `likes` (`id_property`, `id_user`) VALUES
-(1, 15);
+(1, 15),
+(1, 16),
+(1, 18),
+(2, 18);
 
 -- --------------------------------------------------------
 
@@ -291,6 +307,13 @@ CREATE TABLE `likes_github` (
   `id_property` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `likes_github`
+--
+
+INSERT INTO `likes_github` (`id`, `id_property`) VALUES
+('aiGKC4xj9wa9rI9Uej54NZ4nBoO2', 38);
+
 -- --------------------------------------------------------
 
 --
@@ -302,14 +325,43 @@ CREATE TABLE `likes_google` (
   `id_property` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `likes_google`
+-- Estructura de tabla para la tabla `lines_invoice`
 --
 
-INSERT INTO `likes_google` (`id`, `id_property`) VALUES
-('LQFEsaAb7iUbcWfTHEL7eNbDKa13', 1),
-('LQFEsaAb7iUbcWfTHEL7eNbDKa13', 2),
-('LQFEsaAb7iUbcWfTHEL7eNbDKa13', 4);
+CREATE TABLE `lines_invoice` (
+  `id` int(11) NOT NULL,
+  `service` varchar(255) NOT NULL,
+  `quantity` varchar(255) NOT NULL,
+  `price` varchar(255) NOT NULL,
+  `id_user` varchar(255) NOT NULL,
+  `id_purchase` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `lines_invoice`
+--
+
+INSERT INTO `lines_invoice` (`id`, `service`, `quantity`, `price`, `id_user`, `id_purchase`) VALUES
+(13, 'Alarm installation and monitoring', '1', '200', 'aiGKC4xj9wa9rI9Uej54NZ4nBoO2', '54'),
+(14, 'Security camera service', '2', '150', 'aiGKC4xj9wa9rI9Uej54NZ4nBoO2', '54'),
+(16, 'Alarm installation and monitoring', '1', '200', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', '55'),
+(17, 'Appointment to see the property 1', '1', '50', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', '55'),
+(19, 'Alarm installation and monitoring', '1', '200', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', '56'),
+(20, 'Alarm installation and monitoring', '1', '200', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', '57'),
+(21, 'Security camera service', '2', '150', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', '57'),
+(23, 'Alarm installation and monitoring', '2', '200', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', '58'),
+(24, 'Security camera service', '1', '150', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', '58'),
+(26, 'Alarm installation and monitoring', '1', '200', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', '59'),
+(27, 'Security camera service', '3', '150', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', '59'),
+(29, 'Alarm installation and monitoring', '1', '200', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', '60'),
+(30, 'Alarm installation and monitoring', '2', '200', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', '61'),
+(31, 'Security camera service', '1', '150', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', '61'),
+(33, 'Alarm installation and monitoring', '1', '200', 'aiGKC4xj9wa9rI9Uej54NZ4nBoO2', '62'),
+(34, 'Security camera service', '1', '150', 'aiGKC4xj9wa9rI9Uej54NZ4nBoO2', '63'),
+(35, 'Appointment to see the property 1', '1', '50', '16', '64');
 
 -- --------------------------------------------------------
 
@@ -339,6 +391,19 @@ INSERT INTO `operation` (`id_operation`, `name_operation`, `is_active`, `creatio
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `price` int(6) NOT NULL,
+  `service` varchar(255) NOT NULL,
+  `id_user` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `property`
 --
 
@@ -359,29 +424,31 @@ CREATE TABLE `property` (
   `likes` int(11) NOT NULL,
   `currently_date` datetime DEFAULT NULL,
   `latitude` float NOT NULL,
-  `longitude` float NOT NULL
+  `longitude` float NOT NULL,
+  `id_user` varchar(255) NOT NULL,
+  `booked` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `property`
 --
 
-INSERT INTO `property` (`id_property`, `property_name`, `cadastral_reference`, `square_meters`, `number_of_rooms`, `description`, `price`, `id_large_people`, `is_active`, `creation_date`, `update_date`, `id_city`, `visits`, `likes`, `currently_date`, `latitude`, `longitude`) VALUES
-(1, 'Garden\'s John', '12345-67890-A', 100, 3, 'Beautiful house with garden', 200000, 1, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1, 38, 25, '2024-04-24 01:51:30', 38.8167, -0.61667),
-(2, 'The Tower', '23456-78901-B', 80, 2, 'Apartment with sea view', 150000, 2, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2, 12, 15, '2024-04-09 19:00:43', 38.9667, -0.18333),
-(3, 'Sunset View Manor', '34567-89012-C', 120, 4, 'Spacious villa with pool', 300000, 3, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3, 15, 13, '2024-03-18 20:38:31', 38.838, -0.51721),
-(4, 'Enchanted Hideaway', '45678-90123-D', 60, 1, 'Cozy studio in the city center', 100000, 2, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4, 7, 2, '2024-03-26 21:31:14', 38.7054, -0.47432),
-(5, 'Harmony Homestead', '56789-01234-E', 90, 2, 'Modern loft with industrial design', 180000, 1, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 5, 36, 0, '2024-04-19 17:28:45', 38.9833, -0.51667),
-(34, 'Sunny Villa', 'CR1', 200, 4, 'A beautiful villa with a sunny garden', 300000, 1, 1, '2022-01-01', '2022-01-01', 1, 0, 0, '2024-03-24 00:11:52', 38.8276, -0.61876),
-(35, 'Modern Loft', 'CR2', 100, 2, 'A modern loft in the city center', 250000, 2, 1, '2022-01-02', '2022-01-02', 2, 2, 1, '2024-04-24 01:29:36', 34.0522, -118.244),
-(36, 'Cozy Cottage', 'CR3', 150, 3, 'A cozy cottage in the countryside', 200000, 3, 1, '2022-01-03', '2022-01-03', 3, 1, 0, '2024-03-25 21:18:27', 51.5074, -0.127758),
-(37, 'Luxury Penthouse', 'CR4', 250, 3, 'A luxury penthouse with a city view', 500000, 2, 1, '2022-01-04', '2022-01-04', 4, 1, 0, '2024-03-25 21:16:47', 48.8566, 2.35222),
-(38, 'Charming Bungalow', 'CR5', 120, 2, 'A charming bungalow near the beach', 220000, 3, 1, '2022-01-05', '2022-01-05', 5, 1, 0, '2024-03-25 21:15:54', 52.52, 13.405),
-(39, 'Elegant Mansion', 'CR6', 400, 5, 'An elegant mansion with a large pool', 800000, 1, 1, '2022-01-06', '2022-01-06', 1, 5, 0, '2024-04-09 17:04:33', 41.9028, 12.4964),
-(40, 'Stylish Studio', 'CR7', 80, 1, 'A stylish studio in the hip neighborhood', 180000, 2, 1, '2022-01-07', '2022-01-07', 2, 3, 0, '2024-03-25 21:14:14', 40.4168, -3.70379),
-(41, 'Classic Townhouse', 'CR8', 200, 3, 'A classic townhouse with a modern interior', 350000, 3, 1, '2022-01-08', '2022-01-08', 3, 9, 0, '2024-04-07 22:08:47', 35.6895, 139.692),
-(42, 'Rustic Cabin', 'CR9', 100, 2, 'A rustic cabin in the woods', 150000, 1, 1, '2022-01-09', '2022-01-09', 4, 1, 0, '2024-03-25 21:09:23', 37.7749, -122.419),
-(43, 'Contemporary Condo', 'CR10', 150, 2, 'A contemporary condo with a spacious balcony', 300000, 1, 1, '2022-01-10', '2022-01-10', 5, 3, 0, '2024-03-25 21:13:43', 43.6532, -79.3832);
+INSERT INTO `property` (`id_property`, `property_name`, `cadastral_reference`, `square_meters`, `number_of_rooms`, `description`, `price`, `id_large_people`, `is_active`, `creation_date`, `update_date`, `id_city`, `visits`, `likes`, `currently_date`, `latitude`, `longitude`, `id_user`, `booked`) VALUES
+(1, 'Garden\'s John', '12345-67890-A', 100, 3, 'Beautiful house with garden', 200000, 1, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 1, 38, 27, '2024-04-24 01:51:30', 38.8167, -0.61667, '', 0),
+(2, 'The Tower', '23456-78901-B', 80, 2, 'Apartment with sea view', 150000, 2, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 2, 12, 16, '2024-04-09 19:00:43', 38.9667, -0.18333, '', 0),
+(3, 'Sunset View Manor', '34567-89012-C', 120, 4, 'Spacious villa with pool', 300000, 3, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 3, 15, 14, '2024-03-18 20:38:31', 38.838, -0.51721, '', 0),
+(4, 'Enchanted Hideaway', '45678-90123-D', 60, 1, 'Cozy studio in the city center', 100000, 2, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 4, 7, 4, '2024-03-26 21:31:14', 38.7054, -0.47432, '', 0),
+(5, 'Harmony Homestead', '56789-01234-E', 90, 2, 'Modern loft with industrial design', 180000, 1, 1, '2024-01-25 02:17:42', '2024-01-25 02:17:42', 5, 36, 0, '2024-04-19 17:28:45', 38.9833, -0.51667, '', 0),
+(34, 'Sunny Villa', 'CR1', 200, 4, 'A beautiful villa with a sunny garden', 300000, 1, 1, '2022-01-01', '2022-01-01', 1, 0, 0, '2024-03-24 00:11:52', 38.8276, -0.61876, '', 0),
+(35, 'Modern Loft', 'CR2', 100, 2, 'A modern loft in the city center', 250000, 2, 1, '2022-01-02', '2022-01-02', 2, 2, 6, '2024-04-24 01:29:36', 34.0522, -118.244, '', 0),
+(36, 'Cozy Cottage', 'CR3', 150, 3, 'A cozy cottage in the countryside', 200000, 3, 1, '2022-01-03', '2022-01-03', 3, 1, 2, '2024-03-25 21:18:27', 51.5074, -0.127758, '', 0),
+(37, 'Luxury Penthouse', 'CR4', 250, 3, 'A luxury penthouse with a city view', 500000, 2, 1, '2022-01-04', '2022-01-04', 4, 1, 1, '2024-03-25 21:16:47', 48.8566, 2.35222, '', 0),
+(38, 'Charming Bungalow', 'CR5', 120, 2, 'A charming bungalow near the beach', 220000, 3, 1, '2022-01-05', '2022-01-05', 5, 1, 1, '2024-03-25 21:15:54', 52.52, 13.405, '', 0),
+(39, 'Elegant Mansion', 'CR6', 400, 5, 'An elegant mansion with a large pool', 800000, 1, 1, '2022-01-06', '2022-01-06', 1, 5, 0, '2024-04-09 17:04:33', 41.9028, 12.4964, '', 0),
+(40, 'Stylish Studio', 'CR7', 80, 1, 'A stylish studio in the hip neighborhood', 180000, 2, 1, '2022-01-07', '2022-01-07', 2, 3, 0, '2024-03-25 21:14:14', 40.4168, -3.70379, '', 0),
+(41, 'Classic Townhouse', 'CR8', 200, 3, 'A classic townhouse with a modern interior', 350000, 3, 1, '2022-01-08', '2022-01-08', 3, 9, 0, '2024-04-07 22:08:47', 35.6895, 139.692, '', 0),
+(42, 'Rustic Cabin', 'CR9', 100, 2, 'A rustic cabin in the woods', 150000, 1, 1, '2022-01-09', '2022-01-09', 4, 1, 0, '2024-03-25 21:09:23', 37.7749, -122.419, '', 0),
+(43, 'Contemporary Condo', 'CR10', 150, 2, 'A contemporary condo with a spacious balcony', 300000, 1, 1, '2022-01-10', '2022-01-10', 5, 3, 0, '2024-03-25 21:13:43', 43.6532, -79.3832, '', 0);
 
 -- --------------------------------------------------------
 
@@ -547,6 +614,59 @@ INSERT INTO `property_type` (`id_property`, `id_type`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `purchases`
+--
+
+CREATE TABLE `purchases` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `surname` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `zip` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL,
+  `id_user` varchar(255) NOT NULL,
+  `pay_method` varchar(255) NOT NULL,
+  `time` datetime NOT NULL,
+  `total` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `purchases`
+--
+
+INSERT INTO `purchases` (`id`, `name`, `surname`, `address`, `city`, `zip`, `country`, `id_user`, `pay_method`, `time`, `total`) VALUES
+(60, 'w', 'w', 'w', 'w', 'w', 'w', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', 'w', '2024-06-08 03:09:50', '200.00'),
+(61, 'y', 'y', 'y', 'y', 'y', 'y', 'LQFEsaAb7iUbcWfTHEL7eNbDKa13', 'y', '2024-06-08 03:15:33', '550.00'),
+(62, '12', '12', '12', '<2', '12', '12', 'aiGKC4xj9wa9rI9Uej54NZ4nBoO2', '12', '2024-06-08 23:16:54', '200.00'),
+(63, '2343232', '3', '22', '3', '3', '3', 'aiGKC4xj9wa9rI9Uej54NZ4nBoO2', '3', '2024-06-09 00:38:59', '150.00'),
+(64, 'Pepe', 'Botika', 'Calle del sol', 'Maraña', '443322', 'Pasato', '16', '3434343434', '2024-06-09 02:39:50', '50.00');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `services`
+--
+
+CREATE TABLE `services` (
+  `id` int(11) NOT NULL,
+  `service` varchar(255) NOT NULL,
+  `price` int(6) NOT NULL,
+  `stock` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `services`
+--
+
+INSERT INTO `services` (`id`, `service`, `price`, `stock`) VALUES
+(1, 'Home Cleaning Service 1/month', 80, 0),
+(2, 'Alarm installation and monitoring', 200, 95),
+(3, 'Security camera service', 150, 95);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `type`
 --
 
@@ -595,7 +715,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `avatar`, `type_user`, `active`, `count_login`, `phone`, `token`) VALUES
 (15, 'pepe1234', '$2y$12$44wMoQd5Xo7y5GX0RWy57ekGLX5s8j7NPeKZNxgdrLl7H5cj4G5yW', 'pepito@pepito.es', 'https://i.pravatar.cc/500?u=c6e97f81bf1b0c2797a9e578df0ce77e', 'client', 1, 0, '', 'bf56'),
-(16, 'user1234', '$2y$12$4qBK/0qcf7G1UPG.M.ICOuv8U9Gi0jtth.gnG2y7dV0VuLu/Kyy6C', 'cain@cain.es', 'https://i.pravatar.cc/500?u=d8ed98dbd5a4ef00d8ea53f2a7888f31', 'client', 1, 0, '', '');
+(16, 'user1234', '$2y$12$RDlcy0PHrwbMt0MY3pONQeHoSvKZvpmoVOoQx4dAIL1SXefXqXrE2', 'cain@cain.es', 'https://i.pravatar.cc/500?u=d8ed98dbd5a4ef00d8ea53f2a7888f31', 'client', 1, 0, '', ''),
+(18, 'yolanda', '$2y$12$34fjPo74mCzFAOcrT/ApHubQr0WuFhl7lpfyKDnJzez.dxNpQAVo2', 'yomogan@gmail.com', 'https://i.pravatar.cc/500?u=9154526c03ad3e327b28e3f1f7582e3a', 'client', 1, 0, '', ''),
+(19, 'yomogan', '$2y$12$daKLtA.CGiRyvxjEd7/gvOap4PXiUCb3z0z0rvYBCa636HJVhnKS6', 'yolanda@gmail.com', 'https://i.pravatar.cc/500?u=3248bc953d01417285d1a1b8521128d8', 'client', 0, 1, '', '');
 
 -- --------------------------------------------------------
 
@@ -604,7 +726,7 @@ INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `avatar`, `type
 --
 
 CREATE TABLE `users_github` (
-  `id` varchar(255) NOT NULL,
+  `id_user` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `avatar` varchar(255) NOT NULL
@@ -614,7 +736,7 @@ CREATE TABLE `users_github` (
 -- Volcado de datos para la tabla `users_github`
 --
 
-INSERT INTO `users_github` (`id`, `username`, `email`, `avatar`) VALUES
+INSERT INTO `users_github` (`id_user`, `username`, `email`, `avatar`) VALUES
 ('aiGKC4xj9wa9rI9Uej54NZ4nBoO2', 'c.martinezbernabeu', 'c.martinezbernabeu@hotmail.com', 'https://avatars.githubusercontent.com/u/58273708?v=4');
 
 -- --------------------------------------------------------
@@ -624,7 +746,7 @@ INSERT INTO `users_github` (`id`, `username`, `email`, `avatar`) VALUES
 --
 
 CREATE TABLE `users_google` (
-  `id` varchar(255) NOT NULL,
+  `id_user` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `avatar` varchar(255) NOT NULL
@@ -634,12 +756,18 @@ CREATE TABLE `users_google` (
 -- Volcado de datos para la tabla `users_google`
 --
 
-INSERT INTO `users_google` (`id`, `username`, `email`, `avatar`) VALUES
+INSERT INTO `users_google` (`id_user`, `username`, `email`, `avatar`) VALUES
 ('LQFEsaAb7iUbcWfTHEL7eNbDKa13', 'cainmartinez3', 'cainmartinez3@gmail.com', 'https://lh3.googleusercontent.com/a/ACg8ocKcPUkUzK388y8A17yvme3G2NAprKQYNP4-aeW1WDAOyP5T4g=s96-c');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `category`
@@ -693,10 +821,22 @@ ALTER TABLE `likes_google`
   ADD PRIMARY KEY (`id`,`id_property`);
 
 --
+-- Indices de la tabla `lines_invoice`
+--
+ALTER TABLE `lines_invoice`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `operation`
 --
 ALTER TABLE `operation`
   ADD PRIMARY KEY (`id_operation`);
+
+--
+-- Indices de la tabla `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `property`
@@ -735,6 +875,18 @@ ALTER TABLE `property_type`
   ADD KEY `id_type` (`id_type`);
 
 --
+-- Indices de la tabla `purchases`
+--
+ALTER TABLE `purchases`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `services`
+--
+ALTER TABLE `services`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `type`
 --
 ALTER TABLE `type`
@@ -752,17 +904,23 @@ ALTER TABLE `users`
 -- Indices de la tabla `users_github`
 --
 ALTER TABLE `users_github`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_user`);
 
 --
 -- Indices de la tabla `users_google`
 --
 ALTER TABLE `users_google`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_user`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `category`
@@ -795,16 +953,40 @@ ALTER TABLE `large_people`
   MODIFY `id_large_people` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `lines_invoice`
+--
+ALTER TABLE `lines_invoice`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
 -- AUTO_INCREMENT de la tabla `operation`
 --
 ALTER TABLE `operation`
   MODIFY `id_operation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT de la tabla `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=211;
+
+--
 -- AUTO_INCREMENT de la tabla `property`
 --
 ALTER TABLE `property`
   MODIFY `id_property` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
+-- AUTO_INCREMENT de la tabla `purchases`
+--
+ALTER TABLE `purchases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+
+--
+-- AUTO_INCREMENT de la tabla `services`
+--
+ALTER TABLE `services`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `type`
@@ -816,7 +998,7 @@ ALTER TABLE `type`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Restricciones para tablas volcadas

@@ -32,4 +32,8 @@
         <name>download_pdf</name>
         <uri>download_pdf</uri>
     </function>
+    <function>
+        <name>show_qr</name>
+        <uri>show_qr</uri>
+    </function>
 </functions>

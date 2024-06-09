@@ -31,5 +31,8 @@
             $lines = $_POST['lines'];
             echo json_encode(PDF::create_invoice($invoice_order, $billing, $lines));
         }
+        public function show_qr(){
+            echo json_encode(QR::QR_invoice($_POST['order_id']));
+        }
     }
 ?>

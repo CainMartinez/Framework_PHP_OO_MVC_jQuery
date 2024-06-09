@@ -318,6 +318,46 @@ function loadOrderView(order_id) {
     }).catch(function(e) {
         console.error(e);
     });
+    $(document).on('click', '#show_qr', function() {
+        let data = JSON.parse(localStorage.getItem('data'));
+        let billing = data.billing;
+        let lines = data.lines;
+        console.log(billing);
+        console.log(lines);
+        info = {'lines': lines,'billing':billing, 'op': 'download_pdf', 'order_id': order_id};
+        // console.log(info);
+        ajaxPromise(
+            'POST',
+            'JSON',
+            friendlyURL('?module=profile'),
+            info
+        ).then(function(data) {
+            let datas = JSON.parse(localStorage.getItem('data'));
+            let billing = datas.billing;
+            let lines = datas.lines;
+            console.log(billing);
+            console.log(lines);
+            info = {'op': 'show_qr', 'lines': lines,'billing':billing,'order_id': order_id};
+            // console.log(info);
+            ajaxPromise(
+                'POST',
+                'JSON',
+                friendlyURL('?module=profile'),
+                info
+            ).then(function(data) {
+                console.log(data);
+                Swal.fire({
+                    title: 'QR Code',
+                    text: 'Scan this code to view the invoice in your mobile device',
+                    imageUrl: data
+                });
+            }).catch(function(e) {
+                console.error(e);
+            });
+        }).catch(function(e) {
+            console.error(e);
+        });
+    });
     $(document).on('click', '#download_pdf', function() {
         let data = JSON.parse(localStorage.getItem('data'));
         let billing = data.billing;
@@ -334,12 +374,6 @@ function loadOrderView(order_id) {
         ).then(function(data) {
             var pdf_invoice = data.invoice;
             window.open(pdf_invoice, '_blank');
-            // console.log(data);
-            // Swal.fire({
-            //     icon: 'success',
-            //     title: 'Success',
-            //     text: 'The invoice has been downloaded correctly'
-            // });
         }).catch(function(e) {
             console.error(e);
         });
