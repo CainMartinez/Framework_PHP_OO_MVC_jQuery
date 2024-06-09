@@ -27,9 +27,9 @@
         }
         public function download_pdf(){
             $invoice_order = $_POST['order_id'];
-            $id_user = $_POST['id_user'];
-        
-            echo json_encode(PDF::create_invoice($invoice_order, $id_user));
+            $billing = $_POST['billing'];
+            $lines = $_POST['lines'];
+            echo json_encode(PDF::create_invoice($invoice_order, $billing, $lines));
         }
     }
 ?>

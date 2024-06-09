@@ -288,9 +288,8 @@ function loadOrderView(order_id) {
         friendlyURL('?module=profile'),
         data
     ).then(function(data) {
-        id_user = data.billing[0].id_user;
-        console.log(id_user);
-        localStorage.setItem('id_user', id_user);
+        console.log(data);
+        localStorage.setItem('data', JSON.stringify(data));
         // console.log(data);
         $("#profile_info").hide();
         $("#profile_settings").hide();
@@ -320,21 +319,27 @@ function loadOrderView(order_id) {
         console.error(e);
     });
     $(document).on('click', '#download_pdf', function() {
-        id_user = localStorage.getItem('id_user');
-        console.log(id_user);
-        data = { 'id_user': id_user, 'op': 'download_pdf', 'order_id': order_id};
+        let data = JSON.parse(localStorage.getItem('data'));
+        let billing = data.billing;
+        let lines = data.lines;
+        console.log(billing);
+        console.log(lines);
+        info = {'lines': lines,'billing':billing, 'op': 'download_pdf', 'order_id': order_id};
+        // console.log(info);
         ajaxPromise(
             'POST',
             'JSON',
             friendlyURL('?module=profile'),
-            data
+            info
         ).then(function(data) {
-            console.log(data);
-            Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'The invoice has been downloaded correctly'
-            });
+            var pdf_invoice = data.invoice;
+            window.open(pdf_invoice, '_blank');
+            // console.log(data);
+            // Swal.fire({
+            //     icon: 'success',
+            //     title: 'Success',
+            //     text: 'The invoice has been downloaded correctly'
+            // });
         }).catch(function(e) {
             console.error(e);
         });

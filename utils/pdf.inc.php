@@ -7,28 +7,22 @@ class PDF{
     public static function create(){
         return new Dompdf();
     }
-
-    public static function create_invoice($invoice_order, $id_user){
+    public static function create_invoice($invoice_order, $billing, $lines){
         $save_path = SITE_ROOT . 'view/uploads/pdf/';
-        $html = self::creator_html($invoice_order, $id_user);
-
-
+        $html = self::creator_html($billing, $lines);
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');  
         $dompdf->render();
-        
         $output = $dompdf->output();
-        $file_path = $save_path . 'living_mobility_invoice_' . $invoice_order . '.pdf';
+        $name_pdf = 'living_mobility_invoice_' . $invoice_order . '.pdf';
+        $file_path = $save_path . $name_pdf;
         file_put_contents($file_path, $output);
-        return $html;
+        return ['invoice' => 'view/uploads/pdf/' . $name_pdf];
     }
-    public static function creator_html($invoice_order, $id_user){
-        $data_user = $id_user[0];
-        
-        error_log($invoice_order, 0,'debug.log');
-        error_log($data_user, 0,'debug.log');
-
+    public static function creator_html($billing, $lines){
+        // error_log(print_r($billing, true), 3, 'debug.log');
+        // error_log(print_r($lines, true), 3, 'debug.log');
         ob_start(); 
         ?>
         <html>
@@ -90,15 +84,14 @@ class PDF{
                     <div class="card">
                         <div class="card-header"><h3 align="center" style="color: black;">Billing Information</h3></div>
                         <div align="center" class="card-body">
-                            <p><strong>Name:</strong> Cain</p>
-                            <p><strong>Surname:</strong> Martinez</p>
-                            <p><strong>Address:</strong> Reverendo Segrelles Nº 5</p>
-                            <p><strong>City:</strong> Albaida</p>
-                            <p><strong>Zip:</strong> 46860</p>
+                            <p><strong>Name:</strong> <?php echo $billing[0]['name']; ?></p>
+                            <p><strong>Surname:</strong> <?php echo $billing[0]['surname']; ?></p>
+                            <p><strong>Address:</strong> <?php echo $billing[0]['address']; ?></p>
+                            <p><strong>City:</strong> <?php echo $billing[0]['city']; ?></p>
+                            <p><strong>Zip:</strong> <?php echo $billing[0]['zip']; ?></p>
                         </div>
                     </div>
                     <br>
-
                     <!-- Purchased Services -->
                     <div class="card">
                         <div class="card-header"><h3 align="center" style="color: black;">Purchased Services</h3></div>
@@ -112,31 +105,22 @@ class PDF{
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php foreach($lines as $line): ?>
                                     <tr>
-                                        <td>Security camera service</td>
-                                        <td>2</td>
-                                        <td>150.00 €</td>
+                                        <td><?php echo $line['service']; ?></td>
+                                        <td><?php echo $line['quantity']; ?></td>
+                                        <td><?php echo $line['price']; ?> €</td>
                                     </tr>
-                                    <tr>
-                                        <td>Alarm installation and monitoring service</td>
-                                        <td>1</td>
-                                        <td>200.00 €</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Home Cleaning Service 1/month</td>
-                                        <td>1</td>
-                                        <td>80.00 €</td>
-                                    </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <br>
-
                     <!-- Total Price -->
                     <div class="card">
                         <div class="card-header"><h3 align="center" style="color: black;">Total Price</h3></div>
-                        <h3 align="center" style="color: black;">580.00 €</h3>
+                        <h3 align="center" style="color: black;"><?php echo $billing[0]['total']; ?> €</h3>
                     </div>
                 </div>
                 </div>
