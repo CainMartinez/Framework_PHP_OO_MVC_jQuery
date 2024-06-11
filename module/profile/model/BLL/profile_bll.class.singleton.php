@@ -87,5 +87,13 @@
 				error_log("Error en change_pass_BLL ".$e,3,'debug.log');
 			}
 		}
+		public function upload_avatar_BLL($args) {
+			try {
+				$decode_token = middleware::decode_token($args[0]);
+				$this -> dao -> update_avatar($this -> db,$decode_token['username'],$args[1]);
+			} catch (Exception $e) {
+				error_log("Error en upload_avatar_BLL ".$e,3,'debug.log');
+			}
+		}
     }
 ?>

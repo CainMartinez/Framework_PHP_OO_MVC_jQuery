@@ -64,12 +64,19 @@
                                 </form>
                             </div>
                             <div class="col-md-6">
-                                <h2>Change Photo</h2><br><br>
-                                <div id="drop-zone" class="border p-3 mb-3">
-                                    <p>Drag and drop your new photo here, or click to select file</p>
-                                    <input type="file" id="file-input" class="form-control-file">
+                                <h2 class="text-center">Change Profile Image</h2><br>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="uploadForm" enctype="multipart/form-data">
+                                            <div id="drop-zone" class="drop-zone">
+                                                Drag your files here or click to select them
+                                            </div>
+                                            <input type="file" id="files" name="files[]" multiple class="form-control-file" style="display: none;">
+                                            <div id="fileList" class="mt-3"></div>
+                                            <button type="submit" class="btn btn-success btn-block">Upload</button>
+                                        </form>
+                                    </div>
                                 </div>
-                                <img id="preview" src="" alt="Your new profile photo will appear here" class="img-thumbnail">
                             </div>
                         </div>
                     </div><hr>

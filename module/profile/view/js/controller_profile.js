@@ -413,8 +413,158 @@ function change_pass(new_pass) {
         });
     }
 }
+function setupDropZone() {
+    let dropZone = $("#drop-zone");
 
+    dropZone.on('click', function() {
+        $("#files").click();
+    });
+
+    dropZone.on('dragover', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.addClass('dragover');
+    });
+
+    dropZone.on('dragleave', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.removeClass('dragover');
+    });
+
+    dropZone.on('drop', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZone.removeClass('dragover');
+
+        let files = e.originalEvent.dataTransfer.files;
+        handleFiles(files);
+        $("#files")[0].files = files;
+    });
+
+    $("#files").on("change", function(){
+        handleFiles(this.files);
+    });
+
+    $("#uploadForm").on("submit", function(e){
+        e.preventDefault();
+        social = localStorage.getItem("social");
+        if (social) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Only registered members without a social network can change the avatar.',
+                timer: 5000,  // Show the alert for 5 seconds
+                showConfirmButton: true  // Don't show the confirm button
+            });
+            return;
+        }else{
+            let files = $("#files")[0].files;
+            if (files.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: 'No files selected.'
+                });
+                return;
+            }
+            let username = localStorage.getItem("username_profile");
+            let formData = new FormData(this);
+            formData.append("username", username);
+            $.ajax({
+                url: "utils/drop_zone.inc.php",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    let data = JSON.parse(response);
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Files uploaded successfully.'
+                        }).then(function() {
+                            upload_avatar(data.path);
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                            text: 'Error uploading files.'
+                        });
+                    }
+                }
+            });
+        }
+    });
+}
+function upload_avatar(imagePath_old) {
+    let imagePath = imagePath_old.replace('../', '');
+    token = localStorage.getItem("access_token");
+    data = { 'token': token, 'op': 'upload_avatar', 'imagePath': imagePath}
+    ajaxPromise(
+        'POST',
+        'JSON',
+        friendlyURL('?module=profile'),
+        data
+    ).then(function(data) {
+        if (data === 'error') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error uploading the avatar.'
+            });
+        } else {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Avatar uploaded correctly.'
+            }).then(function() {
+                location.reload();
+            });
+        }
+        // console.log(data);
+        // $("#avatar").attr('src', data.avatar);
+    }).catch(function(e) {
+        console.log(e);
+    });
+}
+function handleFiles(files) {
+    let fileList = $("#fileList");
+    fileList.empty();
+    for(let i = 0; i < files.length; i++){
+        let file = files[i];
+        let fileType = file.type;
+        let validImageTypes = ["image/gif", "image/jpeg", "image/png", "image/webp"];
+        if (file.size > 10485760) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: "File " + file.name + " is too large. The maximum size allowed is 10 MB."
+            });
+            continue;
+        } else if (!validImageTypes.includes(fileType)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: "File " + file.name + " is not a valid image type. The allowed types are .png, .jpg, .jpeg, .gif, .webp"
+            });
+            continue;
+        }
+        let img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
+        img.height = 60;
+        img.onload = function() {
+            URL.revokeObjectURL(this.src);
+        }
+        fileList.append(img);
+        fileList.append("<p>" + file.name + "</p>");
+    }
+}
 $(document).ready(function () {
     profile_data();
     clicks_profile();
+    setupDropZone();
 });

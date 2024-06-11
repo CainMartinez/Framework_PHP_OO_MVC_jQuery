@@ -36,4 +36,8 @@
         <name>show_qr</name>
         <uri>show_qr</uri>
     </function>
+    <function>
+        <name>upload_avatar</name>
+        <uri>upload_avatar</uri>
+    </function>
 </functions>

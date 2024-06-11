@@ -72,5 +72,10 @@
             $stmt = $db->ejecutar($sql);
             return $stmt;
         }
+        public function update_avatar($db,$username,$imagePath){
+            $sql = "UPDATE users SET avatar = '$imagePath' WHERE username = '$username'";
+            $stmt = $db->ejecutar($sql);
+            return $stmt;
+        }
     }
 ?>

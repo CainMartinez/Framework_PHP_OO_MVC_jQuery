@@ -34,5 +34,8 @@
         public function show_qr(){
             echo json_encode(QR::QR_invoice($_POST['order_id']));
         }
+        public function upload_avatar(){
+            echo json_encode(common::load_model('profile_model', 'upload_avatar',[$_POST['token'],$_POST['imagePath']]));
+        }
     }
 ?>

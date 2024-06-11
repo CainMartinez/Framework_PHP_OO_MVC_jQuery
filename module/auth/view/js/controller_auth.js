@@ -113,6 +113,8 @@ function login(){
                     showConfirmButton: true,
                     timer: 3000
                 }).then(() => {
+                    localStorage.setItem("username", username);
+                    console.log(username);
                     setTimeout('window.location.href = friendlyURL("?module=home")', 1000);
                 });
             }	
@@ -135,7 +137,7 @@ function social_login(param){
         console.log(data);
         if (result) {
             localStorage.setItem("social", param);
-            localStorage.setItem("username", username[0])
+            localStorage.setItem("username_profile", username[0])
             ajaxPromise(
                 'POST',
                 'JSON',

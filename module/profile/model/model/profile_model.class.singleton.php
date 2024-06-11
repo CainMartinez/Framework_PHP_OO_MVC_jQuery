@@ -26,5 +26,8 @@
         public function change_pass($args){
             return $this->bll->change_pass_BLL($args);
         }
+        public function upload_avatar($args){
+            return $this->bll->upload_avatar_BLL($args);
+        }
     }
 ?>
