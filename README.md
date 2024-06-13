@@ -1,3 +1,7 @@
+Aquí tienes el README con las imágenes añadidas debajo de cada título correspondiente:
+
+---
+
 # Living Mobility
 
 ## Descripción
@@ -10,9 +14,12 @@ Ofrece una experiencia de usuario intuitiva y funcionalidades avanzadas para fac
 | ![PHP](https://raw.githubusercontent.com/devicons/devicon/master/icons/php/php-original.svg) | ![MySQL](https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg) | ![JWT](https://jwt.io/img/pic_logo.svg) | ![jQuery](https://raw.githubusercontent.com/devicons/devicon/master/icons/jquery/jquery-original-wordmark.svg) | ![JavaScript](https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg) | 
 |:---:|:---:|:---:|:---:|:---:|
 | ![PHP](https://img.shields.io/badge/-PHP-777BB4?style=for-the-badge&logo=php&logoColor=white) | ![MySQL](https://img.shields.io/badge/-MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)  | ![JWT](https://img.shields.io/badge/-JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens) | ![jQuery](https://img.shields.io/badge/-jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white) | ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) | 
+
 ## Funcionalidades Generales
 
 ### Home 🏨
+
+![Home](./view/images/readme/home.jpeg)
 
 La sección de Home es donde los usuarios tienen su primer contacto con la plataforma:
 
@@ -22,6 +29,8 @@ La sección de Home es donde los usuarios tienen su primer contacto con la plata
 - Recomendaciones, más visitados y últimas visitas.
 
 ### Shop 📃
+
+![Shop](./view/images/readme/shop.png)
 
 El Shop es el componente más crucial de la aplicación, donde los usuarios pueden filtrar, ordenar la búsqueda, acceder a los detalles del producto y agregarlos al carrito, entre otras funciones:
 
@@ -33,7 +42,11 @@ El Shop es el componente más crucial de la aplicación, donde los usuarios pued
 - Scroll que va listando inmuebles recomendados dentro del details.
 - Añadir tu favorita a la lista mediante likes.
 
+![Filters](./view/images/readme/filters.png)
+
 ### Auth 🚪
+
+![Auth](./view/images/readme/login.png)
 
 Esta sección es la más segura de la aplicación y permite a los usuarios registrarse o iniciar sesión:
 
@@ -44,6 +57,8 @@ Esta sección es la más segura de la aplicación y permite a los usuarios regis
 
 ### Cart 🛒
 
+![Cart](./view/images/readme/cart.png)
+
 Esta sección permite a los usuarios ver los productos que han agregado a su carrito de compras:
 
 - Los usuarios pueden agregar citas para las viviendas a su carrito.
@@ -51,7 +66,11 @@ Esta sección permite a los usuarios ver los productos que han agregado a su car
 - Al pulsar en comprar se mostrará un formulario con los datos de facturación y método de pago.
 - Al finalizar el pago se mostrará una vista previa de la factura.
 
+![Invoice](./view/images/readme/invoice.png)
+
 ### Profile 👤
+
+![Profile](./view/images/readme/profile.png)
 
 Esta sección permite a los usuarios ver y editar su perfil, consultar sus facturas o ver la lista de viviendas deseadas:
 
@@ -61,11 +80,7 @@ Esta sección permite a los usuarios ver y editar su perfil, consultar sus factu
 - Posibilidad de descargarse las facturas en pdf o escanearlas mediante un código QR.
 - En la sección Wish List se muestran las viviendas que previamente se le ha dado like, con posibilidad de entrar a los detalles o eliminarlas de esa lista.
 
-#### Perfil Administrador (Próximamente)
-
-- Los usuarios administradores no se pueden crear mediante el register o social sign in.
-- Tienen los permisos para borrar usuarios tipo client o propiedades (is_active = 0).
-- Pueden enviar email de verificación para que los usuarios puedan recuperar su contraseña si han olvidado sus credenciales.
+![Orders](./view/images/readme/orders.png)
 
 ### Properties 🏡 (Próximamente)
 
@@ -77,4 +92,7 @@ Esta sección permite a los usuarios crear, ver y gestionar las propiedades:
 - Si alguien compra una cita para una vivienda pasará al estado de reservada automáticamente pero el usuario podrá quitar ese estado.
 
 ### Extras
- - Depuración en PHP mediante error_log redireccionado a un archivo debug.log ubicado en la raiz del proyecto.
+
+- Depuración en PHP mediante error_log redireccionado a un archivo debug.log ubicado en la raiz del proyecto.
+
+---
