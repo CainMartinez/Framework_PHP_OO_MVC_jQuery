@@ -1,6 +1,3 @@
-Aquí tienes el README con las imágenes añadidas debajo de cada título correspondiente:
-
----
 
 # Living Mobility
 
